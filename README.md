@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/lucille.png" width="100px">
+<img src="assets/lucille.png" width="150px">
 
 <h1>Lucille</h1>
 
