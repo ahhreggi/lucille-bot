@@ -6,7 +6,7 @@
 
 🌮 **Lucille** is my personal [Discord](https://discord.com/) bot - she's lovely, toxic, and loves tacos :)
 
-🏠 She lives here (and acts like she owns the place): [discord.gg/ahhreggi](discord.gg/ahhreggi)
+🏠 She lives here (and acts like she owns the place): [discord.gg/ahhreggi](https://discord.gg/ahhreggi)
 
 📚 Built with [Node.js](https://nodejs.org/en/), [discord.js](https://discord.js.org/#/), and approximately 21 chicken nuggets
 
