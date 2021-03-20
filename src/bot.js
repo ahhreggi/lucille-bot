@@ -84,7 +84,7 @@ app.use((req, res, next) => {
 
 app.post("/*", function (req, res) {
   console.log(req.body);
-  res.send("success");
+  res.send({code: "success"});
 });
 
 const listener = app.listen(process.env.PORT, function () {
