@@ -1,4 +1,4 @@
-const Command = require("../command/");
+const Command = require("../command");
 // const errors = require("./helpers/errors");
 // const { } = require("../utility");
 

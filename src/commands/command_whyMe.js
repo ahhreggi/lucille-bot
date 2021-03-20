@@ -7,7 +7,7 @@ const desc = "why meeeeeeee";
 const roles = ["admin", "vip"];
 const alias = ["whyme1", "whyme2", "whyme3"];
 
-const cmdFunction = (message, args) => {
+const cmdFunction = (message) => {
 
   message.channel.send("why me :(");
 

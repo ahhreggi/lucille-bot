@@ -6,9 +6,7 @@ const {
   codeBlock,
   getMentionedUser,
   getSenderVars,
-  hasRole,
-  toggleRole,
-  fetchDadJoke
+  hasRole
 } = require("./utility");
 
 let askReady = true; // for preventing !ask while one is in progress (3 sec)
@@ -82,14 +80,6 @@ const pyramidOutcomes = [
 //   }
 // }
 const allCommands = {
-  test: {
-    desc: "test",
-    permittedRoles: ["admin", "vip"],
-    alias: [],
-    cmd: (message) => {
-      message.channel.send("why me");
-    }
-  },
   ask: {
     desc: "ask a question and lucille will answer... maybe",
     permittedRoles: ["user"],
@@ -127,19 +117,6 @@ const allCommands = {
           return result;
         })
         .join("\n"));
-    }
-  },
-  dadjoke: {
-    desc: "get a random dad joke",
-    permittedRoles: ["user"],
-    alias: [],
-    cmd: (message) => {
-      fetchDadJoke()
-        .then(body => message.channel.send(codeBlock(body.joke)))
-        .catch(err => {
-          console.log(err);
-          message.channel.send("something went wrong D:");
-        });
     }
   },
   discordjs: {
