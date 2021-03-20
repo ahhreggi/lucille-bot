@@ -10,7 +10,7 @@ class Command {
   }
 
   use(message) {
-    this.func(message);
+    this.cmd(message);
   }
 
   help(message) {
