@@ -61,6 +61,7 @@ client.on("message", (message) => {
   respondTo(message, "good night lucille", `good night ${message.member} :)`);
   respondTo(message, "<:ahhpog:797912934549422110>", "<:ahhpog:797912934549422110>");
   respondTo(message, "<:boogie:701313374733991998>", "<:boogie:701313374733991998>");
+  respondTo(message, "good afternoon", "good *morning* >:(");
 
 });
 
