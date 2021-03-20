@@ -3,16 +3,25 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./commandUtils");
 
-const Command = require("./command")
-
 let { allCommands } = require("./allCommands");
-
 
 const client = new Client();
 
 const prefix = "!";
 
 let gmReady = true; // "good morning" cooldown monitor
+
+//////////////////////////////////////////////////////////////
+
+const Command = require("./command")
+
+const testingFunc = (message) => {
+  message.channel.send("this is the func discord msg")
+  console.log("this is the func log");
+}
+const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"])
+
+//////////////////////////////////////////////////////////////
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
@@ -31,6 +40,11 @@ client.on("message", (message) => {
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////
+
+  if (message.content === "whyme") {
+    message.channel.send("no, why me?");
+    testCmd.use(message);
+  }
 
   // Respond to "hey lucille"
   if (message.content.toLowerCase().startsWith("hey lucille")) {
@@ -66,17 +80,6 @@ client.on("message", (message) => {
   respondTo(message, "<:ahhpog:797912934549422110>", "<:ahhpog:797912934549422110>");
   respondTo(message, "<:boogie:701313374733991998>", "<:boogie:701313374733991998>");
   respondTo(message, "good afternoon", "good ***morning*** >:(");
-
-  const testingFunc = (message) => {
-    message.channel.send("this is the func discord msg")
-    console.log("this is the func log");
-  }
-  const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"])
-
-  if (message.content === "testing") {
-    message.channel.send("check");
-    testCmd.use(message);
-  }
 
 });
 
