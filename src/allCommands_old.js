@@ -7,7 +7,7 @@ const {
   hasRole,
   toggleRole,
   fetchDadJoke
-} = require("./commandUtils");
+} = require("./helpers");
 
 let askReady = true; // for preventing !ask while one is in progress (3 sec)
 const askResponses = {
