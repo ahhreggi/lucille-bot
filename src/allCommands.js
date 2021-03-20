@@ -85,7 +85,7 @@ const allCommands = {
     permittedRoles: ["admin", "vip"],
     alias: [],
     cmd: (message) => {
-      message.channel.send("why me")
+      message.channel.send("why me");
     }
   },
   ask: {
