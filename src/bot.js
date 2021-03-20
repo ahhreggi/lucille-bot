@@ -79,12 +79,12 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 
 app.post("*", function (req, res) {
   phin({
-    url: webhookurl,
+    url: process.env.WEBHOOK_URL,
     method: 'POST',
     data: { "content": "test" }
   })
 
-  res.send({code: "success"});
+  res.send({ "content": "test" });
 });
 
 const listener = app.listen(process.env.PORT, function () {
