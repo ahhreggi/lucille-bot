@@ -77,13 +77,13 @@ client.on("message", (message) => {
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
-app.use((req, res, next) => {
-  console.log(req.body);
-  next();
-});
+app.post("*", function (req, res) {
+  phin({
+    url: webhookurl,
+    method: 'POST',
+    data: { "content": "test" }
+  })
 
-app.post("/*", function (req, res) {
-  console.log(req.body);
   res.send({code: "success"});
 });
 
