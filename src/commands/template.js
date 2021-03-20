@@ -13,9 +13,9 @@ const cmdFunction = (message, args) => {
 
   // MODIFY BELOW ///////////////////////////////////////////////////
 
-  message.channel.send("why me :(");
+  message.channel.send("This is a message.");
   message.channel.send(`Arguments passed: ${args}`);
-  console.log("Someone ran why me!");
+  console.log("Someone ran a test command!");
 
   // END ////////////////////////////////////////////////////////////
 
@@ -28,10 +28,10 @@ const cmdFunction = (message, args) => {
 
 // MODIFY BELOW ///////////////////////////////////////////////////
 
-const name = "whyme";
-const description = "why meeeeeeee";
+const name = "test";
+const description = "a command for testing purposes";
 const roles = ["user"];
-const alias = ["whyme2"];
+const alias = ["test1", "test2", "test3"];
 
 // END ////////////////////////////////////////////////////////////
 
