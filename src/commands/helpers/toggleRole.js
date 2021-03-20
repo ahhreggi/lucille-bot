@@ -1,4 +1,4 @@
-const errors = require("./errors");
+const errors = require("../configs/errors");
 const {
   codeBlock,
   getRoleID,

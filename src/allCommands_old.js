@@ -1,6 +1,6 @@
 // TODO: Move these into individual command_NAME.js files within the commands directory
 
-const errors = require("./commands/helpers/errors");
+const errors = require("./commands/configs/errors");
 
 const {
   codeBlock,
