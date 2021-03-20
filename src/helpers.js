@@ -252,7 +252,7 @@ const hasRole = (user, roles) => {
  * @return {object}
  *         Request object.
  */
-const fetchDadJoke = function () {
+const fetchDadJoke = function() {
   const options = {
     uri: "https://icanhazdadjoke.com/",
     headers: {

@@ -1,14 +1,13 @@
 require("dotenv").config();
 const { Client } = require("discord.js");
 
-const { runCommand, parseCommand, respondTo } = require("./commandUtils");
+const { runCommand, parseCommand, respondTo } = require("./helpers");
 
-let { allCommands } = require("./allCommands3"); // TODO: Make individual command_ files for each command in allCommands.js
+let allCommands = require("./allCommands3"); // TODO: Make individual command_ files for each command in allCommands.js
 
 const client = new Client();
 
-const prefix = "!";
-
+let prefix = "!";
 let gmReady = true; // "good morning" cooldown monitor
 
 client.on("ready", () => {
