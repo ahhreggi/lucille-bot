@@ -9,12 +9,24 @@ class Command {
     this.alias = alias;
   }
 
-  use(message) {
-    this.func(message);
+  getName() {
+    return this.name;
   }
 
-  help(message) {
-    message.channel.send(codeBlock("help 123"));
+  getDesc() {
+    return this.desc;
+  }
+
+  getFunc() {
+    return this.func;
+  }
+
+  getRoles() {
+    return this.roles;
+  }
+
+  getAlias() {
+    return this.alias;
   }
 
 }

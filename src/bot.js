@@ -3,25 +3,13 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./commandUtils");
 
-let { allCommands } = require("./allCommands");
+let { allCommands } = require("./allCommands2");
 
 const client = new Client();
 
 const prefix = "!";
 
 let gmReady = true; // "good morning" cooldown monitor
-
-//////////////////////////////////////////////////////////////
-
-const Command = require("./command");
-
-const testingFunc = (message) => {
-  message.channel.send("this is the func discord msg");
-  console.log("this is the func log");
-};
-const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"]);
-
-//////////////////////////////////////////////////////////////
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
@@ -40,11 +28,6 @@ client.on("message", (message) => {
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////
-
-  if (message.content === "whyme") {
-    message.channel.send("no, why me?");
-    testCmd.use(message);
-  }
 
   // Respond to "hey lucille"
   if (message.content.toLowerCase().startsWith("hey lucille")) {
