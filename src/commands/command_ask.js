@@ -21,7 +21,7 @@ const cmdFunction = (message) => {
 
   setTimeout(() => {
     message.channel.send(`${message.member} ${answer}`);
-    askReady = true;
+    // askReady = true;
   }, 3000); // 3 sec delay to *think*
 
 };

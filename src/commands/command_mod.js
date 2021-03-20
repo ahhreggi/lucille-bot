@@ -3,14 +3,14 @@ const toggleRole = require("./helpers/toggleRole");
 
 ///////////////////////////////////////////////////////////////////
 
-const name = "bot";
-const desc = "toggle bot role for a target user";
+const name = "mod";
+const desc = "toggle mod role for a target user";
 const roles = ["admin"];
 const alias = [];
 
 const cmdFunction = (message) => {
 
-  toggleRole(message, "bot");
+  toggleRole(message, "mod");
 
 };
 
