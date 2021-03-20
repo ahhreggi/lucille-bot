@@ -80,6 +80,14 @@ const pyramidOutcomes = [
 //   }
 // }
 const allCommands = {
+  test: {
+    desc: "test",
+    permittedRoles: ["admin"],
+    alias: [],
+    cmd: (message) => {
+      message.channel.send("hello")
+    }
+  },
   ask: {
     desc: "ask a question and lucille will answer... maybe",
     permittedRoles: ["user"],
