@@ -15,4 +15,4 @@ const cmdFunction = (message, args) => {
 
 //////////////////////////////////////////////////////////////////
 
-module.exports = new Command(name, desc, cmdFunction, roles, alias);
+module.exports = new Command(name, desc, roles, alias, cmdFunction);

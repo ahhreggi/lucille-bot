@@ -80,28 +80,6 @@ const pyramidOutcomes = [
 //   }
 // }
 const allCommands = {
-  ask: {
-    desc: "ask a question and lucille will answer... maybe",
-    permittedRoles: ["user"],
-    alias: ["heylucille"],
-    cmd: (message) => {
-      if (!askReady) return;
-      askReady = false;
-      const thinking = askResponses.thinking[Math.floor(Math.random() * askResponses.thinking.length)];
-      const answer = askResponses.answer[Math.floor(Math.random() * askResponses.answer.length)];
-      message.channel.send(thinking);
-      setTimeout(() => {
-        message.channel.send(`${message.member} ${answer}`);
-        askReady = true;
-      }, 3000); // 3 sec delay to *think*
-    }
-  },
-  bot: {
-    desc: "toggle bot role for a target user",
-    permittedRoles: ["admin"],
-    alias: [],
-    cmd: (message) => toggleRole(message, "bot")
-  },
   commands: {
     desc: "list all commands",
     permittedRoles: ["user"],

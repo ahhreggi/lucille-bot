@@ -1,11 +1,11 @@
 class Command {
 
-  constructor(name, desc, func, roles, alias) {
+  constructor(name, desc, roles, alias, func) {
     this.name = name;
     this.desc = desc;
-    this.func = func;
     this.roles = roles;
     this.alias = alias;
+    this.func = func;
 
     if (!roles.length) {
       this.roles = ["user"];
@@ -21,16 +21,16 @@ class Command {
     return this.desc;
   }
 
-  getFunc() {
-    return this.func;
-  }
-
   getRoles() {
     return this.roles;
   }
 
   getAlias() {
     return this.alias;
+  }
+
+  getFunc() {
+    return this.func;
   }
 
 }
