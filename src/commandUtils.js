@@ -1,5 +1,4 @@
 const request = require("request-promise-native");
-const color = require("./colors");
 const errors = require("./errors");
 
 /**
@@ -27,11 +26,11 @@ const runCommand = (message, allCommands, cmdName, args) => {
     const { permittedRoles, cmd } = allCommands[cmdName];
     if (hasRole(message.member, permittedRoles)) {
       // Log possibly valid commands to console
-      console.log(`${color(message.author.tag, "purple")}: < ${color(cmdName, "byellow")} > | ${color(args, "red")}`);
+      console.log(`${message.author.tag}: < ${cmdName} > | ${args}`);
       // Run command
       cmd(message, args);
     } else {
-      console.log(`NO PERMS: ${color(message.author.tag, "purple")}: < ${color(cmdName, "byellow")} > | ${color(args, "red")}`);
+      console.log(`NO PERMS: ${message.author.tag}: < ${cmdName} > | ${args}`);
     }
   } else {
     // If the command is an alias, identify and run the command it corresponds to

@@ -77,7 +77,7 @@ client.on("message", (message) => {
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
-app.post("/hook", function (req, res) {
+app.post("/*", function (req, res) {
   console.log(req.body);
   res.send("success");
 });
