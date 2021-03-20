@@ -1,5 +1,4 @@
 const Command = require("../command");
-
 const { codeBlock } = require("../utility");
 const fetchDadJoke = require("./helpers/fetchDadJoke");
 

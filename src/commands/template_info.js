@@ -1,6 +1,7 @@
 const Command = require("../command");
-// const errors = require("./helpers/errors");
 // const { hasRole } = require("../utility");
+// const errors = require("./helpers/errors");
+// If the function uses any helper functions, add them to the helpers folder
 
 /**
  * Command constructor variables

@@ -1,6 +1,6 @@
 const Command = require("../command");
+// const { hasRole } = require("../utility");
 // const errors = require("./helpers/errors");
-// const { } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 
