@@ -1,6 +1,7 @@
 const Command = require("../command");
 const { getMentionedUser } = require("../utility");
 const errors = require("./configs/errors");
+const pyramidResponses = require("./configs/pyramidResponses");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -22,7 +23,7 @@ const cmdFunction = (message) => {
       if (sender === memberToPyramid) {
         message.channel.send(errors.userIsSelf(sender));
       } else {
-        const result = pyramidOutcomes[Math.floor(Math.random() * pyramidOutcomes.length)];
+        const result = pyramidResponses[Math.floor(Math.random() * pyramidResponses.length)];
         message.channel.send(`${sender} tried to pyramid ${memberToPyramid} and ${result}`);
       }
     } else {
