@@ -1,6 +1,6 @@
 const Command = require("../command");
 // const errors = require("./errors");
-// const { } = require("../helpers");
+// const { } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 

@@ -7,7 +7,7 @@ const Command = require("../command");
 //   hasRole,
 //   toggleRole,
 //   fetchDadJoke
-// } = require("../helpers");
+// } = require("../utility");
 
 /**
  * Command constructor variables
