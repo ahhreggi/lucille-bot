@@ -82,7 +82,7 @@ const pyramidOutcomes = [
 const allCommands = {
   test: {
     desc: "test",
-    permittedRoles: ["admin"],
+    permittedRoles: ["admin", "vip"],
     alias: [],
     cmd: (message) => {
       message.channel.send("hello")
