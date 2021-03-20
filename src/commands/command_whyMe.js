@@ -12,10 +12,10 @@ const cmdFunction = (message, args) => {
 // Set up the constructor variables
 const name = "whyme";
 const description = "this is a description of whyMe";
-const permittedRoles = ["user"];
+const roles = ["user"];
 const alias = ["whyme2"];
 
 // Instantiate and export the new command (name the file command_CommandName.js)
-module.exports = new Command(name, description, cmdFunction, permittedRoles, alias);
+module.exports = new Command(name, description, cmdFunction, roles, alias);
 
 // Import this module into allCommands.js (temporary until allCommands.js fetches all command files automatically)

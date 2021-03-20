@@ -9,7 +9,7 @@ const errors = require("./errors");
  *           All of the available user commands.
  * @property {string} allCommands.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.permittedRoles
+ * @property {Array.<string>} allCommands.roles
  *           An array of user roles permitted to use the command.
  * @property {Array.<string>} allCommands.alias
  *           An array of command aliases.
@@ -23,8 +23,8 @@ const errors = require("./errors");
 const runCommand = (message, allCommands, cmdName, args) => {
   // Check if the command exists, otherwise check if it's an alias
   if (Object.keys(allCommands).includes(cmdName)) {
-    const { permittedRoles, cmd } = allCommands[cmdName];
-    if (hasRole(message.member, permittedRoles)) {
+    const { roles, cmd } = allCommands[cmdName];
+    if (hasRole(message.member, roles)) {
       // Log possibly valid commands to console
       console.log(`${message.author.tag}: < ${cmdName} > | ${args}`);
       // Run command
@@ -79,7 +79,7 @@ const respondTo = (message, startsWith, response) => {
  *           All of the available user commands.
  * @property {string} allCommands.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.permittedRoles
+ * @property {Array.<string>} allCommands.roles
  *           An array of user roles permitted to use the command.
  * @return   {<Array.<string>>}
  *           An array of all command aliases.
@@ -102,7 +102,7 @@ const getAliases = (allCommands) => {
  *           All of the available user commands.
  * @property {string} allCommands.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.permittedRoles
+ * @property {Array.<string>} allCommands.roles
  *           An array of user roles permitted to use the command.
  * @return   {string}
  *           The original name of a command.
@@ -252,7 +252,7 @@ const hasRole = (user, roles) => {
  * @return {object}
  *         Request object.
  */
-const fetchDadJoke = function() {
+const fetchDadJoke = function () {
   const options = {
     uri: "https://icanhazdadjoke.com/",
     headers: {

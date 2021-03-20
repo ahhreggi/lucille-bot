@@ -1,11 +1,10 @@
-const { codeBlock } = require("./commandUtils");
-
 class Command {
-  constructor(name, description, func, permittedRoles = ["user"], alias = []) {
+
+  constructor(name, desc, func, roles = ["user"], alias = []) {
     this.name = name;
-    this.desc = description;
+    this.desc = desc;
     this.func = func;
-    this.roles = permittedRoles;
+    this.roles = roles;
     this.alias = alias;
   }
 
