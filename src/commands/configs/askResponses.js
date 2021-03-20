@@ -1,3 +1,5 @@
+// command_ask.js
+
 module.exports = {
   thinking: [
     "hmm...",
