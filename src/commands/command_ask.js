@@ -16,7 +16,9 @@ const cmdFunction = (message) => {
 
   const thinking = askResponses.thinking[Math.floor(Math.random() * askResponses.thinking.length)];
   const answer = askResponses.answer[Math.floor(Math.random() * askResponses.answer.length)];
+
   message.channel.send(thinking);
+
   setTimeout(() => {
     message.channel.send(`${message.member} ${answer}`);
     askReady = true;
