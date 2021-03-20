@@ -9,7 +9,7 @@ const whyMe = require("./commands/command_whyMe");
 const name = whyMe.getName();
 allCommands[name] = {
   desc: whyMe.getDesc(),
-  permittedRoles: whyMe.permittedRoles(),
+  permittedRoles: whyMe.getRoles(),
   alias: whyMe.getAlias(),
   cmd: whyMe.getFunc()
 };
