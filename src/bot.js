@@ -2,7 +2,11 @@ require("dotenv").config();
 const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./commandUtils");
+
+const Command = require("./command")
+
 let { allCommands } = require("./allCommands");
+
 
 const client = new Client();
 
