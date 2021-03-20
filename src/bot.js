@@ -82,6 +82,6 @@ app.post("/hook", function (req, res) {
   res.send("success");
 });
 
-app.listen(process.env.PORT, function () {
+const listener = app.listen(process.env.PORT, function () {
   console.log('listening on port ' + listener.address().port);
 });
