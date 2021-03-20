@@ -1,13 +1,30 @@
 const Command = require("../command");
-const errors = require("./errors");
-const {
-  codeBlock,
-  getMentionedUser,
-  getSenderVars,
-  hasRole,
-  toggleRole,
-  fetchDadJoke
-} = require("../helpers");
+// const errors = require("./errors");
+// const {
+//   codeBlock,
+//   getMentionedUser,
+//   getSenderVars,
+//   hasRole,
+//   toggleRole,
+//   fetchDadJoke
+// } = require("../helpers");
+
+/**
+ * Command constructor variables
+ *   - name: the command name without the prefix
+ *   - desc: what the command does
+ *   - roles: an array of permitted roles, must be one of "admin", "mod", "vip", "sub", or "user" for all
+ *   - alias: an array of alternative command names, can be left empty
+ */
+
+// MODIFY BELOW ///////////////////////////////////////////////////
+
+const name = "test";
+const desc = "a command for testing purposes";
+const roles = ["user"];
+const alias = ["test1", "test2", "test3"];
+
+// END ////////////////////////////////////////////////////////////
 
 /**
  * The function to execute with the command is called.
@@ -31,22 +48,5 @@ const cmdFunction = (message, args) => {
   // END ////////////////////////////////////////////////////////////
 
 };
-
-/**
- * Command constructor variables
- *   - name: the command name without the prefix
- *   - desc: what the command does
- *   - roles: an array of permitted roles, must be one of "admin", "mod", "vip", "sub", or "user" for all
- *   - alias: an array of alternative command names, can be left empty
- */
-
-// MODIFY BELOW ///////////////////////////////////////////////////
-
-const name = "test";
-const desc = "a command for testing purposes";
-const roles = ["user"];
-const alias = ["test1", "test2", "test3"];
-
-// END ////////////////////////////////////////////////////////////
 
 module.exports = new Command(name, desc, cmdFunction, roles, alias);
