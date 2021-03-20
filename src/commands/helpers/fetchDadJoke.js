@@ -5,7 +5,7 @@ const request = require("request-promise-native");
  * @return {object}
  *         Request object.
  */
-const fetchDadJoke = function () {
+const fetchDadJoke = function() {
   const options = {
     uri: "https://icanhazdadjoke.com/",
     headers: {

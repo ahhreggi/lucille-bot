@@ -1,13 +1,6 @@
 const Command = require("../command");
-// const errors = require("./errors");
-// const {
-//   codeBlock,
-//   getMentionedUser,
-//   getSenderVars,
-//   hasRole,
-//   toggleRole,
-//   fetchDadJoke
-// } = require("../utility");
+// const errors = require("./helpers/errors");
+// const { hasRole } = require("../utility");
 
 /**
  * Command constructor variables

@@ -1,5 +1,5 @@
-const Command = require("../command");
-// const errors = require("./errors");
+const Command = require("../command/");
+// const errors = require("./helpers/errors");
 // const { } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
