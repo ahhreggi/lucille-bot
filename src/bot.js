@@ -13,13 +13,13 @@ let gmReady = true; // "good morning" cooldown monitor
 
 //////////////////////////////////////////////////////////////
 
-const Command = require("./command")
+const Command = require("./command");
 
 const testingFunc = (message) => {
-  message.channel.send("this is the func discord msg")
+  message.channel.send("this is the func discord msg");
   console.log("this is the func log");
-}
-const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"])
+};
+const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"]);
 
 //////////////////////////////////////////////////////////////
 
