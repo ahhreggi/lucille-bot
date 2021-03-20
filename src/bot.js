@@ -3,7 +3,7 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./commandUtils");
 
-let { allCommands } = require("./allCommands2"); // TODO: Move commands from allCommands to allCommands2
+let { allCommands } = require("./allCommands3"); // TODO: Make individual command_ files for each command in allCommands.js
 
 const client = new Client();
 
