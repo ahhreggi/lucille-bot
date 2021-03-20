@@ -2,15 +2,15 @@
  * Validates a command, checks the user's permissions, then logs and runs the command.
  * @param    {Discord.Message} message
  *           A message received by the client.
- * @param    {Object} allCommands
+ * @param    {{command: Object}} allCommands
  *           All of the available user commands.
- * @property {string} allCommands.desc
+ * @property {string} command.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.roles
+ * @property {Array.<string>} command.roles
  *           An array of user roles permitted to use the command.
- * @property {Array.<string>} allCommands.alias
+ * @property {Array.<string>} command.alias
  *           An array of command aliases.
- * @property {function} allCommands.cmd
+ * @property {function} command.cmd
  *           A function used to execute the command.
  * @param    {string} cmdName
  *           A command name sent by the user.
@@ -72,12 +72,16 @@ const respondTo = (message, startsWith, response) => {
 
 /**
  * Returns an array containing the aliases of all commands.
- * @param    {Object} allCommands
+ * @param    {{command: Object}} allCommands
  *           All of the available user commands.
- * @property {string} allCommands.desc
+ * @property {string} command.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.roles
+ * @property {Array.<string>} command.roles
  *           An array of user roles permitted to use the command.
+ * @property {Array.<string>} command.alias
+ *           An array of command aliases.
+ * @property {function} command.cmd
+ *           A function used to execute the command.
  * @return   {<Array.<string>>}
  *           An array of all command aliases.
  */
@@ -95,12 +99,16 @@ const getAliases = (allCommands) => {
 /**
  * Return the name of the command that an alias corresponds to.
  * @param    {string} alias
- * @param    {Object} allCommands
+ * @param    {{command: Object}} allCommands
  *           All of the available user commands.
- * @property {string} allCommands.desc
+ * @property {string} command.desc
  *           A description of the command.
- * @property {Array.<string>} allCommands.roles
+ * @property {Array.<string>} command.roles
  *           An array of user roles permitted to use the command.
+ * @property {Array.<string>} command.alias
+ *           An array of command aliases.
+ * @property {function} command.cmd
+ *           A function used to execute the command.
  * @return   {string}
  *           The original name of a command.
  */
@@ -152,7 +160,7 @@ const getRoleID = (role) => {
  * Returns the first mentioned user of a message.
  * @param  {Discord.Message} message
  *         A message received by the client.
- * @return {Discord.User||undefined}
+ * @return {Discord.User|undefined}
  *         A user who was mentioned first within the message, or undefined if none.
  */
 const getMentionedUser = (message) => {
