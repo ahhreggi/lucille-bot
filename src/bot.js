@@ -1,5 +1,17 @@
 require("dotenv").config();
 const { Client } = require("discord.js");
+const express = require("express");
+const phin = require("phin");
+const bodyParser = require("body-parser");
+
+const app = express();
+const webhookURL = process.env.WEBHOOK_URL
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
+
 const { runCommand, parseCommand, respondTo } = require("./commandUtils");
 let { allCommands } = require("./allCommands");
 
@@ -64,3 +76,12 @@ client.on("message", (message) => {
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+app.post("/hook", function (req, res) {
+  console.log(req.body);
+  res.send("success");
+});
+
+app.listen(process.env.PORT, function () {
+  console.log('listening on port ' + listener.address().port);
+});
