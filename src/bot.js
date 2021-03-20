@@ -3,7 +3,7 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./helpers");
 
-let allCommands = require("./allCommands3"); // TODO: Make individual command_ files for each command in allCommands.js
+let allCommands = require("./allCommands"); // TODO: Make individual command_ files for each command in allCommands.js
 
 const client = new Client();
 
