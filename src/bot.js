@@ -68,11 +68,13 @@ client.on("message", (message) => {
   respondTo(message, "good afternoon", "good ***morning*** >:(");
 
   const testingFunc = (message) => {
-    message.channel.send("this is the func")
+    message.channel.send("this is the func discord msg")
+    console.log("this is the func log");
   }
   const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"])
 
-  if (message.content === "!testing") {
+  if (message.content === "testing") {
+    message.channel.send("check");
     testCmd.use(message);
   }
 
