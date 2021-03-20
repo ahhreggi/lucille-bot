@@ -63,6 +63,15 @@ client.on("message", (message) => {
   respondTo(message, "<:boogie:701313374733991998>", "<:boogie:701313374733991998>");
   respondTo(message, "good afternoon", "good ***morning*** >:(");
 
+  const testingFunc = (message) => {
+    message.channel.send("this is the func")
+  }
+  const testCmd = new Command("testingName", "testingDesc", testingFunc, ["admin"])
+
+  if (message.content === "!testing") {
+    testCmd.use(message);
+  }
+
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
