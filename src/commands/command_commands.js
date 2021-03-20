@@ -19,7 +19,7 @@ const cmdFunction = (message) => {
 
   for (const file of commandFiles) {
 
-    const COMMAND = require(`./commands/${file}`);
+    const COMMAND = require(`../commands/${file}`);
 
     try {
 
