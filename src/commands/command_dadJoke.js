@@ -10,12 +10,14 @@ const roles = ["user"];
 const alias = ["joke"];
 
 const cmdFunction = (message) => {
+
   fetchDadJoke()
     .then(body => message.channel.send(codeBlock(body.joke)))
     .catch(err => {
       console.log(err);
       message.channel.send("something went wrong D:");
     });
+
 };
 
 //////////////////////////////////////////////////////////////////

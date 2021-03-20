@@ -48,4 +48,4 @@ module.exports = {
     "i'd agree with you but then we'd both be wrong",
     "idk but what i do know is that supsup is the best :)"
   ]
-}
+};
