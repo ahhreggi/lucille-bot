@@ -1,4 +1,4 @@
-const request = require('request-promise-native');
+const request = require("request-promise-native");
 const color = require("./colors");
 const errors = require("./errors");
 
@@ -257,7 +257,7 @@ const fetchDadJoke = function() {
   const options = {
     uri: "https://icanhazdadjoke.com/",
     headers: {
-      'User-Agent': 'private discord bot'
+      "User-Agent": "private discord bot"
     },
     json: true
   };
