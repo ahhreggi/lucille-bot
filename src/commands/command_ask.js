@@ -8,7 +8,7 @@ const desc = "ask a question and lucille will answer... maybe";
 const roles = ["user"];
 const alias = ["heylucille"];
 
-const cmdFunction = (message, args) => {
+const cmdFunction = (message) => {
 
   // TODO: Implement global cooldown
   // if (!askReady) return;
