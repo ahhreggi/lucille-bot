@@ -16,10 +16,12 @@
  *           A command name sent by the user.
  * @param    {Array.<string>} args
  *           An array of arguments sent by the user.
+ * @param    {Object} data
+ *           An object containing data to be passed into command functions.
  * @return   {Response|undefined}
  *           A Response object or undefined if a command is not successfully executed.
  */
-const runCommand = (message, allCommands, cmdName, args = [], data = {}) => {
+const runCommand = (message, allCommands, cmdName, args, data) => {
   // Check if the command exists, otherwise check if it's an alias
   if (Object.keys(allCommands).includes(cmdName)) {
     const { roles, cmd } = allCommands[cmdName];
@@ -36,7 +38,7 @@ const runCommand = (message, allCommands, cmdName, args = [], data = {}) => {
     const allAliases = getAliases(allCommands);
     if (allAliases.includes(cmdName)) {
       const aliasCmdName = getAliasCommand(cmdName, allCommands);
-      return runCommand(message, allCommands, aliasCmdName, args);
+      return runCommand(message, allCommands, aliasCmdName, args, data);
     }
   }
 };
