@@ -5,7 +5,7 @@ const Command = require("../command");
 ///////////////////////////////////////////////////////////////////
 
 const name = "brokencommand";
-const des = "";
+const desc = "";
 const roles = ["user"];
 const alias = [];
 
