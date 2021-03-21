@@ -11,11 +11,11 @@ const alias = ["heylucille"];
 
 const cmdFunction = (message, args, data) => {
 
-  const { cmdVars } = data;
+  const { cmdVars, trigger } = data;
 
   if (!cmdVars.askReady) return;
 
-  if (!args.length) {
+  if (!args.length || trigger && !message.content.replace(trigger, "").trim().length) {
     return message.channel.send("you're supposed to ask a question helo???");
   }
 

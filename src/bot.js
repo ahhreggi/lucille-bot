@@ -41,7 +41,7 @@ client.on("message", (message) => {
       if (!response) {
         // Parse the command and run
         let [cmdName, ...args] = parseCommand(message, prefix);
-        const data = { help, cmdVars };
+        const data = { help, cmdVars, trigger: null };
         response = runCommand(message, allCommands, cmdName, args, data);
       }
 
@@ -72,8 +72,8 @@ client.on("message", (message) => {
 
         // Response triggers a command (cannot pass args) then pottentially loops back to response key handler
         if (promptResponse.startsWith(prefix)) {
-          const promptCmd = promptResponse.slice(1);
-          const data = { help, cmdVars };
+          const [promptCmd, trigger] = promptResponse.split(":");
+          const data = { help, cmdVars, trigger };
           response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
 
         } else {
