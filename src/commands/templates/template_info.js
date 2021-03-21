@@ -28,13 +28,11 @@ const alias = ["test1", "test2", "test3"];
  * Roles are checked on the server-side only. You can add additional server-side
  * checks using hasRole() but role configurations on Discord will still apply.
  *
- * You can send messages directly as normal, but on successful command execution,
- * a Response object should typically be returned.
+ * You can send messages directly as normal, but if the function needs to
+ * alter a global variable, return a Response object to send the data to bot.js.
  *
- *   content = message/response content
- *   action = "send" or "return"
- *   key = if action = "send", key is ignored and content is posted to the channel
- *         if action = "return", the key value is used to determine what bot.js will do
+ *   content = a string of data to return
+ *   key = the value used to determine what bot.js should do
  *
  * @param  {Discord.Message} message
  *         A message received by the client.
@@ -52,11 +50,10 @@ const cmdFunction = (message, args) => {
   message.channel.send(`Arguments passed: ${args}`);
   console.log("Someone ran a test command!");
 
-  const content = "This is a message to send!";
-  const action = "send" || "return";
-  const key = null || "secretKey";
-
-  return new Response(content, action, key);
+  // Only necessary if the function must alter a global variable
+  const content = "Data to return to bot.js";
+  const key = "secretKey"; // The value used to do something in bot.js
+  return new Response(content, key);
 
   // END ////////////////////////////////////////////////////////////
 

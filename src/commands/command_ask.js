@@ -21,10 +21,9 @@ const cmdFunction = (message, args, data) => {
   message.channel.send(thinking);
 
   const content = `${message.member} ${answer}`;
-  const action = "return";
   const key = "askDelay";
 
-  return new Response(content, action, key);
+  return new Response(content, key);
 
 };
 
