@@ -4,16 +4,16 @@ const { Client } = require("discord.js");
 
 const config = require("./config.json");
 const { runCommand, parseCommand, getPrompt } = require("./utility");
-const { allCommands, help } = require("./start");
+const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
 
 const client = new Client();
 
 let prefix = config.prefix || "!";
 
+// Variables controlled by command response keys
 const cmdVars = {
-  askReady: true,
-  gmReady: true
+  askReady: true
 };
 
 client.on("ready", () => {
@@ -38,26 +38,21 @@ client.on("message", (message) => {
     const data = { help, cmdVars };
     const response = runCommand(message, allCommands, cmdName, args, data);
 
-    // If there's no response from the command, do nothing
+    // If there's no Response object from the command, do nothing
     if (!response) return;
 
-    // Send command response content
-    if (response.action === "send") {
-      message.channel.send(response.data);
+    // GLOBAL RESPONSE KEY HANDLERS //////////////////////////////////////
 
-      // Execute return action according to the key
-    } else if (response.action === "return") {
-
-      // Trigger 3 sec global cool down on !ask while Lucille is thinking
-      if (response.key === "askDelay") {
-        cmdVars.askReady = false;
-        setTimeout(() => {
-          message.channel.send(response.data);
-          cmdVars.askReady = true;
-        }, 3000);
-      }
-
+    // !ask - Trigger 3 sec global cool down while Lucille is thinking
+    if (response.key === "askDelay") {
+      cmdVars.askReady = false;
+      setTimeout(() => {
+        message.channel.send(response.data);
+        cmdVars.askReady = true;
+      }, 3000);
     }
+
+    //////////////////////////////////////////////////////////////////////
 
   } else {
 

@@ -5,7 +5,7 @@ const Command = require("../models/command");
 const name = "whyme";
 const desc = "why meeeeeeee";
 const roles = ["admin", "vip"];
-const alias = ["whyme1", "whyme2", "whyme3"];
+const alias = [];
 
 const cmdFunction = (message) => {
 
