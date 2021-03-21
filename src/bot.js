@@ -4,7 +4,7 @@ const { Client } = require("discord.js");
 
 const config = require("./config.json");
 const { runCommand, parseCommand, getPrompt } = require("./utility");
-const { allCommands, help } = require("./start");
+const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
 
 const client = new Client();
