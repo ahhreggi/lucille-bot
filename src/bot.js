@@ -15,7 +15,9 @@ client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
 
   // Sending a message to channel #why-me
-  client.channels.fetch(config.channelIds.whyMe).send("I'M ONLINE!");
+  client.channels.fetch(config.channelIds.whyMe)
+    .then(channel => channel.send("I'M ONLINE!"))
+    .catch(console.error);
 });
 
 client.on("message", (message) => {
