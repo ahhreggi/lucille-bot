@@ -30,21 +30,23 @@ client.on("message", (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
-  let promptCmd;
+
   let response;
 
-  while (message) {
+  do {
 
     // Check if the message is a command (starts with prefix), otherwise do nothing
-    if (message.content.startsWith(prefix)) {
+    if (message.content.startsWith(prefix) || response) {
 
-      // Parse the command and run
-      let [cmdName, ...args] = parseCommand(message, prefix);
-      cmdName = promptCmd ? promptCmd : cmdName;
-      const data = { help, cmdVars };
-      response = response ? response : runCommand(message, allCommands, cmdName, args, data);
+      // If there's no response yet, run the command
+      if (!response) {
+        // Parse the command and run
+        let [cmdName, ...args] = parseCommand(message, prefix);
+        const data = { help, cmdVars };
+        response = runCommand(message, allCommands, cmdName, args, data);
+      }
 
-      // If there's no Response object from the command, do nothing
+      // If there's still no Response object from the command, exit
       if (!response) return;
 
       // GLOBAL RESPONSE KEY HANDLERS //////////////////////////////////////
@@ -58,6 +60,8 @@ client.on("message", (message) => {
         }, 3000);
       }
 
+      return;
+
       //////////////////////////////////////////////////////////////////////
 
     } else {
@@ -69,19 +73,19 @@ client.on("message", (message) => {
 
         // Response triggers a command (cannot pass args)
         if (promptResponse.startsWith(prefix)) {
-          promptCmd = promptResponse.slice(1);
+          const promptCmd = promptResponse.slice(1);
           const data = { help, cmdVars };
           response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
         } else {
           // Regular response
-          message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
+          return message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
         }
 
 
       }
 
     }
-  }
+  } while (response);
 
 });
 
