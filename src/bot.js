@@ -4,6 +4,7 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./utility");
 const { allCommands, help } = require("./start");
+const config = require("./config.json");
 
 const client = new Client();
 
@@ -12,6 +13,9 @@ let gmReady = true; // "good morning" cooldown monitor
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
+
+  // Sending a message to channel #why-me
+  client.channels.fetch(config.channelIds.whyMe).send("I'M ONLINE!");
 });
 
 client.on("message", (message) => {
