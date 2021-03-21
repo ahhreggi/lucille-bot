@@ -1,9 +1,5 @@
 const Command = require("../command");
 
-const fs = require("fs");
-const path = require("path");
-const commandsDirectory = path.resolve(__dirname, "../commands");
-
 ///////////////////////////////////////////////////////////////////
 
 const name = "commands";
@@ -11,40 +7,15 @@ const desc = "list all commands";
 const roles = ["user"];
 const alias = ["cmds"];
 
-const cmdFunction = (message) => {
+const cmdFunction = (message, args, data) => {
 
-  const commandFiles = fs.readdirSync(commandsDirectory).filter(file => file.startsWith("command_"));
+  const { help } = data;
 
-  const allCommands = {};
-
-  for (const file of commandFiles) {
-
-    const COMMAND = require(`../commands/${file}`);
-
-    try {
-
-      const name = COMMAND.getName();
-
-      allCommands[name] = {
-        desc: COMMAND.getDesc(),
-        roles: COMMAND.getRoles(),
-        alias: COMMAND.getAlias()
-      };
-
-    } catch (err) {
-
-      console.log(`Failed to retrieve command: ${file}`);
-      console.log(err);
-
-    }
-
-  }
-
-  message.channel.send("**Available commands:**\n" + Object.keys(allCommands)
+  message.channel.send("**Available commands:**\n" + Object.keys(help)
     .map(c => {
-      const desc = allCommands[c].desc;
-      const alias = allCommands[c].alias;
-      const roles = allCommands[c].roles;
+      const desc = help[c].desc;
+      const alias = help[c].alias;
+      const roles = help[c].roles;
       const result = `\`!${c}${alias.length > 0 ? `|${alias.join("|")}` : ""}\`` +
         ` --- ${desc} (${roles.join(", ")})`;
       return result;

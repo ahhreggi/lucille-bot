@@ -3,7 +3,8 @@ const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./utility");
 
-let allCommands = require("./allCommands"); // TODO: Make individual command_ files for each command in allCommands.js
+const allCommands = require("./allCommands"); // TODO: Make individual command_ files for each command in allCommands.js
+const help = require("./start");
 
 const client = new Client();
 
@@ -23,7 +24,8 @@ client.on("message", (message) => {
   if (message.content.startsWith(prefix)) {
     // Parse the command and run
     const [cmdName, ...args] = parseCommand(message, prefix);
-    runCommand(message, allCommands, cmdName, args);
+    const data = { help };
+    runCommand(message, allCommands, cmdName, args, data);
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////

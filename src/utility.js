@@ -17,7 +17,7 @@
  * @param    {Array.<string>} args
  *           An array of arguments sent by the user.
  */
-const runCommand = (message, allCommands, cmdName, args) => {
+const runCommand = (message, allCommands, cmdName, args, data) => {
   // Check if the command exists, otherwise check if it's an alias
   if (Object.keys(allCommands).includes(cmdName)) {
     const { roles, cmd } = allCommands[cmdName];
@@ -25,7 +25,7 @@ const runCommand = (message, allCommands, cmdName, args) => {
       // Log possibly valid commands to console
       console.log(`${message.author.tag}: < ${cmdName} > | ${args}`);
       // Run command
-      cmd(message, args);
+      cmd(message, args, data);
     } else {
       console.log(`NO PERMS: ${message.author.tag}: < ${cmdName} > | ${args}`);
     }

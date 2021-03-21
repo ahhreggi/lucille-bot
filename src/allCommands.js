@@ -14,12 +14,16 @@ for (const file of commandFiles) {
   try {
 
     const name = COMMAND.getName();
+    const desc = COMMAND.getDesc();
+    const roles = COMMAND.getRoles();
+    const alias = COMMAND.getAlias();
+    const cmd = COMMAND.getFunc();
 
     allCommands[name] = {
-      desc: COMMAND.getDesc(),
-      roles: COMMAND.getRoles(),
-      alias: COMMAND.getAlias(),
-      cmd: COMMAND.getFunc()
+      desc,
+      roles,
+      alias,
+      cmd
     };
 
     console.log(`Added command: ${file}`);
