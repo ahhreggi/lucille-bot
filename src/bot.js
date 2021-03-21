@@ -58,11 +58,22 @@ client.on("message", (message) => {
 
     // If the message is not a command, check for a prompt trigger
     const promptResponse = getPrompt(message.content, messagePrompts);
+
     if (promptResponse) {
+
+      // Response triggers a command (must take no args, data)
+      if (promptResponse.startsWith(prefix)) {
+        const cmdName = promptResponse.slice(1);
+        return runCommand(message, allCommands, cmdName);
+      }
+
+      // Regular response
       message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
+
     }
 
   }
+
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);

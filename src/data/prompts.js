@@ -112,5 +112,10 @@ module.exports = {
     responses: [
       "WHAT"
     ]
+  },
+  heylucille: {
+    triggers: ["hey lucille,"],
+    responses: ["!ask"],
+
   }
 };

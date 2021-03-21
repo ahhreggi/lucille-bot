@@ -19,7 +19,7 @@
  * @return   {Response|undefined}
  *           A Response object or undefined if a command is not successfully executed.
  */
-const runCommand = (message, allCommands, cmdName, args, data) => {
+const runCommand = (message, allCommands, cmdName, args = [], data = {}) => {
   // Check if the command exists, otherwise check if it's an alias
   if (Object.keys(allCommands).includes(cmdName)) {
     const { roles, cmd } = allCommands[cmdName];
