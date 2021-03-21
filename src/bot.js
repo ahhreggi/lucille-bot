@@ -32,30 +32,31 @@ client.on("message", (message) => {
 
   // Check if the message is a command (starts with prefix), otherwise do nothing
   if (message.content.startsWith(prefix)) {
+
     // Parse the command and run
     const [cmdName, ...args] = parseCommand(message, prefix);
     const data = { help, cmdVars };
     const response = runCommand(message, allCommands, cmdName, args, data);
 
+    // If there's no response from the command, do nothing
     if (!response) return;
 
+    // Send command response content
     if (response.action === "send") {
       message.channel.send(response.data);
 
+      // Execute return action according to the key
     } else if (response.action === "return") {
 
-      if (response.key === "secretKey") {
-        console.log("Response action was return");
-        message.channel.send(secret);
-
-      } else if (response.key === "askDelay") {
+      // Trigger 3 sec global cool down on !ask while Lucille is thinking
+      if (response.key === "askDelay") {
         cmdVars.askReady = false;
         setTimeout(() => {
           message.channel.send(response.data);
           cmdVars.askReady = true;
-        }, 3000); // 3 sec delay to *think*
-
+        }, 3000);
       }
+
     }
   }
 
