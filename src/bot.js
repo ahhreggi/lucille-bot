@@ -30,12 +30,14 @@ client.on("message", (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
+  // Initialize global variables
+  const data = { help, cmdVars };
+
   // Check if the message is a command (starts with prefix), otherwise do nothing
   if (message.content.startsWith(prefix)) {
 
     // Parse the command and run
     const [cmdName, ...args] = parseCommand(message, prefix);
-    const data = { help, cmdVars };
     const response = runCommand(message, allCommands, cmdName, args, data);
 
     // If there's no Response object from the command, do nothing
@@ -64,7 +66,7 @@ client.on("message", (message) => {
       // Response triggers a command (must take no args, data)
       if (promptResponse.startsWith(prefix)) {
         const cmdName = promptResponse.slice(1);
-        return runCommand(message, allCommands, cmdName);
+        return runCommand(message, allCommands, cmdName, args, data);
       }
 
       // Regular response
