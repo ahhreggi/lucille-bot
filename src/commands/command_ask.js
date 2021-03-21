@@ -16,7 +16,7 @@ const cmdFunction = (message, args, data) => {
   if (!cmdVars.askReady) return;
 
   if (!args.length || trigger && !message.content.replace(trigger, "").trim().length) {
-    return message.channel.send("you're supposed to ask a question helo???");
+    return message.channel.send("you're supposed to ask a question, helo???");
   }
 
   const thinking = askResponses.thinking[Math.floor(Math.random() * askResponses.thinking.length)];
