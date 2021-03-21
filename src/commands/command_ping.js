@@ -11,12 +11,18 @@ const alias = ["latency"];
 
 // eslint-disable-next-line
 const cmdFunction = (message, args) => {
-  // DEBUG
-  console.log(message.client);
-  console.log(message.client.ws);
-  console.log(message.client.ws.ping);
+  const latency = Date.now() - message.createdTimestamp;
+  const apiLatency = message.client.ws.ping;
 
-  message.channel.send(message.client.ws.ping + "ms");
+  // debug
+  console.log(latency);
+  console.log(apiLatency);
+
+  let strResult = "RESPONSE TIME\n\n";
+  strResult += "Latency:" + latency + "ms\n";
+  strResult += "API latency:" + apiLatency + "ms";
+
+  message.channel.send(strResult);
 };
 
 //////////////////////////////////////////////////////////////////
