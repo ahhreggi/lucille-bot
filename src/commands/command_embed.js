@@ -13,7 +13,7 @@ const cmdFunction = (message, args) => {
 
   const outerDelim = "$";
   const innerDelim = "--";
-  const space = { name: space, value: space };
+  const space = { name: "\u200B", value: "\u200B" };
 
   // const options = {
   //   color: "#fce303",
