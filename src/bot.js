@@ -30,7 +30,6 @@ client.on("message", (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
-
   let response;
 
   do {
@@ -71,20 +70,21 @@ client.on("message", (message) => {
 
       if (promptResponse) {
 
-        // Response triggers a command (cannot pass args)
+        // Response triggers a command (cannot pass args) then pottentially loops back to response key handler
         if (promptResponse.startsWith(prefix)) {
           const promptCmd = promptResponse.slice(1);
           const data = { help, cmdVars };
           response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
+
         } else {
-          // Regular response
+          // Response triggers a regular message (no loop)
           return message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
         }
-
 
       }
 
     }
+
   } while (response);
 
 });
