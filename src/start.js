@@ -7,6 +7,8 @@ const help = {};
 // Dynamically fetch all files with the prefix "command_" from the commands directory and create a help directory
 const commandFiles = fs.readdirSync(commandsDirectory).filter(file => file.startsWith("command_"));
 
+console.log("Creating help directory...");
+
 for (const file of commandFiles) {
 
   const COMMAND = require(`./commands/${file}`);
@@ -23,11 +25,13 @@ for (const file of commandFiles) {
 
   } catch (err) {
 
-    console.log(`Failed to retrieve command: ${file}`);
+    console.log(`--- Failed to retrieve command: ${file}`);
     console.log(err);
 
   }
 
 }
+
+console.log("DONE!");
 
 module.exports = help;
