@@ -26,6 +26,8 @@ const cmdFunction = (message, args) => {
       const [title, body] = arg.split(fieldDelim);
       if (title === omit && body === omit) {
         fields.push(space);
+      } else if (title === "color") {
+        color = body;
       } else {
         fields.push({ name: title, value: body });
       }
@@ -35,7 +37,7 @@ const cmdFunction = (message, args) => {
     return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
   }
 
-  if (!fields.length) {
+  if (fields.length) {
     const embed = new Discord.MessageEmbed()
       .setColor(color)
       .addFields(...fields);
