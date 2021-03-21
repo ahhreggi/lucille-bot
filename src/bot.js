@@ -8,7 +8,7 @@ const config = require("./config.json");
 
 const client = new Client();
 
-let prefix = "!";
+let prefix = config.prefix || "!";
 let gmReady = true; // "good morning" cooldown monitor
 
 client.on("ready", () => {
