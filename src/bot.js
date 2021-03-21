@@ -62,7 +62,7 @@ client.on("message", (message) => {
   } else {
 
     // If the message is not a command, check for a prompt trigger
-    const promptResponse = getPrompt(message, messagePrompts);
+    const promptResponse = getPrompt(message.content, messagePrompts);
     if (promptResponse) {
       message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
     }
