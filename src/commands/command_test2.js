@@ -1,21 +1,21 @@
 const Command = require("../models/command");
-const Response = require("../models/response");
 // const { hasRole } = require("../utility");
 // const errors = require("./configs/errors");
 
 ///////////////////////////////////////////////////////////////////
 
-const name = "test";
-const desc = "this is a test command";
+const name = "test2";
+const desc = "this is a test2 command";
 const roles = ["user"];
 const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  const data = "this is a test message";
-  const action = "send";
+  const data = "this is a message with a key";
+  const action = "return";
+  const key = "secretKey";
 
-  return new Response(data, action);
+  return new Response(data, action, key);
 
 };
 

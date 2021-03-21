@@ -10,6 +10,7 @@ const client = new Client();
 
 let prefix = config.prefix || "!";
 let gmReady = true; // "good morning" cooldown monitor
+const secret = "a secret message";
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
@@ -34,8 +35,10 @@ client.on("message", (message) => {
     if (!response) return;
     if (response.action === "send") {
       message.channel.send(response.data);
-    } else {
-      // Check keys and do something with them...
+    } else if (response.action === "key") {
+      if (response.key === "secretKey") {
+        message.channel.send(secret);
+      }
     }
   }
 
