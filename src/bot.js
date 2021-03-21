@@ -63,10 +63,10 @@ client.on("message", (message) => {
 
     if (promptResponse) {
 
-      // Response triggers a command (must take no args, data)
+      // Response triggers a command (cannot pass args)
       if (promptResponse.startsWith(prefix)) {
         const cmdName = promptResponse.slice(1);
-        return runCommand(message, allCommands, cmdName, args, data);
+        return runCommand(message, allCommands, cmdName, [], data);
       }
 
       // Regular response
