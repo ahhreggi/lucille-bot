@@ -1,6 +1,5 @@
 const Command = require("../models/command");
-// const { hasRole } = require("../utility");
-// const errors = require("./configs/errors");
+const { codeBlock } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -9,20 +8,19 @@ const desc = "checks response time";
 const roles = ["user"];
 const alias = ["latency"];
 
-// eslint-disable-next-line
-const cmdFunction = (message, args) => {
-  const latency = Date.now() - message.createdTimestamp;
-  const apiLatency = message.client.ws.ping;
+const cmdFunction = (message) => {
+  message.channel.send("Calculating...").then(async(msg) => {
+    msg.delete();
 
-  // debug
-  console.log(latency);
-  console.log(apiLatency);
+    const latency = msg.createdTimestamp - message.createdTimestamp;
+    const apiLatency = message.client.ws.ping;
 
-  let strResult = "RESPONSE TIME\n\n";
-  strResult += "Latency:" + latency + "ms\n";
-  strResult += "API latency:" + apiLatency + "ms";
+    let strResult = "RESPONSE TIME\n\n";
+    strResult += "Latency: " + latency + "ms\n";
+    strResult += "API latency: " + apiLatency + "ms";
 
-  message.channel.send(strResult);
+    message.channel.send(codeBlock(strResult));
+  });
 };
 
 //////////////////////////////////////////////////////////////////
