@@ -17,7 +17,7 @@
  * @param    {Array.<string>} args
  *           An array of arguments sent by the user.
  * @return   {Response|undefined}
- *           A Response object or undefine if a command is not executed.
+ *           A Response object or undefined if a command is not successfully executed.
  */
 const runCommand = (message, allCommands, cmdName, args, data) => {
   // Check if the command exists, otherwise check if it's an alias

@@ -9,8 +9,12 @@ const config = require("./config.json");
 const client = new Client();
 
 let prefix = config.prefix || "!";
-let gmReady = true; // "good morning" cooldown monitor
 const secret = "a secret message";
+
+const cmdVars = {
+  askReady: true,
+  gmReady: true
+}
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
@@ -30,16 +34,27 @@ client.on("message", (message) => {
   if (message.content.startsWith(prefix)) {
     // Parse the command and run
     const [cmdName, ...args] = parseCommand(message, prefix);
-    const data = { help };
+    const data = { help, cmdVars };
     const response = runCommand(message, allCommands, cmdName, args, data);
+
     if (!response) return;
+
     if (response.action === "send") {
-      console.log("Response action was send")
       message.channel.send(response.data);
+
     } else if (response.action === "return") {
+
       if (response.key === "secretKey") {
         console.log("Response action was return");
         message.channel.send(secret);
+
+      } else if (response.key === "askDelay") {
+        cmdVars.askReady = false;
+        setTimeout(() => {
+          message.channel.send(response.data);
+          cmdVars.askReady = true;
+        }, 3000); // 3 sec delay to *think*
+
       }
     }
   }
