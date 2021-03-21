@@ -30,49 +30,57 @@ client.on("message", (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
-  // Check if the message is a command (starts with prefix), otherwise do nothing
-  if (message.content.startsWith(prefix)) {
+  let promptCmd;
+  let response;
 
-    // Parse the command and run
-    const [cmdName, ...args] = parseCommand(message, prefix);
-    const data = { help, cmdVars };
-    const response = runCommand(message, allCommands, cmdName, args, data);
+  while (message) {
 
-    // If there's no Response object from the command, do nothing
-    if (!response) return;
+    // Check if the message is a command (starts with prefix), otherwise do nothing
+    if (message.content.startsWith(prefix)) {
 
-    // GLOBAL RESPONSE KEY HANDLERS //////////////////////////////////////
+      // Parse the command and run
+      let [cmdName, ...args] = parseCommand(message, prefix);
+      cmdName = promptCmd ? promptCmd : cmdName;
+      const data = { help, cmdVars };
+      response = response ? response : runCommand(message, allCommands, cmdName, args, data);
 
-    // !ask - Trigger 3 sec global cool down while Lucille is thinking
-    if (response.key === "askDelay") {
-      cmdVars.askReady = false;
-      setTimeout(() => {
-        message.channel.send(response.content);
-        cmdVars.askReady = true;
-      }, 3000);
-    }
+      // If there's no Response object from the command, do nothing
+      if (!response) return;
 
-    //////////////////////////////////////////////////////////////////////
+      // GLOBAL RESPONSE KEY HANDLERS //////////////////////////////////////
 
-  } else {
-
-    // If the message is not a command, check for a prompt trigger
-    const promptResponse = getPrompt(message.content, messagePrompts);
-
-    if (promptResponse) {
-
-      // Response triggers a command (cannot pass args)
-      if (promptResponse.startsWith(prefix)) {
-        const cmdName = promptResponse.slice(1);
-        const data = { help, cmdVars };
-        return runCommand(message, allCommands, cmdName, ["!prompt"], data);
+      // !ask - Trigger 3 sec global cool down while Lucille is thinking
+      if (response.key === "askDelay") {
+        cmdVars.askReady = false;
+        setTimeout(() => {
+          message.channel.send(response.content);
+          cmdVars.askReady = true;
+        }, 3000);
       }
 
-      // Regular response
-      message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
+      //////////////////////////////////////////////////////////////////////
+
+    } else {
+
+      // If the message is not a command, check for a prompt trigger
+      const promptResponse = getPrompt(message.content, messagePrompts);
+
+      if (promptResponse) {
+
+        // Response triggers a command (cannot pass args)
+        if (promptResponse.startsWith(prefix)) {
+          promptCmd = promptResponse.slice(1);
+          const data = { help, cmdVars };
+          response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
+        } else {
+          // Regular response
+          message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
+        }
+
+
+      }
 
     }
-
   }
 
 });
