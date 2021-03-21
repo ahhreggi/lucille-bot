@@ -58,21 +58,6 @@ const parseCommand = (message, prefix) => {
 };
 
 /**
- * Responds to a message that starts with a given string using the given response.
- * @param  {Discord.Message} message
- *         A message received by the client.
- * @param  {string} startsWith
- *         A substring of a message to respond to.
- * @param  {string} response
- *         A string to respond with.
- */
-const respondTo = (message, startsWith, response) => {
-  if (message.content.toLowerCase().startsWith(startsWith)) {
-    return message.channel.send(response);
-  }
-};
-
-/**
  * Returns an array containing the aliases of all commands.
  * @param    {{command: Object}} allCommands
  *           All of the available user commands.
@@ -236,7 +221,7 @@ const getPrompt = (message, prompts) => {
     const triggers = prompt.triggers;
     const responses = prompt.responses;
     for (const trigger of triggers) {
-      if (message.includes(trigger)) {
+      if (message.toLowerCase().includes(trigger)) {
         // Pick a random response
         promptResponse = responses[Math.floor(Math.random() * responses.length)];
       }
