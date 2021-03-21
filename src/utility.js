@@ -218,11 +218,9 @@ const hasRole = (user, roles) => {
 const getPrompt = (message, prompts) => {
   let promptResponse = false;
   for (const prompt of prompts) {
-    const triggers = prompt.triggers;
-    const responses = prompt.responses;
+    const { triggers, responses } = prompt;
     for (const trigger of triggers) {
       if (message.toLowerCase().includes(trigger)) {
-        // Pick a random response
         promptResponse = responses[Math.floor(Math.random() * responses.length)];
       }
     }
@@ -233,7 +231,6 @@ const getPrompt = (message, prompts) => {
 module.exports = {
   runCommand,
   parseCommand,
-  respondTo,
   codeBlock,
   getRoleID,
   getMentionedUser,
