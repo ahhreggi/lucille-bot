@@ -18,15 +18,20 @@ const cmdFunction = (message, args) => {
   const color = "#fce303";
   const space = { name: "\u200B", value: "\u200B" };
 
-  let cmdArgs = args.join(" ").split(sectionDelim);
-  const fields = [];
-  for (const arg of cmdArgs) {
-    const [title, body] = arg.split(fieldDelim);
-    if (title === "$" && body === "$") {
-      fields.push(space);
-    } else {
-      fields.push({ name: title, value: body });
+  try {
+    let cmdArgs = args.join(" ").split(sectionDelim);
+    const fields = [];
+    for (const arg of cmdArgs) {
+      const [title, body] = arg.split(fieldDelim);
+      if (title === "$" && body === "$") {
+        fields.push(space);
+      } else {
+        fields.push({ name: title, value: body });
+      }
     }
+    message.delete();
+  } catch (err) {
+    return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>")
   }
 
   const embed = new Discord.MessageEmbed()
