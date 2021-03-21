@@ -16,7 +16,7 @@ const cmdVars = {
   askReady: true
 };
 
-client.on("ready", () => {
+client.once("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
 
   // Send a message on connection to channel

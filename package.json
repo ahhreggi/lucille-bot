@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./src/bot.js",
     "dev": "nodemon -L ./src/bot.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
