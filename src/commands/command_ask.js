@@ -13,7 +13,7 @@ const cmdFunction = (message, args, data) => {
 
   const { cmdVars } = data;
 
-  if (!cmdVars.askBuffer) return;
+  if (cmdVars.askBuffer) return;
 
   if (!args.length) {
     return message.channel.send("you're supposed to ask a question helo???");
