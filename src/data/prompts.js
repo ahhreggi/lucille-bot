@@ -104,5 +104,13 @@ module.exports = [
     responses: [
       "<:boogie:701313374733991998>"
     ]
+  },
+  {
+    triggers: [
+      "LUCILLE"
+    ],
+    responses: [
+      "WHAT"
+    ]
   }
 ];
