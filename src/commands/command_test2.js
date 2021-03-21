@@ -1,4 +1,5 @@
 const Command = require("../models/command");
+const Response = require("../models/response");
 // const { hasRole } = require("../utility");
 // const errors = require("./configs/errors");
 
