@@ -1,5 +1,4 @@
 const Command = require("../models/command");
-const Response = require("../models/response");
 const { codeBlock, getMentionedUser } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////

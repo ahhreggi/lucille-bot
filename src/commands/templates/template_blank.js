@@ -1,5 +1,5 @@
 const Command = require("../models/command");
-const Response = require("../models/response");
+// const Response = require("../models/response");
 // const { hasRole } = require("../utility");
 // const errors = require("./configs/errors");
 
@@ -12,13 +12,13 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  // Do something.
 
-  const content = "";
-  const action = "send" || "return";
-  const key = null || "secretKey";
 
-  return new Response(content, action, key);
+
+
+  // const content = "";
+  // const key = "secretKey";
+  // return new Response(content, key);
 
 };
 
