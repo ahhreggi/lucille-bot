@@ -2,12 +2,13 @@ const fs = require("fs");
 const path = require("path");
 const commandsDirectory = path.resolve(__dirname, "./commands");
 
+const allCommands = {};
 const help = {};
 
 // Dynamically fetch all files with the prefix "command_" from the commands directory and create a help directory
 const commandFiles = fs.readdirSync(commandsDirectory).filter(file => file.startsWith("command_"));
 
-console.log("Creating help directory...");
+console.log("Initializing files...");
 
 for (const file of commandFiles) {
 
@@ -16,16 +17,19 @@ for (const file of commandFiles) {
   try {
 
     const name = COMMAND.getName();
+    const desc = COMMAND.getDesc();
+    const roles = COMMAND.getRoles();
+    const alias = COMMAND.getAlias();
+    const cmd = COMMAND.getFunc();
 
-    help[name] = {
-      desc: COMMAND.getDesc(),
-      roles: COMMAND.getRoles(),
-      alias: COMMAND.getAlias()
-    };
+    allCommands[name] = { desc, roles, alias, cmd };
+    help[name] = { desc, roles, alias };
+
+    console.log(`Added command file: ${file}`);
 
   } catch (err) {
 
-    console.log(`--- Failed to retrieve command: ${file}`);
+    console.log(`--- Failed to read command file: ${file}`);
     console.log(err);
 
   }
@@ -34,4 +38,4 @@ for (const file of commandFiles) {
 
 console.log("DONE!");
 
-module.exports = help;
+module.exports = { allCommands, help };

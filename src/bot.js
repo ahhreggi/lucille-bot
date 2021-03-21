@@ -1,10 +1,9 @@
 require("dotenv").config();
+
 const { Client } = require("discord.js");
 
 const { runCommand, parseCommand, respondTo } = require("./utility");
-
-const allCommands = require("./allCommands"); // TODO: Make individual command_ files for each command in allCommands.js
-const help = require("./start");
+const { allCommands, help } = require("./start");
 
 const client = new Client();
 
