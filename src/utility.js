@@ -16,6 +16,8 @@
  *           A command name sent by the user.
  * @param    {Array.<string>} args
  *           An array of arguments sent by the user.
+ * @return   {Response|undefined}
+ *           A Response object or undefine if a command is not executed.
  */
 const runCommand = (message, allCommands, cmdName, args, data) => {
   // Check if the command exists, otherwise check if it's an alias
@@ -25,7 +27,7 @@ const runCommand = (message, allCommands, cmdName, args, data) => {
       // Log possibly valid commands to console
       console.log(`${message.author.tag}: < ${cmdName} > | ${args}`);
       // Run command
-      cmd(message, args, data);
+      return cmd(message, args, data);
     } else {
       console.log(`NO PERMS: ${message.author.tag}: < ${cmdName} > | ${args}`);
     }

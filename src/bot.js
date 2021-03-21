@@ -30,7 +30,13 @@ client.on("message", (message) => {
     // Parse the command and run
     const [cmdName, ...args] = parseCommand(message, prefix);
     const data = { help };
-    runCommand(message, allCommands, cmdName, args, data);
+    const response = runCommand(message, allCommands, cmdName, args, data);
+    if (!response) return;
+    if (response.action === "send") {
+      message.channel.send(response.data);
+    } else {
+      // Check keys and do something with them...
+    }
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////
