@@ -36,10 +36,13 @@ client.on("message", (message) => {
     if (response.action === "send") {
       message.channel.send(response.data);
     } else if (response.action === "key") {
+      console.log("check1");
       if (response.key === "secretKey") {
+        console.log("check3");
         message.channel.send(secret);
       }
     }
+    console.log("check2");
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////
