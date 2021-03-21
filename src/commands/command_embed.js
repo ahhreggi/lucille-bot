@@ -11,27 +11,31 @@ const desc = "posts an embed";
 const roles = ["admin"];
 const alias = [];
 
-const cmdFunction = (message) => {
+const cmdFunction = (message, args) => {
+
+  const sectionDelim = "|";
+  const fieldDelim = "%";
+  const color = "#fce303";
+  const space = { name: "\u200B", value: "\u200B" };
+
+  let cmdArgs = args.join(" ").split(sectionDelim);
+  const fields = [];
+  for (const arg of cmdArgs) {
+    const [title, body] = arg.split(fieldDelim);
+    if (title === "$" && body === "$") {
+      fields.push(space);
+    } else {
+      fields.push({ name: title, value: body });
+    }
+  }
 
   const embed = new Discord.MessageEmbed()
-    .setColor("#fce303")
-    .setTitle("This is the title")
-    .setURL("https://google.ca")
-    .setAuthor("Lucille", "https://i.imgur.com/pbrZNDp.jpg", "https://github.com/ahhreggi/lucille-bot")
-    .setDescription("i love tacos")
-    .setThumbnail("https://i.imgur.com/pbrZNDp.jpg")
-    .addFields(
-      { name: "Regular field title", value: "Some value here" },
-      { name: "\u200B", value: "\u200B" },
-      { name: "Inline field title1", value: "Some value here1", inline: true },
-      { name: "Inline field title2", value: "Some value here2", inline: true },
-    )
-    .addField("Inline field title", "Some value here", true)
-    .setImage("https://i.imgur.com/pbrZNDp.jpg")
-    .setTimestamp()
-    .setFooter("Some footer text here", "https://i.imgur.com/pbrZNDp.jpg");
+    .setColor(color)
+    .addFields(...fields);
 
   message.channel.send(embed);
+
+  // title1%this is the first sentence|title2%this is the second sentence|$%$|title3%this is the third sentence
 
 };
 
