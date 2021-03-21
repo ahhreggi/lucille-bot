@@ -77,8 +77,10 @@ client.on("message", (message) => {
           response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
 
         } else {
+
           // Response triggers a regular message (no loop)
           return message.channel.send(promptResponse.replace("%MEMBER%", `${message.member}`));
+
         }
 
       }
