@@ -14,7 +14,7 @@ const cmdFunction = (message, args) => {
   const sectionDelim = "|";
   const fieldDelim = "%";
   const omit = "$";
-  const space = "\u200B";
+  const space = { name: "\u200B", value: "\u200B" };
 
   let color = "#fce303"; // yellow
 
@@ -24,13 +24,9 @@ const cmdFunction = (message, args) => {
     let cmdArgs = args.join(" ").split(sectionDelim);
     for (const arg of cmdArgs) {
       const [title, body] = arg.split(fieldDelim);
-      if (title === "color" && body.startsWith("#")) {
-        color = body;
-      } else if (title === omit && body === omit) {
-        fields.push({ name: space, value: space });
-      } else if (title === omit) {
-        fields.push({ name: space, value: body });
-      } else if (title && body) {
+      if (title === omit && body === omit) {
+        fields.push(space);
+      } else {
         fields.push({ name: title, value: body });
       }
     }
