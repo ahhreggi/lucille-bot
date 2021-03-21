@@ -6,7 +6,7 @@ const { codeBlock } = require("../utility");
 
 const name = "embed";
 const desc = "posts an embed";
-const roles = ["admin"];
+const roles = ["admin", "vip"];
 const alias = [];
 
 const cmdFunction = (message, args) => {
@@ -30,7 +30,7 @@ const cmdFunction = (message, args) => {
         fields.push({ name: space, value: space });
       } else if (title === omit) {
         fields.push({ name: space, value: body });
-      } else if (!title && !body) {
+      } else if (title && body) {
         fields.push({ name: title, value: body });
       }
     }
