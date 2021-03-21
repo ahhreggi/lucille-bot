@@ -9,8 +9,7 @@ const desc = "checks response time";
 const roles = ["user"];
 const alias = ["latency"];
 
-// eslint-disable-next-line
-const cmdFunction = (message, args) => {
+const cmdFunction = (message) => {
   // DEBUG
   console.log(message.client);
   console.log(message.client.ws);
