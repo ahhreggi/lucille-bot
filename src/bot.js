@@ -14,8 +14,8 @@ let gmReady = true; // "good morning" cooldown monitor
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
 
-  // Send a message on connection to channel #lucilles-box
-  client.channels.fetch(config.channelIds.lucillesBox)
+  // Send a message on connection to channel
+  client.channels.fetch(config.channelIds.whyMe)
     .then(channel => channel.send("hey losers, i'm back... with tacos"))
     .catch(console.error);
 });

@@ -1,4 +1,4 @@
-const Command = require("../models/command");
+const Command = require("../../models/command");
 // const { hasRole } = require("../utility");
 // const errors = require("./configs/errors");
 // If the function uses any helper functions, add them to the helpers folder
