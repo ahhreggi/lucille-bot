@@ -26,10 +26,12 @@ const cmdFunction = (message, args) => {
   try {
     // Parse args to isolate options
     let argOpts = args.join(" ").split(outerDelim).slice(1);
+    console.log("argOpts", argOpts);
     // For each option
     for (const opt of argOpts) {
       // Parse option to isolate property and value
       const options = opt.split(innerDelim);
+      console.log("options", options);
       const property = options[0];
 
       // "space" => add a spacer
@@ -58,8 +60,9 @@ const cmdFunction = (message, args) => {
       }
     }
 
-    message.channel.send(embed);
+    // message.channel.send(embed);
     // message.delete();
+    return message.channel.send("no error");
 
   } catch (err) {
     return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
