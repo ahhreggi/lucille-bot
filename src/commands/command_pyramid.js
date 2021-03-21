@@ -1,4 +1,4 @@
-const Command = require("../command");
+const Command = require("../models/command");
 const { getMentionedUser } = require("../utility");
 const errors = require("./configs/errors");
 const pyramidResponses = require("./configs/pyramidResponses");

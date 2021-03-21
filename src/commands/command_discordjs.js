@@ -1,4 +1,4 @@
-const Command = require("../command");
+const Command = require("../models/command");
 const { codeBlock, getSenderVars } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
