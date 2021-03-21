@@ -13,7 +13,7 @@ let prefix = config.prefix || "!";
 
 // Variables controlled by command response keys
 const cmdVars = {
-  askBuffer: null
+  askReady: true
 };
 
 client.once("ready", () => {
@@ -45,10 +45,10 @@ client.on("message", (message) => {
 
     // !ask - Trigger 3 sec global cool down while Lucille is thinking
     if (response.key === "askDelay") {
-      cmdVars.askBuffer = response.content;
+      cmdVars.askReady = false;
       setTimeout(() => {
-        message.channel.send(cmdVars.askBuffer);
-        cmdVars.askBuffer = null;
+        message.channel.send(response.content);
+        cmdVars.askReady = true;
       }, 3000);
     }
 
