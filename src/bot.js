@@ -14,6 +14,11 @@ let gmReady = true; // "good morning" cooldown monitor
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
 
+  // DEBUG. TODO: delete after
+  console.log(config.channelIds.whyMe);
+  console.log(typeof(config.channelIds.whyMe));
+  // END OF DEBUG
+
   // Sending a message to channel #why-me
   client.channels.fetch(config.channelIds.whyMe)
     .then(channel => channel.send("I'M ONLINE!"))
