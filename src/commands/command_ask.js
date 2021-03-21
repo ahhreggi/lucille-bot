@@ -15,6 +15,10 @@ const cmdFunction = (message, args, data) => {
 
   if (!cmdVars.askReady) return;
 
+  if (!args.length) {
+    return message.channel.send("you're supposed to ask a question helo???");
+  }
+
   const thinking = askResponses.thinking[Math.floor(Math.random() * askResponses.thinking.length)];
   const answer = askResponses.answer[Math.floor(Math.random() * askResponses.answer.length)];
 
