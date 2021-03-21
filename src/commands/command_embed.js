@@ -64,7 +64,11 @@ const cmdFunction = (message, args) => {
       }
     }
 
-    // message.channel.send(embed);
+    try {
+      message.channel.send(embed);
+    } catch (err) {
+      message.channel.send("invalid syntax");
+    }
     // message.delete();
     return message.channel.send("no error");
 
