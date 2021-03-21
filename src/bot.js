@@ -14,7 +14,7 @@ const secret = "a secret message";
 const cmdVars = {
   askReady: true,
   gmReady: true
-}
+};
 
 client.on("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);

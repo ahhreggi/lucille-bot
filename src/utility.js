@@ -36,7 +36,7 @@ const runCommand = (message, allCommands, cmdName, args, data) => {
     const allAliases = getAliases(allCommands);
     if (allAliases.includes(cmdName)) {
       const aliasCmdName = getAliasCommand(cmdName, allCommands);
-      runCommand(message, allCommands, aliasCmdName, args);
+      return runCommand(message, allCommands, aliasCmdName, args);
     }
   }
 };
