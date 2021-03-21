@@ -71,18 +71,18 @@ client.on("message", (message) => {
     return message.channel.send("WHAT");
   }
 
-  // Respond to "good morning"
-  if (message.content.toLowerCase().startsWith("good morning lucille")) {
-    message.channel.send(`good morning ${message.member}! :)`);
-  } else if (message.content.startsWith("<:ahhGM:730258615268540537> lucille") || message.content.startsWith("<:ahhGM:730258615268540537>lucille")) {
-    message.channel.send(`<:ahhGM:730258615268540537> ${message.member}! :)`);
-  } else if (gmReady && (message.content.toLowerCase().startsWith("good morning") || message.content.toLowerCase().startsWith("<:ahhGM:730258615268540537>"))) {
-    gmReady = false;
-    message.channel.send("good morning everyone! :)");
-    setTimeout(() => {
-      gmReady = true;
-    }, 300000); // 5 mins
-  }
+  // // Respond to "good morning"
+  // if (message.content.toLowerCase().startsWith("good morning lucille")) {
+  //   message.channel.send(`good morning ${message.member}! :)`);
+  // } else if (message.content.startsWith("<:ahhGM:730258615268540537> lucille") || message.content.startsWith("<:ahhGM:730258615268540537>lucille")) {
+  //   message.channel.send(`<:ahhGM:730258615268540537> ${message.member}! :)`);
+  // } else if (gmReady && (message.content.toLowerCase().startsWith("good morning") || message.content.toLowerCase().startsWith("<:ahhGM:730258615268540537>"))) {
+  //   gmReady = false;
+  //   message.channel.send("good morning everyone! :)");
+  //   setTimeout(() => {
+  //     gmReady = true;
+  //   }, 300000); // 5 mins
+  // }
 
   // Respond to other things
   respondTo(message, "no u", `no u ${message.member}`);
