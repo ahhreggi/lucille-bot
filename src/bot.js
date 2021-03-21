@@ -34,15 +34,14 @@ client.on("message", (message) => {
     const response = runCommand(message, allCommands, cmdName, args, data);
     if (!response) return;
     if (response.action === "send") {
+      console.log("Response action was send")
       message.channel.send(response.data);
-    } else if (response.action === "key") {
-      console.log("check1");
+    } else if (response.action === "return") {
       if (response.key === "secretKey") {
-        console.log("check3");
+        console.log("Response action was return");
         message.channel.send(secret);
       }
     }
-    console.log("check2");
   }
 
   // HARDCODED RESPONSES TO THINGS BC LAZY :( ////////////////////////////////////////////////////////
