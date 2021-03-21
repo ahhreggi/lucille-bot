@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
-const { codeBlock } = require("../utility");
+// const { codeBlock } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -11,46 +11,60 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  const sectionDelim = "|";
-  const fieldDelim = "%";
-  const omit = "$";
-  const space = "\u200B";
+  const outerDelim = "$";
+  const innerDelim = "--";
+  const space = { name: space, value: space };
 
-  let color = "#fce303"; // yellow
+  // const options = {
+  //   color: "#fce303",
+  //   title: null,
+  //   desc: null
+  // }
 
-  const fields = [];
+  let embed = new Discord.MessageEmbed();
 
   try {
-    let cmdArgs = args.join(" ").split(sectionDelim);
-    for (const arg of cmdArgs) {
-      const [title, body] = arg.split(fieldDelim);
-      if (title === omit && body === omit) {
-        fields.push({ name: space, value: space });
-      } else if (title === "color") {
-        color = body;
-      } else if (title !== omit && body === omit) {
-        fields.push({ name: title, value: space });
-      } else if (title === omit && body !== omit) {
-        fields.push({ name: space, value: body });
-      } else if (title && body) {
-        fields.push({ name: title, value: body });
+    // Parse args to isolate options
+    let argOpts = args.join(" ").split(outerDelim).slice(1);
+    // For each option
+    for (const opt of argOpts) {
+      // Parse option to isolate property and value
+      const options = opt.split(innerDelim);
+      const property = options[0];
+
+      // "space" => add a spacer
+      if (options[0] === "space") {
+        embed = embed.addField(space, space);
+
+      } else if (options.length > 1) {
+
+        const value = options[1];
+
+        // "color--ff0000" => set the embed color
+        if (property === "color") {
+          const color = value.startsWith("#") ? value : `#${value}`;
+          embed = embed.setColor(color);
+
+          // "title--This is the title" => set the title
+        } else if (property === "title") {
+          const title = value;
+          embed = embed.setTitle(title);
+
+          // "desc--This is the description" => set the description
+        } else if (property === "desc") {
+          const desc = value;
+          embed = embed.setDescription(desc);
+        }
       }
     }
+
+    message.channel.send(embed);
     // message.delete();
+
   } catch (err) {
     return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
-  }
 
-  if (fields.length) {
-    const embed = new Discord.MessageEmbed()
-      .setColor(color)
-      .addFields(...fields);
-    message.channel.send(embed);
-  } else {
-    message.channel.send("incorrect syntax bro, here's an example:");
-    message.channel.send(codeBlock("!embed color%#339FFF|title1%this is the first sentence|$%$|title2%this is the second sentence"));
   }
-
 };
 
 //////////////////////////////////////////////////////////////////
