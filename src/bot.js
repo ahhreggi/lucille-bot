@@ -72,7 +72,7 @@ client.on("message", (message) => {
 
         // Response triggers a command (cannot pass args) then pottentially loops back to response key handler
         if (promptResponse.startsWith(prefix)) {
-          const [promptCmd, trigger] = promptResponse.split(":");
+          const [promptCmd, trigger] = promptResponse.slice(1).split(":");
           const data = { help, cmdVars, trigger };
           response = runCommand(message, allCommands, promptCmd, ["!prompt"], data);
 
