@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const Command = require("../models/command");
 // const Response = require("../models/response");
 // const { hasRole } = require("../utility");
@@ -12,7 +10,7 @@ const desc = "";
 const roles = ["user"];
 const alias = [];
 
-const cmdFunction = (message, args) => {
+const cmdFunction = (message, args) => { // eslint-disable-line
 
 
 

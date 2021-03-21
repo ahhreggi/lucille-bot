@@ -41,7 +41,8 @@ if (["add", "addcmd", "addcommand"].includes(KEY)) {
       .then((data => {
         const template = data
           .replace("const name = \"\";", `const name = "${CMD}";`)
-          .replace("const desc = \"\";", `const desc = "${DESC}";`);
+          .replace("const desc = \"\";", `const desc = "${DESC}";`)
+          .replace(" // eslint-disable-line", "");
         return template;
       }))
       .then(data => writeFile(commandsDirectory + filename, data))
