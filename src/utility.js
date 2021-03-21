@@ -208,12 +208,12 @@ const hasRole = (user, roles) => {
 };
 
 /** Returns a random response string if a message contains a prompt trigger, false otherwise.
- * @param {string} message
- *        The content of a message
- * @param {Array.<{triggers: [string], responses: [string]}>}
- *        An array of objects containing prompt triggers and their associated responses.
+ * @param  {string} message
+ *         The content of a message
+ * @param  {Array.<{triggers: [string], responses: [string]}>}
+ *         An array of objects containing prompt triggers and their associated responses.
  * @return {string|boolean}
- *        A random response or false if the message contained no triggers.
+ *         A random response or false if the message contained no triggers.
  */
 const getPrompt = (message, prompts) => {
   let promptResponse = false;
