@@ -56,6 +56,10 @@ const cmdFunction = (message, args) => {
         } else if (property === "desc") {
           const desc = value;
           embed = embed.setDescription(desc);
+
+          // "The field title--The field description" => add a field
+        } else if (property && value) {
+          embed = embed.addField(property, value);
         }
       }
     }
