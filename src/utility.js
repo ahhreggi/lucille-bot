@@ -217,7 +217,7 @@ const hasRole = (user, roles) => {
  */
 const getPrompt = (message, prompts) => {
   let promptResponse = false;
-  for (const prompt of prompts) {
+  for (const prompt in prompts) {
     const { triggers, responses } = prompt;
     for (const trigger of triggers) {
       if (message.toLowerCase().includes(trigger)) {

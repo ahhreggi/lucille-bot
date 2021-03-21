@@ -1,5 +1,5 @@
-module.exports = [
-  {
+module.exports = {
+  goodmorning: {
     triggers: [
       "good morning lucille",
       "morning lucille",
@@ -14,7 +14,7 @@ module.exports = [
       "<:ahhGM:730258615268540537>"
     ]
   },
-  {
+  goodafternoon: {
     triggers: [
       "good afternoon"
     ],
@@ -22,7 +22,7 @@ module.exports = [
       "good ***morning*** >:("
     ]
   },
-  {
+  nou: {
     triggers: [
       "no u"
     ],
@@ -30,7 +30,7 @@ module.exports = [
       "no u %MEMBER%"
     ]
   },
-  {
+  shutup: {
     triggers: [
       "shut up lucille"
     ],
@@ -41,7 +41,7 @@ module.exports = [
       "wow ok i see u"
     ]
   },
-  {
+  wakeup: {
     triggers: [
       "wake up",
       "wake up lucille"
@@ -50,7 +50,7 @@ module.exports = [
       "I'M AWAKE D:"
     ]
   },
-  {
+  bye: {
     triggers: [
       "bye"
     ],
@@ -61,7 +61,7 @@ module.exports = [
       "okay bye :("
     ]
   },
-  {
+  thanks: {
     triggers: [
       "thanks lucille"
     ],
@@ -69,7 +69,7 @@ module.exports = [
       "np"
     ]
   },
-  {
+  iwin: {
     triggers: [
       "i win"
     ],
@@ -77,7 +77,7 @@ module.exports = [
       "no u don't lol"
     ]
   },
-  {
+  goodnight: {
     triggers: [
       "good night lucille"
     ],
@@ -89,7 +89,7 @@ module.exports = [
       "night!"
     ]
   },
-  {
+  pog: {
     triggers: [
       "<:ahhpog:797912934549422110>"
     ],
@@ -97,7 +97,7 @@ module.exports = [
       "<:ahhpog:797912934549422110>"
     ]
   },
-  {
+  boogie: {
     triggers: [
       "<:boogie:701313374733991998>"
     ],
@@ -105,7 +105,7 @@ module.exports = [
       "<:boogie:701313374733991998>"
     ]
   },
-  {
+  lucille: {
     triggers: [
       "LUCILLE"
     ],
@@ -113,4 +113,4 @@ module.exports = [
       "WHAT"
     ]
   }
-];
+};
