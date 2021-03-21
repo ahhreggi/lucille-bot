@@ -28,12 +28,12 @@ const cmdFunction = (message, args) => {
         fields.push({ name: space, value: space });
       } else if (title === "color") {
         color = body;
+      } else if (title !== omit && body === omit) {
+        fields.push({ name: title, value: space });
+      } else if (title === omit && body !== omit) {
+        fields.push({ name: space, value: body });
       } else if (title && body) {
         fields.push({ name: title, value: body });
-      } else if (title) {
-        fields.push({ name: title, value: space });
-      } else if (body) {
-        fields.push({ name: space, value: body });
       }
     }
     // message.delete();
