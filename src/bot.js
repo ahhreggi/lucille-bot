@@ -16,7 +16,7 @@ client.on("ready", () => {
 
   // Sending a message to channel #why-me
   client.channels.fetch(config.channelIds.whyMe)
-    .then(channel => channel.send("I'M ONLINE!"))
+    .then(channel => channel.send("hey losers, i'm back... with tacos"))
     .catch(console.error);
 });
 
