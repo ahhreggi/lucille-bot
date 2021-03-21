@@ -45,13 +45,11 @@ client.on("message", (message) => {
 
     // !ask - Trigger 3 sec global cool down while Lucille is thinking
     if (response.key === "askDelay") {
-      console.log("trigger check");
-      message.channel.send(response.data);
-      // cmdVars.askBuffer = response.data;
-      // setTimeout(() => {
-      //   message.channel.send(cmdVars.askBuffer);
-      //   cmdVars.askBuffer = null;
-      // }, 3000)
+      cmdVars.askBuffer = response.content;
+      setTimeout(() => {
+        message.channel.send(cmdVars.askBuffer);
+        cmdVars.askBuffer = null;
+      }, 3000);
     }
 
     //////////////////////////////////////////////////////////////////////
