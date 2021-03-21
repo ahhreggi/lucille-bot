@@ -23,6 +23,8 @@ const cmdFunction = (message, args) => {
 
   let embed = new Discord.MessageEmbed();
 
+  let length = 0;
+
   try {
     // Parse args to isolate options
     let argOpts = args.join(" ").split(outerDelim).slice(1);
@@ -37,6 +39,7 @@ const cmdFunction = (message, args) => {
       // "space" => add a spacer
       if (options[0] === "space") {
         embed = embed.addField(space, space);
+        length++;
 
       } else if (options.length > 1) {
 
@@ -46,26 +49,34 @@ const cmdFunction = (message, args) => {
         if (property === "color") {
           const color = value.startsWith("#") ? value : `#${value}`;
           embed = embed.setColor(color);
+          length++;
 
           // "title--This is the title" => set the title
         } else if (property === "title") {
           const title = value;
           embed = embed.setTitle(title);
+          length++;
 
           // "desc--This is the description" => set the description
         } else if (property === "desc") {
           const desc = value;
           embed = embed.setDescription(desc);
+          length++;
 
           // "The field title--The field description" => add a field
         } else if (property && value) {
           embed = embed.addField(property, value);
+          length++;
         }
       }
     }
 
     try {
-      message.channel.send(embed);
+      if (length) {
+        message.channel.send(embed);
+      } else {
+        message.channel.send("embed shouldn't be empty");
+      }
     } catch (err) {
       message.channel.send("invalid syntax");
     }
