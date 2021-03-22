@@ -12,7 +12,7 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  if (!args.length) return message.channel.send(error);
+  if (!args.length) return;
 
   const error = codeBlock(embedHelp());
   let delim = "\\";
