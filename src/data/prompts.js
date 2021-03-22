@@ -1,5 +1,22 @@
+/**
+ * Prompt data.
+ *
+ * Prompt format:
+ * {
+ *   key: {
+ *     caseSensitive: {true|false},   // Whether or not the trigger messages are case sensitive.
+ *     rule: {"exact"|"includes"},    // Whether the message must include one of the trigger or be exactly equals to it.
+ *                                    // If none is specified (or invalid value), exact comparison will be used.
+ *     triggers: [],                  // String array of trigger messages
+ *     responses: []                  // String array of response messages
+ *   }
+ * }
+ */
+
 module.exports = {
   goodmorning: {
+    caseSensitive: false,
+    rule: "includes",
     triggers: [
       "good morning lucille",
       "morning lucille",
@@ -15,6 +32,8 @@ module.exports = {
     ]
   },
   goodafternoon: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "good afternoon"
     ],
@@ -23,6 +42,8 @@ module.exports = {
     ]
   },
   nou: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "no u"
     ],
@@ -31,6 +52,8 @@ module.exports = {
     ]
   },
   shutup: {
+    caseSensitive: false,
+    rule: "includes",
     triggers: [
       "shut up lucille"
     ],
@@ -42,6 +65,8 @@ module.exports = {
     ]
   },
   wakeup: {
+    caseSensitive: false,
+    rule: "includes",
     triggers: [
       "wake up",
       "wake up lucille"
@@ -51,6 +76,8 @@ module.exports = {
     ]
   },
   bye: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "bye"
     ],
@@ -62,6 +89,8 @@ module.exports = {
     ]
   },
   thanks: {
+    caseSensitive: false,
+    rule: "includes",
     triggers: [
       "thanks lucille"
     ],
@@ -70,6 +99,8 @@ module.exports = {
     ]
   },
   iwin: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "i win"
     ],
@@ -78,6 +109,8 @@ module.exports = {
     ]
   },
   goodnight: {
+    caseSensitive: false,
+    rule: "includes",
     triggers: [
       "good night lucille"
     ],
@@ -90,6 +123,8 @@ module.exports = {
     ]
   },
   pog: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "<:ahhpog:797912934549422110>"
     ],
@@ -98,6 +133,8 @@ module.exports = {
     ]
   },
   boogie: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "<:boogie:701313374733991998>"
     ],
@@ -106,6 +143,8 @@ module.exports = {
     ]
   },
   lucille: {
+    caseSensitive: true,
+    rule: "exact",
     triggers: [
       "LUCILLE"
     ],
@@ -114,10 +153,18 @@ module.exports = {
     ]
   },
   heylucille: {
-    triggers: ["hey lucille,"],
-    responses: ["!ask:hey lucille,"],
+    caseSensitive: false,
+    rule: "includes",
+    triggers: [
+      "hey lucille,"
+    ],
+    responses: [
+      "!ask:hey lucille,"
+    ],
   },
   sec: {
+    caseSensitive: false,
+    rule: "exact",
     triggers: [
       "sec"
     ],
