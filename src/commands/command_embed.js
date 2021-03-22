@@ -13,7 +13,7 @@ const alias = [];
 const cmdFunction = (message, args) => {
 
   if (!args.length) {
-    message.channel.send(codeBlock("you need to give me a message to embed, silly\n\nSee: !embed -help, -colors"));
+    message.channel.send(embed("you need to give me a message to embed, silly\n\nSee: !embed -help, -colors").setColor("yellow").setTitle("Embed Help"));
     return;
   }
 
