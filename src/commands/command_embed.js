@@ -162,7 +162,7 @@ const cmdFunction = (message, args) => {
     try {
       console.log("does it reach this");
       message.channel.send(embed)
-        .catch(message.channel.send(codeBlock("Invalid URL.")));
+        .catch(e => message.channel.send(codeBlock("Invalid URL 2.")));
       // message.delete();
     } catch (err) {
       return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
