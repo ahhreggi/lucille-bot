@@ -34,7 +34,7 @@ client.on("message", (message) => {
 
   do {
 
-    // Check if the message is a command (starts with prefix), otherwise do nothing
+    // Check if the message is a command (starts with prefix)
     if (message.content.startsWith(prefix) || response) {
 
       // If there's no response yet, run the command
