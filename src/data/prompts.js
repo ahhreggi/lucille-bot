@@ -1,3 +1,17 @@
+/**
+ * Prompt data.
+ *
+ * Prompt format:
+ * {
+ *   key: {
+ *     caseSensitive: {true|false}, // whether or not the trigger messages are case sensitive
+ *     rule: {"exact"|"includes"},  // whether the message must include one of the trigger or be exactly equals to it
+ *     triggers: [],                // string array of trigger messages
+ *     responses: []                // string array of response messages
+ *   }
+ * }
+ */
+
 module.exports = {
   goodmorning: {
     caseSensitive: false,
