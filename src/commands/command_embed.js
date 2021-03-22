@@ -64,7 +64,7 @@ const cmdFunction = (message, args) => {
   } else if (arg === "-help") {
     return message.channel.send(error);
   } else if (arg === "-colors") {
-    return message.channel.send(codeBlock(`Usage: !embed <color> <message> OR !embed <color code> <message>\n\n Available colors: ${colors.join(", ")}`));
+    return message.channel.send(codeBlock(`Usage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
   }
 
   let embedString;
