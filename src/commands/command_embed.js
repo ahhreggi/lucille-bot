@@ -99,7 +99,11 @@ const cmdFunction = (message, args) => {
 
   if (embedMsg) {
     message.channel.send(embedMsg)
-      .then(() => message.delete())
+      .then(() => {
+        if (deleteMsg) {
+          message.delete();
+        }
+      })
       .catch(() => {
         message.channel.send(error);
       });
