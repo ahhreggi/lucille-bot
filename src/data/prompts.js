@@ -4,10 +4,11 @@
  * Prompt format:
  * {
  *   key: {
- *     caseSensitive: {true|false}, // whether or not the trigger messages are case sensitive
- *     rule: {"exact"|"includes"},  // whether the message must include one of the trigger or be exactly equals to it
- *     triggers: [],                // string array of trigger messages
- *     responses: []                // string array of response messages
+ *     caseSensitive: {true|false},   // Whether or not the trigger messages are case sensitive.
+ *     rule: {"exact"|"includes"},    // Whether the message must include one of the trigger or be exactly equals to it.
+ *                                    // If none is specified (or invalid value), exact comparison will be used.
+ *     triggers: [],                  // String array of trigger messages
+ *     responses: []                  // String array of response messages
  *   }
  * }
  */

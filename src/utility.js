@@ -209,7 +209,8 @@ const hasRole = (user, roles) => {
   return false;
 };
 
-/** Returns a random response string if a message contains a prompt trigger, false otherwise.
+/**
+ * Returns a random response string if a message contains a prompt trigger, false otherwise.
  * @param  {string} message
  *         The content of a message
  * @param  {Array.<{triggers: [string], responses: [string]}>}
@@ -221,15 +222,34 @@ const getPrompt = (message, prompts) => {
   let promptResponse = false;
 
   for (const key in prompts) {
+    const caseSensitive = prompts[key].caseSensitive;
+    const rule = prompts[key].rule;
     const triggers = prompts[key].triggers;
     const responses = prompts[key].responses;
 
-    for (const trigger of triggers) {
-      if (message.toLowerCase() === trigger.toLowerCase()) {
+    for (let trigger of triggers) {
+      // If case sensitive, convert both strings to upper case
+      if (caseSensitive) {
+        message = message.toUpperCase();
+        trigger = trigger.toUpperCase();
+      }
+
+      // Compare strings according to the rule. By default, exact comparison is used.
+      // That's why, there's no check on "exact". Should be added if a new rule is added.
+      const compare = (str1, str2) => {
+        if (rule === "includes") {
+          return str1.includes(str2);
+        } else {
+          return str1 === str2;
+        }
+      };
+
+      if (compare(message, trigger)) {
         promptResponse = responses[Math.floor(Math.random() * responses.length)];
       }
     }
   }
+
   return promptResponse;
 };
 
