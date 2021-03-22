@@ -94,10 +94,9 @@ const cmdFunction = (message, args) => {
         embed = embed.setDescription(value);
         valid++;
 
-        // url
+        // url (requires title)
       } else if (property.toLowerCase() === "url" && value) {
-        embed = embed.setURL(value.replace(";", ":"));
-        valid++;
+        embed = embed.setURL(`http://${value}`);
 
         // author
       } else if (property.toLowerCase() === "author" && value) {
