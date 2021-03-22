@@ -180,8 +180,8 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
 
-  let section = "\n**Examples:**\n    !embed This is a message (auto-detects formatting syntax).";
-  section += "\n    !embed red This is a simple message colored red via command option.";
+  let section = "\n**Examples:**\n    !embed This is a simple message embed.";
+  section += "\n    !embed red This is a simple message embed colored red via command option.";
   section += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
   section += "\n\n**Other command options:**";
   section += "\n    !embed -simple, -s <message> => forces a simple, unformatted message";
