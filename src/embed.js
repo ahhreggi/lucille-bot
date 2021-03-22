@@ -158,7 +158,7 @@ const embed = (string, delim = "\\", forceSimple = false) => {
  */
 const embedHelp = (delim = "\\") => {
 
-  let usage = "\n\nEither use a simple message (!embed This is a message.) or construct using the following options:";
+  let usage = "\n\nEither use a simple message or construct using the following options:";
   usage += `\n\n${delim}color: red`;
   usage += `\n${delim}title: Sample Embed`;
   usage += `\n${delim}url: google.ca`;
@@ -171,8 +171,8 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: space`;
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
-  usage += "\n\nExample: \"This is a message.\"";
-  usage += `\nExample: "${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend."`;
+  usage += "\n\nExample: This is a message.";
+  usage += `\nExample: ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
 
   return usage;
 };
