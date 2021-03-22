@@ -15,12 +15,15 @@ const cmdFunction = (message, args) => {
   let argString = args.join(" ");
 
   const embedMsg = embed(argString);
+  const error = codeBlock(embedHelp());
 
   if (embedMsg) {
     message.channel.send(embedMsg)
       .catch(() => {
-        message.channel.send(codeBlock(embedHelp()));
+        message.channel.send(error);
       });
+  } else {
+    message.channel.send(error);
   }
 };
 
