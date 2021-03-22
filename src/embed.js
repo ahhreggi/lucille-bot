@@ -27,11 +27,13 @@ const Discord = require("discord.js");
  *         Optional delimiter to use instead of "\".
  * @param  {boolean} forceSimple
  *         When set to true, this will always return the string as a simple message embed.
+ * @param  {string|null} color
+ *         An optional color to use. Overrides all other formatting.
  * @return {Discord.MessageEmbed|boolean}
  *         Embed object that can be sent to a channel as an embedded message or false
  *         if string is invalid.
  */
-const embed = (string, delim = "\\", forceSimple = false) => {
+const embed = (string, delim = "\\", forceSimple = false, color = null) => {
 
   const innerDelim = ":";
   const space = "\u200B";
@@ -43,7 +45,9 @@ const embed = (string, delim = "\\", forceSimple = false) => {
 
   // If a simple message is given => embed the entire string as a description
   if (!string.startsWith(delim) || forceSimple) {
-    embedMsg.setDescription(string);
+    embedMsg = embedMsg.setDescription(string);
+    // If a color is provided for a simple message, set color
+    embedMsg = embedMsg.setColor(color.toUpperCase());
     return embedMsg;
   }
 
@@ -141,6 +145,9 @@ const embed = (string, delim = "\\", forceSimple = false) => {
     } else if (!footer && footerimg) {
       return false;
     }
+
+    // If a color is provided, set color
+    embedMsg = embedMsg.setColor(color.toUpperCase());
 
   }
 

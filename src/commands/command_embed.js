@@ -12,9 +12,56 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  let argString = args.join(" ");
+  if (!args.length) return;
 
-  const embedMsg = embed(argString);
+
+  let delim = "";
+  let forceSimple = false;
+  let color = "";
+
+  let argStrIndex;
+
+  // Command usage: !embed -S -R -B -Y -G -W -K embedString
+  // If an option is provided, the embed will be simple.
+  // If a delim is provided, the embed can be either simple or formatted.
+
+  const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray"];
+
+  const arg = args[0];
+  if (arg === "-S") {
+    forceSimple = true;
+  } else if (colors.includes(arg)) {
+    color = arg;
+  } else if (arg === "-!") {
+    delim = "!";
+  } else if (arg === "-%") {
+    delim = "%";
+  } else if (arg === "-&") {
+    delim = "&";
+  } else if (arg === "-$") {
+    delim = "$";
+  } else {
+    // If an option isn't provided, embedString starts at index 0
+    argStrIndex = 0;
+  }
+
+  let embedString;
+  // If a delim is provided, embedString starts at index 1 and must start with delim
+  if (delim) {
+    argStrIndex = 1;
+    if (!args[1].startsWith(delim)) {
+      return message.channel.send(codeBlock("Message must be formatted if using an optional property identifier."));
+    }
+
+  } else if (color) {
+    embedString = args.slice(1).join(" ");
+    return embed(embedString, delim, true, color);
+  }
+
+  embedString = args.slice(argStrIndex).join(" ");
+
+
+  const embedMsg = embed(embedString, delim, forceSimple);
   const error = codeBlock(embedHelp());
 
   if (embedMsg) {
