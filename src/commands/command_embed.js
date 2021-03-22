@@ -22,7 +22,7 @@ const cmdFunction = (message, args) => {
   let color;
 
   // Command usage: !embed <color> <message>
-  // If a color is provided, the embed will be simple.
+  // If a color is provided, the embed will be simple
 
   const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray"];
 
@@ -35,7 +35,6 @@ const cmdFunction = (message, args) => {
 
   let embedString;
   let embedMsg;
-  // If a delim is provided, embedString starts at index 1 and must start with delim
 
   if (color && args.length === 1) {
     return message.channel.send(error);
@@ -54,9 +53,10 @@ const cmdFunction = (message, args) => {
       .catch(() => {
         message.channel.send(error);
       });
-  } else {
-    message.channel.send(error);
   }
+
+  message.channel.send(error);
+
 };
 
 //////////////////////////////////////////////////////////////////

@@ -4,6 +4,7 @@ const { Client } = require("discord.js");
 
 const config = require("./config.json");
 const { runCommand, parseCommand, getPrompt } = require("./utility");
+const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
 
@@ -21,7 +22,11 @@ client.once("ready", () => {
 
   // Send a message on connection to channel
   client.channels.fetch(config.channelIds.whyMe)
-    .then(channel => channel.send("hey losers, i'm back... with tacos"))
+    .then(channel => {
+      const msg = "hey losers, i'm back... with tacos";
+      const embedMsg = embed(msg, "\\", true, "yellow");
+      channel.send(embedMsg);
+    })
     .catch(console.error);
 });
 
