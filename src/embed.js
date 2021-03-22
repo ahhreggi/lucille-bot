@@ -178,11 +178,11 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: space`;
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
-  usage += "\n\nExamples: !embed This is a message.";
-  usage += "\n          !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
-  usage += `\n          !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
-  usage += "\n\nOther options: !embed -simple, -s <message> =>  forces a simple, unformatted message";
-  usage += "\n\n               !embed -delete, -d <delete>  =>  deletes the user's original message";
+  usage += "\n\nExamples:\n    !embed This is a message.";
+  usage += "\n              !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
+  usage += `\n              !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+  usage += "\n\nOther options:\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
+  usage += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
 
   return usage;
 };
