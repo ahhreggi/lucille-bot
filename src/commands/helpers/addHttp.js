@@ -1,4 +1,4 @@
-// Used for: command_embed.js
+// Used for: command_embed.js, validateUrl.js
 
 /**
  * Returns a URL with an added scheme if it doesn't already have one.

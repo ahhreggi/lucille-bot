@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
 const { codeBlock } = require("../utility");
-const addHttp = require("./helpers/addHttp");
+const validateUrl = require("./helpers/validateUrl");
 // TODO: helper functions to check if URL starts with http://, change global embedprefix, !embed help triggers embedHelp();
 
 ///////////////////////////////////////////////////////////////////
@@ -102,7 +102,9 @@ const cmdFunction = (message, args) => {
 
         // url (requires title)
       } else if (property.toLowerCase() === "url" && value) {
-        embed = embed.setURL(addHttp(value));
+        const url = validateUrl(value);
+        if (!url) return message.channel.send(codeBlock("Invalid URL."));
+        embed = embed.setURL(url);
 
         // author
       } else if (property.toLowerCase() === "author" && value) {
@@ -111,7 +113,9 @@ const cmdFunction = (message, args) => {
 
         // thumbnail
       } else if (property.toLowerCase() === "thumbnail" && value) {
-        embed = embed.setThumbnail(addHttp(value));
+        const url = validateUrl(value);
+        if (!url) return message.channel.send(codeBlock("Invalid URL."));
+        embed = embed.setThumbnail(url);
         valid++;
 
         // footer
@@ -120,11 +124,15 @@ const cmdFunction = (message, args) => {
 
         // footer image
       } else if (property.toLowerCase() === "footerimg" && value) {
-        footerimg = addHttp(value);
+        const url = validateUrl(value);
+        if (!url) return message.channel.send(codeBlock("Invalid URL."));
+        footerimg = url;
 
         // image
       } else if (["image", "img"].includes(property.toLowerCase()) && value) {
-        embed = embed.setImage(addHttp(value));
+        const url = validateUrl(value);
+        if (!url) return message.channel.send(codeBlock("Invalid URL."));
+        embed = embed.setImage(url);
         valid++;
 
         // If the property is none of the above, use the opts as the name and value of a field instead
@@ -134,9 +142,6 @@ const cmdFunction = (message, args) => {
         valid++;
       }
 
-      // Shouldn't ever reach this but just incase
-    } else {
-      return message.channel.send("unhandled case: opts was somehow split into 3");
     }
 
     // Footer requires footer text, img is optional
