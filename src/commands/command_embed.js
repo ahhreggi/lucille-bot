@@ -14,7 +14,7 @@ const cmdFunction = (message, args) => {
 
   if (!args.length) return;
 
-
+  const error = codeBlock(embedHelp());
   let delim = "\\";
   let forceSimple = false;
   let color = "";
@@ -65,7 +65,6 @@ const cmdFunction = (message, args) => {
   embedString = args.slice(argStrIndex).join(" ");
 
   const embedMsg = embed(embedString, delim, forceSimple);
-  const error = codeBlock(embedHelp());
 
   if (embedMsg) {
     message.channel.send(embedMsg)
