@@ -47,8 +47,8 @@ const cmdFunction = (message, args) => {
 
     // If the option is a single string, syntax is invalid
     if (opts.length === 1) {
-      let usage = `Invalid syntax: ${opts[0]}`;
-      usage += "\n\nEither use a direct message (!embed This is a message.) or construct using the following options:";
+      let usage = `Invalid syntax: ${outerDelim}${opts[0]}`;
+      usage += "\n\nEither use a simple message (!embed This is a message.) or construct using the following options:";
       usage += `\n\n${outerDelim}color: red`;
       usage += `\n${outerDelim}title: Sample Embed`;
       usage += `\n${outerDelim}url: google.ca`;
@@ -66,6 +66,7 @@ const cmdFunction = (message, args) => {
       const exampleEmbed = new Discord.MessageEmbed().setColor("RED").setTitle("Google").setURL("http://google.ca").setDescription("Google is your friend.");
       message.channel.send(codeBlock(usage));
       message.channel.send(exampleEmbed);
+      return;
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
