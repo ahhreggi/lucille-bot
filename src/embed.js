@@ -181,9 +181,9 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}Some Field Title: Some text.`;
 
   let section = "\n**Examples:**\n    !embed This is a message (auto-detects formatting syntax).";
-  section += "\n    !embed <color> This is a simple message colored via option.";
+  section += "\n    !embed <color> This is a simple message colored via command option.";
   section += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
-  section += "\n\n**Other options:**";
+  section += "\n\n**Other command options:**";
   section += "\n    !embed -simple, -s <message> => forces a simple, unformatted message";
   section += "\n    !embed -delete, -d <message> => deletes the user's original message";
   section += "\n    !embed -colors, -c => view shorthand color options";
