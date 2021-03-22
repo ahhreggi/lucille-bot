@@ -5,6 +5,7 @@
  * {
  *   key: {
  *     caseSensitive: {true|false},   // Whether or not the trigger messages are case sensitive.
+ *                                    // If not specified, case insensitive.
  *     rule: {"exact"|"includes"},    // Whether the message must include one of the trigger or be exactly equals to it.
  *                                    // If none is specified (or invalid value), exact comparison will be used.
  *     triggers: [],                  // String array of trigger messages
