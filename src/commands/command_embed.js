@@ -6,7 +6,7 @@ const { codeBlock } = require("../utility");
 ///////////////////////////////////////////////////////////////////
 
 const name = "embed";
-const desc = "posts an embed (see !embed help)";
+const desc = "posts an embed (see !embed -help)";
 const roles = ["admin", "vip"];
 const alias = [];
 
@@ -64,7 +64,7 @@ const cmdFunction = (message, args) => {
   } else if (arg === "-help") {
     return message.channel.send(error);
   } else if (arg === "-colors") {
-    return message.channel.send(codeBlock(`Usage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
+    return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message. See !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
   }
 
   let embedString;
