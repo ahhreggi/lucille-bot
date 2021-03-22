@@ -181,6 +181,8 @@ const embedHelp = (delim = "\\") => {
   usage += "\n\nExamples: !embed This is a message.";
   usage += "\n          !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
   usage += `\n          !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+  usage += "\n\nOther options: !embed -simple, -s <message> =>  forces a simple, unformatted message";
+  usage += "\n\n               !embed -delete, -d <delete>  =>  deletes the user's original message";
 
   return usage;
 };

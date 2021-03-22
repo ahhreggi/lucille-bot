@@ -20,6 +20,7 @@ const cmdFunction = (message, args) => {
   const error = codeBlock(embedHelp());
   let delim = "\\";
   let color;
+  let deleteMsg = false;
 
   // Command usage: !embed <color> <message>
   // If a color is provided, the embed will be simple
@@ -57,7 +58,7 @@ const cmdFunction = (message, args) => {
   ];
 
   const arg = args[0].toLowerCase();
-  if (arg === "-S") {
+  if (["-simple", "-s"].includes(arg)) {
     color = "default";
   } else if (colors.includes(arg)) {
     color = arg;
@@ -65,6 +66,8 @@ const cmdFunction = (message, args) => {
     return message.channel.send(error);
   } else if (["-colors", "-c"].includes(arg)) {
     return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message.\nSee !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
+  } else if (["-delete", "-d"].includes(arg)) {
+    deleteMsg = true;
   }
 
   let embedString;
@@ -74,7 +77,10 @@ const cmdFunction = (message, args) => {
     return message.channel.send(error);
   }
 
-  if (color) {
+  if (deleteMsg) {
+    embedString = args.slice(1).join(" ");
+    embedMsg = embed(embedString, delim);
+  } else if (color) {
     embedString = args.slice(1).join(" ");
     embedMsg = embed(embedString, delim, true, color);
   } else if (!color) {
@@ -84,6 +90,7 @@ const cmdFunction = (message, args) => {
 
   if (embedMsg) {
     message.channel.send(embedMsg)
+      .then(() => message.channel.delete())
       .catch(() => {
         message.channel.send(error);
       });
