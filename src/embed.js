@@ -48,7 +48,6 @@ const embed = (string, delim = "\\", forceSimple = false, color = null) => {
     embedMsg = embedMsg.setDescription(string);
     // If a color is provided for a simple message, set color
     embedMsg = color ? embedMsg.setColor(color.toUpperCase()) : embedMsg;
-    console.log(embedMsg);
     return embedMsg;
   }
 
