@@ -53,10 +53,9 @@ const cmdFunction = (message, args) => {
       .catch(() => {
         message.channel.send(error);
       });
+  } else {
+    message.channel.send(error);
   }
-
-  message.channel.send(error);
-
 };
 
 //////////////////////////////////////////////////////////////////
