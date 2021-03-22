@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
 const { codeBlock } = require("../utility");
+// TODO: helper functions to check if URL starts with http://, change global embedprefix, !embed help triggers embedHelp();
 
 ///////////////////////////////////////////////////////////////////
 
@@ -46,23 +47,25 @@ const cmdFunction = (message, args) => {
 
     // If the option is a single string, syntax is invalid
     if (opts.length === 1) {
-      message.channel.send(`invalid option syntax: ${opts[0]}`);
-      let usage = "USAGE:";
-      usage += `\n${outerDelim}color: red`;
-      usage += `\n${outerDelim}title: This is the title`;
+      let usage = `Invalid syntax: ${opts[0]}`;
+      usage += "\n\nEither use a direct message (!embed This is a message.) or construct using the following options:";
+      usage += `\n\n${outerDelim}color: red`;
+      usage += `\n${outerDelim}title: Sample Embed`;
       usage += `\n${outerDelim}url: google.ca`;
       usage += `\n${outerDelim}author: Lucille`;
-      usage += `\n${outerDelim}desc: This is the description`;
+      usage += `\n${outerDelim}desc: This is the description.`;
       usage += `\n${outerDelim}thumbnail: i.imgur.com/pbrZNDp.jpg`;
       usage += `\n${outerDelim}img: i.imgur.com/pbrZNDp.jpg`;
-      usage += `\n${outerDelim}footer: This is the footer`;
+      usage += `\n${outerDelim}footer: This is the footer.`;
       usage += `\n${outerDelim}footerimg: i.imgur.com/pbrZNDp.jpg`;
-      usage += `\n${outerDelim}add: timestamp`;
-      usage += `\n${outerDelim}Field Title #1: Some text.`;
       usage += `\n${outerDelim}add: space`;
-      usage += `\n${outerDelim}Field Title #2: Additional text.`;
+      usage += `\n${outerDelim}add: timestamp`;
+      usage += `\n${outerDelim}Some Field Title: Some text.`;
       usage += `\n\nExample: !embed ${outerDelim}color: red ${outerDelim}title: Google ${outerDelim}url: google.ca ${outerDelim}desc: Google is your friend.`;
-      return message.channel.send(codeBlock(usage));
+
+      const exampleEmbed = new Discord.MessageEmbed().setColor("RED").setTitle("Google").setURL("http://google.ca").setDescription("Google is your friend.");
+      message.channel.send(codeBlock(usage));
+      message.channel.send(exampleEmbed);
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
