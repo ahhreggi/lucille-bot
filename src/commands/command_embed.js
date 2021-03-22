@@ -1,7 +1,6 @@
 // const Discord = require("discord.js");
 const Command = require("../models/command");
 const { embed, embedHelp } = require("../embed");
-const { codeBlock } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -73,7 +72,9 @@ const cmdFunction = (message, args) => {
   } else if (["-help", "-h"].includes(arg)) {
     return message.channel.send(error);
   } else if (["-colors", "-c"].includes(arg)) {
-    return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message.\nSee !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
+    const colorMsg = `Setting a color via shorthand command option will always result in a simple (non-formatted) message.\nSee !embed -help for formatted embeds.\n\n**Usage:**\n!embed <color name> <message>\n!embed <color code> <message>\n\n**Available named colors:**\n${colors.join(", ")}`;
+    const colorHelp = embed(colorMsg).setTitle("Color Options").setColor("YELLOW");
+    return message.channel.send(colorHelp);
   } else if (["-delete", "-d"].includes(arg)) {
     deleteMsg = true;
   }
