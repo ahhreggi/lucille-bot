@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { codeBlock } = require("./utility");
 
 /**
  * Custom embed syntax string parser
@@ -165,8 +166,8 @@ const embed = (string, delim = "\\", forceSimple = false, color = null) => {
  */
 const embedHelp = (delim = "\\") => {
 
-  let usage = "\n\nEither use a simple message or construct using the following options:";
-  usage += `\n\n${delim}color: red`;
+  let desc = "\n\nEither use a simple message or construct using the following options:";
+  let usage = `\n\n${delim}color: red`;
   usage += `\n${delim}title: Sample Embed`;
   usage += `\n${delim}url: https://google.ca`;
   usage += `\n${delim}author: Lucille`;
@@ -178,13 +179,17 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: space`;
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
-  usage += "\n\nExamples:\n    !embed This is a message.";
-  usage += "\n    !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
-  usage += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
-  usage += "\n\nOther options:\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
-  usage += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
 
-  return usage;
+  const exampleDesc = "\n\n**Examples:**";
+  let examples = "\n    !embed This is a message.";
+  examples += "\n    !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
+  examples += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+
+  const optionsDesc = "\n\n**Other options:**";
+  let options = "\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
+  options += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
+
+  return desc + codeBlock(usage) + exampleDesc + codeBlock(examples) + optionsDesc + codeBlock(options);
 };
 
 module.exports = { embed, embedHelp };
