@@ -228,8 +228,8 @@ const getPrompt = (message, prompts) => {
     const responses = prompts[key].responses;
 
     for (let trigger of triggers) {
-      // If case sensitive, convert both strings to upper case
-      if (caseSensitive) {
+      // If not case sensitive, convert both strings to upper case
+      if (!caseSensitive) {
         message = message.toUpperCase();
         trigger = trigger.toUpperCase();
       }
