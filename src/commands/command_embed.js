@@ -30,8 +30,10 @@ const cmdFunction = (message, args) => {
   const arg = args[0];
   if (arg === "-S") {
     forceSimple = true;
+    argStrIndex = 1;
   } else if (colors.includes(arg)) {
     color = arg;
+    console.log("color selected:", color);
   } else if (arg === "-!") {
     delim = "!";
   } else if (arg === "-%") {
@@ -47,6 +49,11 @@ const cmdFunction = (message, args) => {
 
   let embedString;
   // If a delim is provided, embedString starts at index 1 and must start with delim
+
+  if ((delim || color) && args.length === 1) {
+    return message.channel.send(error);
+  }
+
   if (delim) {
     argStrIndex = 1;
     if (!args[1].startsWith(delim)) {
@@ -59,7 +66,6 @@ const cmdFunction = (message, args) => {
   }
 
   embedString = args.slice(argStrIndex).join(" ");
-
 
   const embedMsg = embed(embedString, delim, forceSimple);
   const error = codeBlock(embedHelp());
