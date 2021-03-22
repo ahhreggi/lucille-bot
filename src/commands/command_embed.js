@@ -57,7 +57,7 @@ const cmdFunction = (message, args) => {
       return message.channel.send(codeBlock("Message must be formatted if using an optional property identifier."));
     }
 
-  } else if (color) {
+  } else if (color || forceSimple) {
     embedString = args.slice(1).join(" ");
     return embed(embedString, delim, true, color);
   }
