@@ -58,14 +58,11 @@ const cmdFunction = (message, args) => {
 
     const opts = opt.replace(innerDelim, "%~$!%").split("%~$!%"); // in case innerDelim (:) is elsewhere in the value
 
-    // If the option is a single string and not a space/timestamp, syntax is invalid
-    if (opts.length === 1 && !["space", "timestamp"].includes(opts[0])) {
+    // If the option is a single string, syntax is invalid
+    if (opts.length === 1) {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
 
-      // If the option is a single string and is "space", add a spacer
-    } else if (opts.length === 1 && opts[0] === "space") {
-      embed = embed.addField(space, space);
 
       // If the option is a single string and is a "timestamp", add a timestamp
     } else if (opts.length === 1 && opts[0] === "timestamp") {
@@ -80,8 +77,16 @@ const cmdFunction = (message, args) => {
 
       // VALID PROPERTIES:
 
-      // color
-      if (property.toLowerCase() === "color" && value) { // TODO: make presets?
+      // spacer
+      if (property.toLowerCase() === "add" && value.toLowerCase() === "space") {
+        embed = embed.addField(space, space);
+
+        // timestamp
+      } else if (property.toLowerCase() === "add" && value.toLowerCase() === "timestamp") {
+        embed = embed.setTimestamp();
+
+        // color
+      } else if (property.toLowerCase() === "color" && value) { // TODO: make presets?
         embed = embed.setColor(value.toUpperCase());
 
         // title
@@ -105,7 +110,7 @@ const cmdFunction = (message, args) => {
 
         // thumbnail
       } else if (property.toLowerCase() === "thumbnail" && value) {
-        embed = embed.setThumbnail(value.replace(";", ":"));
+        embed = embed.setThumbnail(`http://${value}`);
         valid++;
 
         // footer
@@ -114,11 +119,11 @@ const cmdFunction = (message, args) => {
 
         // footer image
       } else if (property.toLowerCase() === "footerimg" && value) {
-        footerimg = value.replace(";", ":");
+        footerimg = `http://${value}`;
 
         // image
       } else if (["image", "img"].includes(property.toLowerCase()) && value) {
-        embed = embed.setImage(value);
+        embed = embed.setImage(`http://${value}`);
         valid++;
 
         // If the property is none of the above, use the opts as the name and value of a field instead
@@ -136,8 +141,10 @@ const cmdFunction = (message, args) => {
     // Footer requires footer text, img is optional
     if (footer && !footerimg) {
       embed = embed.setFooter(footer);
+      valid++;
     } else if (footer && footerimg) {
       embed = embed.setFooter(footer, footerimg);
+      valid++;
     }
 
   }
