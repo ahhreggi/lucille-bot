@@ -12,6 +12,8 @@ const client = new Client();
 
 let prefix = config.prefix || "!";
 
+let delim = "\\";
+
 // Global variables used or altered by commands
 const cmdVars = {
   askReady: true
@@ -23,8 +25,8 @@ client.once("ready", () => {
   // Send a message on connection to channel
   client.channels.fetch(config.channelIds.whyMe)
     .then(channel => {
-      const msg = "hey losers, i'm back... with tacos";
-      const embedMsg = embed(msg, "\\", true, "yellow");
+      const msg = `${delim}title: hey losers, i'm back... with tacos ${delim}color: yellow`;
+      const embedMsg = embed(msg);
       channel.send(embedMsg);
     })
     .catch(console.error);
