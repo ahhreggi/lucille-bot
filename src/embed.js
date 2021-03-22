@@ -45,6 +45,7 @@ const embed = (string, delim = "\\", forceSimple = false, color = null) => {
 
   // If a simple message is given => embed the entire string as a description
   if (!string.startsWith(delim) || forceSimple) {
+    console.log("check2", color);
     embedMsg = embedMsg.setDescription(string);
     // If a color is provided for a simple message, set color
     embedMsg = color ? embedMsg.setColor(color.toUpperCase()) : embedMsg;

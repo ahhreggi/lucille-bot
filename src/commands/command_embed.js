@@ -34,6 +34,7 @@ const cmdFunction = (message, args) => {
   } else if (colors.includes(arg)) {
     color = arg;
     console.log("color selected:", color);
+    console.log("args:", args);
   } else if (arg === "-!") {
     delim = "!";
   } else if (arg === "-%") {
@@ -58,6 +59,7 @@ const cmdFunction = (message, args) => {
     }
 
   } else if (color || forceSimple) {
+    console.log("check1");
     embedString = args.slice(1).join(" ");
     return embed(embedString, delim, true, color);
   }
