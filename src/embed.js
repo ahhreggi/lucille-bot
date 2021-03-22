@@ -166,7 +166,7 @@ const embed = (string, delim = "\\", forceSimple = false, color = null) => {
  */
 const embedHelp = (delim = "\\") => {
 
-  let desc = "\n\nEither use a simple message or construct using the following options:";
+  const desc = "\n\nEither use a simple message or construct using the following options:";
   let usage = `\n\n${delim}color: red`;
   usage += `\n${delim}title: Sample Embed`;
   usage += `\n${delim}url: https://google.ca`;
@@ -180,16 +180,13 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
 
-  const exampleDesc = "\n\n**Examples:**";
-  let examples = "\n    !embed This is a message.";
-  examples += "\n    !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
-  examples += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+  let section = "\n\n**Examples:**\n    !embed This is a message.";
+  section += "\n    !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
+  section += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+  section += "\n\n**Other options:**\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
+  section += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
 
-  const optionsDesc = "\n\n**Other options:**";
-  let options = "\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
-  options += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
-
-  return desc + codeBlock(usage) + exampleDesc + codeBlock(examples) + optionsDesc + codeBlock(options);
+  return desc + codeBlock(usage) + section;
 };
 
 module.exports = { embed, embedHelp };
