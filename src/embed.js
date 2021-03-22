@@ -178,8 +178,9 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: space`;
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
-  usage += "\n\nExample: This is a message.";
-  usage += `\nExample: ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
+  usage += "\n\nExamples: !embed This is a message.";
+  usage += "\n          !embed <color> This is a simple colored message.";
+  usage += `\n          !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
 
   return usage;
 };
