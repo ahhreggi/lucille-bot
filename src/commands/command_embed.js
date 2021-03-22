@@ -146,6 +146,8 @@ const cmdFunction = (message, args) => {
     } else if (footer && footerimg) {
       embed = embed.setFooter(footer, footerimg);
       valid++;
+    } else if (!footer && footerimg) {
+      return message.channel.send(codeBlock(`Setting a footerimg requires a footer: \n\n!embed ${outerDelim}footer: This is the footer text ${outerDelim}footerimg: i.imgur.com/pbrZNDp.jpg`));
     }
 
   }
