@@ -11,24 +11,24 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  let outerDelim = "$";
+  let outerDelim = "--";
   const innerDelim = ":";
   const space = "\u200B";
 
   let argString = args.join(" ");
 
-  const validDelims = ["$", "%", "#"];
+  // const validDelims = ["$", "%", "#"];
 
   // Set custom delim
-  if (argString.length > 2 && argString.startsWith("--")) {
-    const newDelim = argString[2];
-    if (!validDelims.includes(newDelim)) {
-      return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
-    } else {
-      outerDelim = newDelim;
-      argString = argString.replace(`--${outerDelim}`, "").trim();
-    }
-  }
+  // if (argString.length > 2 && argString.startsWith("--")) {
+  //   const newDelim = argString[2];
+  //   if (!validDelims.includes(newDelim)) {
+  //     return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
+  //   } else {
+  //     outerDelim = newDelim;
+  //     argString = argString.replace(`--${outerDelim}`, "").trim();
+  //   }
+  // }
 
   // Case 0: no arguments are given => send error
   if (!argString) {
