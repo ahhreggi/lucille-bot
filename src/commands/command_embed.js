@@ -46,6 +46,7 @@ const cmdFunction = (message, args) => {
   }
 
   let embedString;
+  let embedMsg;
   // If a delim is provided, embedString starts at index 1 and must start with delim
 
   if ((delim !== "\\" || color) && args.length === 1) {
@@ -61,12 +62,14 @@ const cmdFunction = (message, args) => {
   } else if (color || forceSimple) {
     console.log("check1");
     embedString = args.slice(1).join(" ");
-    return embed(embedString, delim, true, color);
+    embedMsg = embed(embedString, delim, true, color);
   }
 
-  embedString = args.slice(argStrIndex).join(" ");
-
-  const embedMsg = embed(embedString, delim, forceSimple);
+  if (!color) {
+    embedString = args.slice(argStrIndex).join(" ");
+    embedMsg = embed(embedString, delim, forceSimple);
+    console.log("check 5");
+  }
 
   if (embedMsg) {
     message.channel.send(embedMsg)
