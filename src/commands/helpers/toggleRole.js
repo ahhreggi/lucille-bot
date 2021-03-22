@@ -1,3 +1,5 @@
+// Used for: command_bot.js, command_mod.js, command_vip.js
+
 const errors = require("../configs/errors");
 const {
   codeBlock,

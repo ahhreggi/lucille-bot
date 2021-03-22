@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
 const { codeBlock } = require("../utility");
+const addHttp = require("./helpers/addHttp");
 // TODO: helper functions to check if URL starts with http://, change global embedprefix, !embed help triggers embedHelp();
 
 ///////////////////////////////////////////////////////////////////
@@ -101,7 +102,7 @@ const cmdFunction = (message, args) => {
 
         // url (requires title)
       } else if (property.toLowerCase() === "url" && value) {
-        embed = embed.setURL(`http://${value}`);
+        embed = embed.setURL(addHttp(value));
 
         // author
       } else if (property.toLowerCase() === "author" && value) {
@@ -110,7 +111,7 @@ const cmdFunction = (message, args) => {
 
         // thumbnail
       } else if (property.toLowerCase() === "thumbnail" && value) {
-        embed = embed.setThumbnail(`http://${value}`);
+        embed = embed.setThumbnail(addHttp(value));
         valid++;
 
         // footer
@@ -119,11 +120,11 @@ const cmdFunction = (message, args) => {
 
         // footer image
       } else if (property.toLowerCase() === "footerimg" && value) {
-        footerimg = `http://${value}`;
+        footerimg = addHttp(value);
 
         // image
       } else if (["image", "img"].includes(property.toLowerCase()) && value) {
-        embed = embed.setImage(`http://${value}`);
+        embed = embed.setImage(addHttp(value));
         valid++;
 
         // If the property is none of the above, use the opts as the name and value of a field instead

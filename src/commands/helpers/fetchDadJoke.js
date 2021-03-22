@@ -1,3 +1,5 @@
+// Used for: command_dadJoke.js
+
 const request = require("request-promise-native");
 
 /**
@@ -5,7 +7,7 @@ const request = require("request-promise-native");
  * @return {object}
  *         Request object.
  */
-const fetchDadJoke = function() {
+const fetchDadJoke = () => {
   const options = {
     uri: "https://icanhazdadjoke.com/",
     headers: {
