@@ -13,11 +13,19 @@ const alias = [];
 const cmdFunction = (message, args) => {
 
   if (!args.length) {
-    message.channel.send(embed("you need to give me a message to embed, silly\n\nSee: !embed -help, -colors").setColor("yellow").setTitle("Embed Help"));
+    message.channel.send(
+      embed("you need to give me a message to embed, silly")
+        .setColor("YELLOW")
+        .setTitle("psst...")
+        .setFooter("See: !embed -help, -colors")
+    );
     return;
   }
 
-  const error = codeBlock(embedHelp());
+  const error = embed(embedHelp())
+    .setColor("YELLOW")
+    .setTitle("Embed Help");
+
   let delim = "\\";
   let color;
   let deleteMsg = false;
