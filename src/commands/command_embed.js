@@ -28,9 +28,11 @@ const cmdFunction = (message, args) => {
 
   const arg = args[0];
   if (arg === "-S") {
-    color = "gray";
+    color = "yellow";
   } else if (colors.includes(arg)) {
     color = arg;
+  } else if (arg === "help") {
+    return message.channel.send(error);
   }
 
   let embedString;
