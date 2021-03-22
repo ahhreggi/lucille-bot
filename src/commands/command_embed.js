@@ -18,8 +18,8 @@ const cmdFunction = (message, args) => {
   let delim = "\\";
   let color;
 
-  // Command usage: !embed -S -R -B -Y -G -W -K embedString
-  // If an option is provided, the embed will be simple.
+  // Command usage: !embed <color> <message>
+  // If a color is provided, the embed will be simple.
 
   const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray"];
 
@@ -28,8 +28,6 @@ const cmdFunction = (message, args) => {
     color = "gray";
   } else if (colors.includes(arg)) {
     color = arg;
-    console.log("color selected:", color);
-    console.log("args:", args);
   }
 
   let embedString;
