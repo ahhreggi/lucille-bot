@@ -17,7 +17,7 @@ const cmdFunction = (message, args) => {
   const error = codeBlock(embedHelp());
   let delim = "\\";
   let forceSimple = false;
-  let color = "";
+  let color;
 
   let argStrIndex = 0;
 
@@ -57,16 +57,14 @@ const cmdFunction = (message, args) => {
     embedString = args.slice(1).join(" ");
     if (args[1] && !args[1].startsWith(delim)) {
       return message.channel.send(codeBlock("Message must be formatted if using an optional property identifier."));
+    } else if (args[1]) {
+      embedMsg = embed(embedString, delim, false);
     }
 
-  }
-
-  if (color || forceSimple) {
+  } else if (color || forceSimple) {
     embedString = args.slice(1).join(" ");
     embedMsg = embed(embedString, delim, true, color);
-  }
-
-  if (!color) {
+  } else if (!color) {
     embedString = args.slice(argStrIndex).join(" ");
     embedMsg = embed(embedString, delim, forceSimple);
   }
