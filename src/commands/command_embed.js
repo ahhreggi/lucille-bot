@@ -37,7 +37,7 @@ const cmdFunction = (message, args) => {
     "luminous_vivid_pink",
     "dark_vivid_pink",
     "gold",
-    "dark-gold",
+    "dark_gold",
     "orange",
     "dark_orange",
     "red",
@@ -61,9 +61,9 @@ const cmdFunction = (message, args) => {
     color = "default";
   } else if (colors.includes(arg)) {
     color = arg;
-  } else if (arg === "-help") {
+  } else if (arg === "-help" || arg === "-h") {
     return message.channel.send(error);
-  } else if (arg === "-colors") {
+  } else if (arg === "-colors" || arg === "-c") {
     return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message. See !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
   }
 
