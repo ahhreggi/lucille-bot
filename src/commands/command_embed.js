@@ -29,7 +29,7 @@ const cmdFunction = (message, args) => {
     "aqua",
     "dark_aqua",
     "green",
-    "dark-green",
+    "dark_green",
     "blue",
     "dark_blue",
     "purple",
