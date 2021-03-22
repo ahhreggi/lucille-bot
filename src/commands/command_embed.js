@@ -6,7 +6,7 @@ const { codeBlock } = require("../utility");
 ///////////////////////////////////////////////////////////////////
 
 const name = "embed";
-const desc = "posts an embed";
+const desc = "posts an embed (see !embed help)";
 const roles = ["admin", "vip"];
 const alias = [];
 
@@ -27,7 +27,7 @@ const cmdFunction = (message, args) => {
   const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray"];
 
   const arg = args[0];
-  if (arg === "-S") {
+  if (arg.toUpperCase() === "-S") {
     color = "yellow";
   } else if (colors.includes(arg)) {
     color = arg;
