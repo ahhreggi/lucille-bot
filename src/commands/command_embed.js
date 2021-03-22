@@ -55,16 +55,16 @@ const cmdFunction = (message, args) => {
       usage += `\n${outerDelim}url: google.ca`;
       usage += `\n${outerDelim}author: Lucille`;
       usage += `\n${outerDelim}desc: This is the description.`;
-      usage += `\n${outerDelim}thumbnail: i.imgur.com/pbrZNDp.jpg`;
-      usage += `\n${outerDelim}img: i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}thumbnail: https://i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}img: https://i.imgur.com/pbrZNDp.jpg`;
       usage += `\n${outerDelim}footer: This is the footer.`;
-      usage += `\n${outerDelim}footerimg: i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}footerimg: https://i.imgur.com/pbrZNDp.jpg`;
       usage += `\n${outerDelim}add: space`;
       usage += `\n${outerDelim}add: timestamp`;
       usage += `\n${outerDelim}Some Field Title: Some text.`;
-      usage += `\n\nExample: !embed ${outerDelim}color: red ${outerDelim}title: Google ${outerDelim}url: google.ca ${outerDelim}desc: Google is your friend.`;
+      usage += `\n\nExample: !embed ${outerDelim}color: red ${outerDelim}title: Google ${outerDelim}url: https://google.ca ${outerDelim}desc: Google is your friend.`;
 
-      const exampleEmbed = new Discord.MessageEmbed().setColor("RED").setTitle("Google").setURL("http://google.ca").setDescription("Google is your friend.");
+      const exampleEmbed = new Discord.MessageEmbed().setColor("RED").setTitle("Google").setURL("https://google.ca").setDescription("Google is your friend.");
       message.channel.send(codeBlock(usage));
       message.channel.send(exampleEmbed);
       return;
@@ -160,6 +160,7 @@ const cmdFunction = (message, args) => {
   // The embed is sent only if at least one valid option was set
   if (valid) {
     try {
+      console.log("does it reach this");
       message.channel.send(embed);
       // message.delete();
     } catch (err) {
