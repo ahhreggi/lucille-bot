@@ -16,7 +16,7 @@ const cmdFunction = (message, args) => {
   const space = "\u200B";
 
   let argString = args.join(" ");
-  message.channel.send("argstr", `<${argString}>`);
+  message.channel.send("args", `<${args}>`);
 
   const validDelims = ["$", "%", "#"];
 
