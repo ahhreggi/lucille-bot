@@ -11,11 +11,24 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  const outerDelim = "$";
+  let outerDelim = "$";
   const innerDelim = ":";
-  const space = { name: "\u200B", value: "\u200B" };
+  const space = "\u200B";
 
   let argString = args.join(" ");
+
+  const validDelims = ["$", "%", "#"];
+
+  // Set custom delim
+  if (argString.length > 2 && argString.startsWith("--")) {
+    const newDelim = argString[2];
+    if (!validDelims.includes(newDelim)) {
+      return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
+    } else {
+      outerDelim = newDelim;
+      argString = argString.replace(`--${outerDelim}`, "").trim();
+    }
+  }
 
   // Case 0: no arguments are given => send error
   if (!argString) {
@@ -33,6 +46,8 @@ const cmdFunction = (message, args) => {
   // Case 2: options are provided => must start with $
 
   let valid = 0;
+  let footer = "";
+  let footerimg;
 
   // Parse args to isolate options
   let argOpts = args.join(" ").split(outerDelim).slice(1); // .slice(1) to remove '' at index 0
@@ -41,16 +56,20 @@ const cmdFunction = (message, args) => {
   // Invalid syntax => send an error
   for (const opt of argOpts) {
 
-    const opts = opt.trim().replace(innerDelim, "%~%").split("%~%"); // in case innerDelim (:) is elsewhere in the value
+    const opts = opt.replace(innerDelim, "%~$!%").split("%~$!%"); // in case innerDelim (:) is elsewhere in the value
 
-    // If the option is a single string and not a space, syntax is invalid
-    if (opts.length === 1 && opts[0] !== "space") {
+    // If the option is a single string and not a space/timestamp, syntax is invalid
+    if (opts.length === 1 && !["space", "timestamp"].includes(opts[0])) {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
 
-      // If the option is a single string and is a space, add a spacer
+      // If the option is a single string and is "space", add a spacer
     } else if (opts.length === 1 && opts[0] === "space") {
-      embed = embed.addField(space);
+      embed = embed.addField(space, space);
+
+      // If the option is a single string and is a "timestamp", add a timestamp
+    } else if (opts.length === 1 && opts[0] === "timestamp") {
+      embed = embed.setTimestamp();
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
@@ -61,25 +80,49 @@ const cmdFunction = (message, args) => {
 
       // VALID PROPERTIES:
 
-      // "color: ff0000" => set the embed color
-      if (property.toLowerCase() === "color" && value) {
-        const color = value.startsWith("#") ? value : `#${value}`; // --> TODO: check if # is necessary
-        embed = embed.setColor(color);
+      // color
+      if (property.toLowerCase() === "color" && value) { // TODO: make presets?
+        embed = embed.setColor(value.toUpperCase());
 
-        // "title: This is the title" => set the title
+        // title
       } else if (property.toLowerCase() === "title" && value) {
-        const title = value;
-        embed = embed.setTitle(title);
+        embed = embed.setTitle(value);
         valid++;
 
-        // "desc: This is the description" => set the description
+        // desc
       } else if (property.toLowerCase() === "desc" && value) {
-        const desc = value;
-        embed = embed.setDescription(desc);
+        embed = embed.setDescription(value);
+        valid++;
+
+        // url (requires title)
+      } else if (property.toLowerCase() === "url" && value) {
+        embed = embed.setURL(`http://${value}`);
+
+        // author
+      } else if (property.toLowerCase() === "author" && value) {
+        embed = embed.setAuthor(value);
+        valid++;
+
+        // thumbnail
+      } else if (property.toLowerCase() === "thumbnail" && value) {
+        embed = embed.setThumbnail(value.replace(";", ":"));
+        valid++;
+
+        // footer
+      } else if (property.toLowerCase() === "footer" && value) {
+        footer = value;
+
+        // footer image
+      } else if (property.toLowerCase() === "footerimg" && value) {
+        footerimg = value.replace(";", ":");
+
+        // image
+      } else if (["image", "img"].includes(property.toLowerCase()) && value) {
+        embed = embed.setImage(value);
         valid++;
 
         // If the property is none of the above, use the opts as the name and value of a field instead
-        // "The field title: The field description" => add a field
+        // "The field title: The field description"
       } else if (property && value) {
         embed = embed.addField(property, value);
         valid++;
@@ -90,9 +133,16 @@ const cmdFunction = (message, args) => {
       return message.channel.send("unhandled case: opts was somehow split into 3");
     }
 
+    // Footer requires footer text, img is optional
+    if (footer && !footerimg) {
+      embed = embed.setFooter(footer);
+    } else if (footer && footerimg) {
+      embed = embed.setFooter(footer, footerimg);
+    }
+
   }
 
-  // The embed is sent only if at least one valid text option was set
+  // The embed is sent only if at least one valid option was set
   if (valid) {
     try {
       message.channel.send(embed);
