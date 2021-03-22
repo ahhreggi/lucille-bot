@@ -13,7 +13,7 @@ const alias = [];
 const cmdFunction = (message, args) => {
 
   if (!args.length) {
-    message.channel.send("you need to give me a message to embed, silly");
+    message.channel.send(codeBlock("you need to give me a message to embed, silly\n\nSee: !embed -help, -colors"));
     return;
   }
 
@@ -61,10 +61,10 @@ const cmdFunction = (message, args) => {
     color = "default";
   } else if (colors.includes(arg)) {
     color = arg;
-  } else if (arg === "-help" || arg === "-h") {
+  } else if (["-help", "-h"].includes(arg)) {
     return message.channel.send(error);
-  } else if (arg === "-colors" || arg === "-c") {
-    return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message. See !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
+  } else if (["-colors", "-c"].includes(arg)) {
+    return message.channel.send(codeBlock(`Setting a shorthand color option will always result in a simple (non-formatted) message.\nSee !embed -help for formatted embeds.\n\nUsage: !embed <color> <message> OR !embed <color code> <message>\n\nAvailable colors: ${colors.join(", ")}`));
   }
 
   let embedString;
