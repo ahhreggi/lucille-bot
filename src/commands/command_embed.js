@@ -11,31 +11,30 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  let outerDelim = "--";
+  let outerDelim = "$";
   const innerDelim = ":";
   const space = "\u200B";
+  const validDelims = ["$", "%", "\\", ">", "#", "&", "!"];
 
   let argString = args.join(" ");
   console.log("ARGS: ", args);
   console.log("ARGSTRING: ", argString);
 
-  // const validDelims = ["$", "%", "#"];
-
-  // // Set custom delim
-  // if (argString.length > 2 && argString.startsWith("--")) {
-  //   const newDelim = argString[2];
-  //   if (!validDelims.includes(newDelim)) {
-  //     return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
-  //   } else {
-  //     outerDelim = newDelim;
-  //     argString = argString.replace(`--${outerDelim}`, "");
-  //     message.channel.send("set delim to", outerDelim);
-  //   }
-  // }
-
   // Case 0: no arguments are given => send error
   if (!argString) {
     return message.channel.send("embed cannot be empty");
+  }
+
+  // Set custom delim
+  if (args.length && validDelims.map(d => `--${d}`).includes(args[0])) {
+    const newDelim = args[0][2];
+    if (!validDelims.includes(newDelim)) {
+      return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
+    } else {
+      outerDelim = newDelim;
+      argString = argString.replace(`--${outerDelim}`, "");
+      message.channel.send("set delim to", outerDelim);
+    }
   }
 
   let embed = new Discord.MessageEmbed();
