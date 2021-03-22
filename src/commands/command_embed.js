@@ -63,11 +63,6 @@ const cmdFunction = (message, args) => {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
 
-
-      // If the option is a single string and is a "timestamp", add a timestamp
-    } else if (opts.length === 1 && opts[0] === "timestamp") {
-      embed = embed.setTimestamp();
-
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
 
