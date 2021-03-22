@@ -13,7 +13,7 @@ const cmdFunction = (message, args) => {
 
   let outerDelim = "$";
   const innerDelim = ":";
-  const space = { name: "\u200B", value: "\u200B" };
+  const space = "\u200B";
 
   let argString = args.join(" ");
 
@@ -58,17 +58,17 @@ const cmdFunction = (message, args) => {
 
     const opts = opt.replace(innerDelim, "%~$!%").split("%~$!%"); // in case innerDelim (:) is elsewhere in the value
 
-    // If the option is a single string and not a space, syntax is invalid
-    if (opts.length === 1 && opts[0] !== "space") {
+    // If the option is a single string and not a space/timestamp, syntax is invalid
+    if (opts.length === 1 && !["space", "timestamp"].includes(opts[0])) {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
 
       // If the option is a single string and is "space", add a spacer
     } else if (opts.length === 1 && opts[0] === "space") {
-      embed = embed.addField(space);
+      embed = embed.addField(space, space);
 
       // If the option is a single string and is a "timestamp", add a timestamp
-    } else if (opts.length === 1 && opts[0] === "space") {
+    } else if (opts.length === 1 && opts[0] === "timestamp") {
       embed = embed.setTimestamp();
 
       // If the option is a property-value pair...
@@ -82,7 +82,7 @@ const cmdFunction = (message, args) => {
 
       // color
       if (property.toLowerCase() === "color" && value) { // TODO: make presets?
-        embed = embed.setColor(value);
+        embed = embed.setColor(value.toUpperCase());
 
         // title
       } else if (property.toLowerCase() === "title" && value) {
@@ -96,7 +96,7 @@ const cmdFunction = (message, args) => {
 
         // url
       } else if (property.toLowerCase() === "url" && value) {
-        embed = embed.setURL(value);
+        embed = embed.setURL(value.replace(";", ":"));
         valid++;
 
         // author
@@ -106,7 +106,7 @@ const cmdFunction = (message, args) => {
 
         // thumbnail
       } else if (property.toLowerCase() === "thumbnail" && value) {
-        embed = embed.setThumbnail(value);
+        embed = embed.setThumbnail(value.replace(";", ":"));
         valid++;
 
         // footer
@@ -115,7 +115,7 @@ const cmdFunction = (message, args) => {
 
         // footer image
       } else if (property.toLowerCase() === "footerimg" && value) {
-        footerimg = value;
+        footerimg = value.replace(";", ":");
 
         // image
       } else if (["image", "img"].includes(property.toLowerCase()) && value) {
