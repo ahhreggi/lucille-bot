@@ -168,7 +168,7 @@ const embedHelp = (delim = "\\") => {
   let usage = "\n\nEither use a simple message or construct using the following options:";
   usage += `\n\n${delim}color: red`;
   usage += `\n${delim}title: Sample Embed`;
-  usage += `\n${delim}url: google.ca`;
+  usage += `\n${delim}url: https://google.ca`;
   usage += `\n${delim}author: Lucille`;
   usage += `\n${delim}desc: This is the description.`;
   usage += `\n${delim}thumbnail: https://i.imgur.com/pbrZNDp.jpg`;
