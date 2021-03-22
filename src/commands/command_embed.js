@@ -46,6 +46,8 @@ const cmdFunction = (message, args) => {
   // Case 2: options are provided => must start with $
 
   let valid = 0;
+  let footer = "";
+  let footerimg;
 
   // Parse args to isolate options
   let argOpts = args.join(" ").split(outerDelim).slice(1); // .slice(1) to remove '' at index 0
@@ -61,9 +63,13 @@ const cmdFunction = (message, args) => {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
 
-      // If the option is a single string and is a space, add a spacer
+      // If the option is a single string and is "space", add a spacer
     } else if (opts.length === 1 && opts[0] === "space") {
       embed = embed.addField(space);
+
+      // If the option is a single string and is a "timestamp", add a timestamp
+    } else if (opts.length === 1 && opts[0] === "space") {
+      embed = embed.setTimestamp();
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
@@ -75,9 +81,8 @@ const cmdFunction = (message, args) => {
       // VALID PROPERTIES:
 
       // color
-      if (property.toLowerCase() === "color" && value) { // make preset colors in a config file
-        const color = value.startsWith("#") ? value : `#${value}`; // --> TODO: check if # is necessary
-        embed = embed.setColor(color);
+      if (property.toLowerCase() === "color" && value) { // TODO: make presets?
+        embed = embed.setColor(value);
 
         // title
       } else if (property.toLowerCase() === "title" && value) {
@@ -104,8 +109,16 @@ const cmdFunction = (message, args) => {
         embed = embed.setThumbnail(value);
         valid++;
 
+        // footer
+      } else if (property.toLowerCase() === "footer" && value) {
+        footer = value;
+
+        // footer image
+      } else if (property.toLowerCase() === "footerimg" && value) {
+        footerimg = value;
+
         // image
-      } else if (property.toLowerCase() === "image" && value) {
+      } else if (["image", "img"].includes(property.toLowerCase()) && value) {
         embed = embed.setImage(value);
         valid++;
 
@@ -121,13 +134,20 @@ const cmdFunction = (message, args) => {
       return message.channel.send("unhandled case: opts was somehow split into 3");
     }
 
+    // Footer requires footer text, img is optional
+    if (footer && !footerimg) {
+      embed = embed.setFooter(footer);
+    } else if (footer && footerimg) {
+      embed = embed.setFooter(footer, footerimg);
+    }
+
   }
 
   // The embed is sent only if at least one valid option was set
   if (valid) {
     try {
       message.channel.send(embed);
-      message.delete();
+      // message.delete();
     } catch (err) {
       return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
     }
