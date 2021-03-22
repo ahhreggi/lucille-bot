@@ -11,7 +11,7 @@ const client = new Client();
 
 let prefix = config.prefix || "!";
 
-// Variables controlled by command response keys
+// Global variables used or altered by commands
 const cmdVars = {
   askReady: true
 };

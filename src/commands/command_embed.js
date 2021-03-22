@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
-// const { codeBlock } = require("../utility");
+const { codeBlock } = require("../utility");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -11,27 +11,11 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  let outerDelim = "$";
+  const outerDelim = "\\";
   const innerDelim = ":";
   const space = "\u200B";
-  const validDelims = ["$", "%", "\\", ">", "#", "&", "!"];
 
   let argString = args.join(" ");
-  console.log("ARGS: ", args);
-  console.log("ARGSTRING: ", argString);
-
-  // Set custom delim
-  // if (args.length && validDelims.map(d => `--${d}`).includes(args[0])) {
-  if (args.length && args[0] === "use%") {
-    const newDelim = "%";
-    if (!validDelims.includes(newDelim)) {
-      return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
-    } else {
-      outerDelim = newDelim;
-      argString = argString.replace(`--${outerDelim} `, "");
-      message.channel.send("set delim to", outerDelim);
-    }
-  }
 
   // Case 0: no arguments are given => send error
   if (!argString) {
@@ -40,31 +24,45 @@ const cmdFunction = (message, args) => {
 
   let embed = new Discord.MessageEmbed();
 
-  // Case 1: a plain message is given => embed the entire argString as a description and send
+  // Mode 1: a plain message is given => embed the entire argString as a description and send
   if (!argString.startsWith(outerDelim)) {
     embed.setDescription(argString);
     return message.channel.send(embed);
   }
 
-  // Case 2: options are provided => must start with $
+  // Mode 2: message starts with outerDelim => construct embed using options
+
+  // Parse args to isolate options
+  let argOpts = args.join(" ").split(outerDelim).slice(1); // .slice(1) to remove '' at index 0
 
   let valid = 0;
   let footer = "";
   let footerimg;
 
-  // Parse args to isolate options
-  let argOpts = args.join(" ").split(outerDelim).slice(1); // .slice(1) to remove '' at index 0
-
-  // Validate option syntax (when split on the inner delim, will have a length of > 1)
-  // Invalid syntax => send an error
+  // Parse options to isolate property and value
   for (const opt of argOpts) {
 
-    const opts = opt.replace(innerDelim, "%~$!%").split("%~$!%"); // in case innerDelim (:) is elsewhere in the value
+    const opts = opt.replace(innerDelim, "%~/$!%").split("%~/$!%");
 
     // If the option is a single string, syntax is invalid
     if (opts.length === 1) {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
-      return;
+      let usage = "USAGE:";
+      usage += `\n${outerDelim}color: red`;
+      usage += `\n${outerDelim}title: This is the title`;
+      usage += `\n${outerDelim}url: google.ca`;
+      usage += `\n${outerDelim}author: Lucille`;
+      usage += `\n${outerDelim}desc: This is the description`;
+      usage += `\n${outerDelim}thumbnail: i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}img: i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}footer: This is the footer`;
+      usage += `\n${outerDelim}footerimg: i.imgur.com/pbrZNDp.jpg`;
+      usage += `\n${outerDelim}add: timestamp`;
+      usage += `\n${outerDelim}Field Title #1: Some text.`;
+      usage += `\n${outerDelim}add: space`;
+      usage += `\n${outerDelim}Field Title #2: Additional text.`;
+      usage += `\n\nExample: !embed ${outerDelim}color: red ${outerDelim}title: Google ${outerDelim}url: google.ca ${outerDelim}desc: Google is your friend.`;
+      return message.channel.send(codeBlock(usage));
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
