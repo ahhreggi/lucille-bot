@@ -180,11 +180,11 @@ const embedHelp = (delim = "\\") => {
   usage += `\n${delim}add: timestamp`;
   usage += `\n${delim}Some Field Title: Some text.`;
 
-  let section = "\n\n**Examples:**\n    !embed This is a message.";
-  section += "\n    !embed <color> This is a simple message colored via a shorthand option. (see !embed -colors)";
-  section += `\n    !embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.`;
-  section += "\n\n**Other options:**\n    !embed -simple, -s <message> =>  forces a simple, unformatted message";
-  section += "\n    !embed -delete, -d <delete>  =>  deletes the user's original message";
+  let section = "\n**Examples:**\n    !embed This is a message.";
+  section += "\n    `!embed <color> This is a simple colored message.` (see !embed -colors)";
+  section += `\n    \`!embed ${delim}color: red ${delim}title: Google ${delim}url: https://google.ca ${delim}desc: Google is your friend.\``;
+  section += "\n\n**Other options:**\n    `!embed -simple, -s <message>` =>  forces an unformatted message";
+  section += "\n    `!embed -delete, -d <delete>`  =>  deletes the user's original message";
 
   return desc + codeBlock(usage) + section;
 };
