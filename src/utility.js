@@ -219,11 +219,13 @@ const hasRole = (user, roles) => {
  */
 const getPrompt = (message, prompts) => {
   let promptResponse = false;
+
   for (const key in prompts) {
     const triggers = prompts[key].triggers;
     const responses = prompts[key].responses;
+
     for (const trigger of triggers) {
-      if (message.toLowerCase().includes(trigger)) {
+      if (message.toLowerCase() === trigger.toLowerCase()) {
         promptResponse = responses[Math.floor(Math.random() * responses.length)];
       }
     }
