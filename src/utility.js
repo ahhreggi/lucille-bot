@@ -219,38 +219,34 @@ const hasRole = (user, roles) => {
  *         A random response or false if the message contained no triggers.
  */
 const getPrompt = (message, prompts) => {
-  let promptResponse = false;
-
   for (const key in prompts) {
     const caseSensitive = prompts[key].caseSensitive;
-    const rule = prompts[key].rule;
+    const rule = prompts[key].rule ? prompts[key].rule : "exact";
     const triggers = prompts[key].triggers;
     const responses = prompts[key].responses;
-
+    
     for (let trigger of triggers) {
-      // If not case sensitive, convert both strings to upper case
-      if (!caseSensitive) {
-        message = message.toUpperCase();
-        trigger = trigger.toUpperCase();
+      // Dirty!!!
+      // TODO: find a more elegant way of doing this
+      let shouldReturnResponse = false;
+
+      if (!caseSensitive && rule === "includes") {
+        shouldReturnResponse = message.toUpperCase().includes(trigger.toUpperCase());
+      } else if (!caseSensitive && rule === "exact") {
+        shouldReturnResponse = message.toUpperCase() === trigger.toUpperCase();
+      } else if (caseSensitive && rule === "includes") {
+        shouldReturnResponse = message.includes(trigger);
+      } else if (caseSensitive && rule === "exact") {
+        shouldReturnResponse = message === trigger;
       }
 
-      // Compare strings according to the rule. By default, exact comparison is used.
-      // That's why, there's no check on "exact". Should be added if a new rule is added.
-      const compare = (str1, str2) => {
-        if (rule === "includes") {
-          return str1.includes(str2);
-        } else {
-          return str1 === str2;
-        }
-      };
-
-      if (compare(message, trigger)) {
-        promptResponse = responses[Math.floor(Math.random() * responses.length)];
+      if (shouldReturnResponse) {
+        return responses[Math.floor(Math.random() * responses.length)];
       }
     }
   }
 
-  return promptResponse;
+  return false;
 };
 
 module.exports = {
