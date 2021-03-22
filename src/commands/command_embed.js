@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const Command = require("../models/command");
 const { codeBlock } = require("../utility");
-const validateUrl = require("./helpers/validateUrl");
 // TODO: helper functions to check if URL starts with http://, change global embedprefix, !embed help triggers embedHelp();
 
 ///////////////////////////////////////////////////////////////////
@@ -102,9 +101,7 @@ const cmdFunction = (message, args) => {
 
         // url (requires title)
       } else if (property.toLowerCase() === "url" && value) {
-        const url = validateUrl(value);
-        if (!url) return message.channel.send(codeBlock("Invalid URL."));
-        embed = embed.setURL(url);
+        embed = embed.setURL(value);
 
         // author
       } else if (property.toLowerCase() === "author" && value) {
@@ -113,9 +110,7 @@ const cmdFunction = (message, args) => {
 
         // thumbnail
       } else if (property.toLowerCase() === "thumbnail" && value) {
-        const url = validateUrl(value);
-        if (!url) return message.channel.send(codeBlock("Invalid URL."));
-        embed = embed.setThumbnail(url);
+        embed = embed.setThumbnail(value);
         valid++;
 
         // footer
@@ -124,15 +119,11 @@ const cmdFunction = (message, args) => {
 
         // footer image
       } else if (property.toLowerCase() === "footerimg" && value) {
-        const url = validateUrl(value);
-        if (!url) return message.channel.send(codeBlock("Invalid URL."));
-        footerimg = url;
+        footerimg = value;
 
         // image
       } else if (["image", "img"].includes(property.toLowerCase()) && value) {
-        const url = validateUrl(value);
-        if (!url) return message.channel.send(codeBlock("Invalid URL."));
-        embed = embed.setImage(url);
+        embed = embed.setImage(value);
         valid++;
 
         // If the property is none of the above, use the opts as the name and value of a field instead
@@ -162,7 +153,10 @@ const cmdFunction = (message, args) => {
     try {
       console.log("does it reach this");
       message.channel.send(embed)
-        .catch(e => message.channel.send(codeBlock("Invalid URL 2.")));
+        .catch(err => {
+          message.channel.send(codeBlock("Invalid URL."));
+          console.log(err);
+        });
       // message.delete();
     } catch (err) {
       return message.channel.send("hey are you trying to kill me?! <:ahhknife2:823269952240091177>");
