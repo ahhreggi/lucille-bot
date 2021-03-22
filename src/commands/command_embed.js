@@ -11,7 +11,7 @@ const alias = [];
 
 const cmdFunction = (message, args) => {
 
-  let outerDelim = "$";
+  let outerDelim = "--";
   const innerDelim = ":";
   const space = "\u200B";
 
@@ -26,7 +26,8 @@ const cmdFunction = (message, args) => {
       return message.channel.send(`property identifier must be one of ${validDelims.join(", ")}`);
     } else {
       outerDelim = newDelim;
-      argString = argString.replace(`--${outerDelim}`, "").trim();
+      argString = argString.replace(`--${outerDelim}`, "");
+      message.channel.send("set delim to", outerDelim);
     }
   }
 
@@ -62,11 +63,6 @@ const cmdFunction = (message, args) => {
     if (opts.length === 1) {
       message.channel.send(`invalid option syntax: ${opts[0]}`);
       return;
-
-
-      // If the option is a single string and is a "timestamp", add a timestamp
-    } else if (opts.length === 1 && opts[0] === "timestamp") {
-      embed = embed.setTimestamp();
 
       // If the option is a property-value pair...
     } else if (opts.length === 2) {
