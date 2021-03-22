@@ -24,15 +24,47 @@ const cmdFunction = (message, args) => {
   // Command usage: !embed <color> <message>
   // If a color is provided, the embed will be simple
 
-  const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "black", "white", "gray"];
+  const colors = [
+    "default",
+    "aqua",
+    "dark_aqua",
+    "green",
+    "dark-green",
+    "blue",
+    "dark_blue",
+    "purple",
+    "dark_purple",
+    "luminous_vivid_pink",
+    "dark_vivid_pink",
+    "gold",
+    "dark-gold",
+    "orange",
+    "dark_orange",
+    "red",
+    "dark_red",
+    "grey",
+    "dark_grey",
+    "darker_grey",
+    "light_grey",
+    "navy",
+    "dark_navy",
+    "yellow",
+    "white",
+    "blurple",
+    "greyple",
+    "dark_but_not_black",
+    "not_quite_black"
+  ];
 
-  const arg = args[0];
-  if (arg.toUpperCase() === "-S") {
-    color = "yellow";
+  const arg = args[0].toLowerCase();
+  if (arg === "-S") {
+    color = "default";
   } else if (colors.includes(arg)) {
     color = arg;
-  } else if (arg === "help") {
+  } else if (arg === "-help") {
     return message.channel.send(error);
+  } else if (arg === "-colors") {
+    return message.channel.send(codeBlock(`Usage: !embed <color> <message> OR !embed <color code> <message>\n\n Available colors: ${colors.join(", ")}`));
   }
 
   let embedString;
