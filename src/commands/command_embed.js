@@ -58,6 +58,7 @@ const cmdFunction = (message, args) => {
     if (args[1] && !args[1].startsWith(delim)) {
       return message.channel.send(codeBlock("Message must be formatted if using an optional property identifier."));
     } else if (args[1]) {
+      console.log("-->", embedString, delim);
       embedMsg = embed(embedString, delim, false);
     }
 
