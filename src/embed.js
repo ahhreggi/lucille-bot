@@ -147,7 +147,7 @@ const embed = (string, delim = "\\", forceSimple = false, color = null) => {
     }
 
     // If a color is provided, set color
-    embedMsg = embedMsg.setColor(color.toUpperCase());
+    embedMsg = color ? embedMsg.setColor(color.toUpperCase()) : embedMsg;
 
   }
 
