@@ -225,7 +225,7 @@ const getPrompt = (message, prompts) => {
     const triggers = prompts[key].triggers;
     const responses = prompts[key].responses;
     
-    for (let trigger of triggers) {
+    for (const trigger of triggers) {
       // Dirty!!!
       // TODO: find a more elegant way of doing this
       let shouldReturnResponse = false;
