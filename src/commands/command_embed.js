@@ -15,11 +15,11 @@ const cmdFunction = (message, args) => {
   if (!args.length) return;
 
 
-  let delim = "";
+  let delim = "\\";
   let forceSimple = false;
   let color = "";
 
-  let argStrIndex;
+  let argStrIndex = 0;
 
   // Command usage: !embed -S -R -B -Y -G -W -K embedString
   // If an option is provided, the embed will be simple.
@@ -42,21 +42,18 @@ const cmdFunction = (message, args) => {
     delim = "&";
   } else if (arg === "-$") {
     delim = "$";
-  } else {
-    // If an option isn't provided, embedString starts at index 0
-    argStrIndex = 0;
   }
 
   let embedString;
   // If a delim is provided, embedString starts at index 1 and must start with delim
 
-  if ((delim || color) && args.length === 1) {
+  if ((delim !== "\\" || color) && args.length === 1) {
     return message.channel.send(error);
   }
 
-  if (delim) {
+  if (delim !== "\\") {
     argStrIndex = 1;
-    if (!args[1].startsWith(delim)) {
+    if (args[1] && !args[1].startsWith(delim)) {
       return message.channel.send(codeBlock("Message must be formatted if using an optional property identifier."));
     }
 
