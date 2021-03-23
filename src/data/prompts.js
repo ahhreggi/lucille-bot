@@ -172,5 +172,35 @@ module.exports = {
     responses: [
       "mouillé"
     ]
+  },
+  niceDay: {
+    caseSensitive: false,
+    rule: "exact",
+    triggers: [
+      "have a nice day lucille",
+      "have a nice day, lucille",
+      "have a great day lucille",
+      "have a great day, lucille"
+    ],
+    responses: [
+      "you too %MEMBER% :)",
+      "have an awesome day %MEMBER%!",
+      "thank you, have a great day too %MEMBER% :D"
+    ]
+  },
+  lunch: {
+    caseSensitive: false,
+    rule: "exact",
+    triggers: [
+      "what's for lunch, lucille?",
+      "what are we having for lunch, lucille?"
+    ],
+    responses: [
+      "~*munch munch*~, sorry you were saying?",
+      "SUSHIIIIIIIIIIIIIIIIIII!",
+      "tacos ofc",
+      "mcdonald's but shh... don't tell chchmom",
+      "TACOS TIME!"
+    ]
   }
 };
