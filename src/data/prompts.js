@@ -101,7 +101,7 @@ module.exports = {
     responses: [
       "taller than you bro",
       "Reggi is <:ahh61:469753673795371018>",
-      "i don't know but she's definitely not 5'1\""
+      "i don't know but she's definitely not 5'2\""
     ]
   },
   thanks: {
