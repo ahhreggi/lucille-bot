@@ -89,6 +89,21 @@ module.exports = {
       "okay bye :("
     ]
   },
+  heightReggi: {
+    caseSensitive: false,
+    rule: "includes",
+    triggers: [
+      "what's Reggi's height, lucille",
+      "what's Reggi's height lucille",
+      "how tall is Reggi lucille",
+      "how tall is Reggi, lucille"
+    ],
+    responses: [
+      "taller than you bro",
+      "Reggi is <:ahh61:469753673795371018>",
+      "i don't know but she's definitely not 5'1\""
+    ]
+  },
   thanks: {
     caseSensitive: false,
     rule: "includes",
