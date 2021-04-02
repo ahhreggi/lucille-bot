@@ -34,7 +34,7 @@ const postCollectEggsMessage = (client, channelId) => {
           return reaction.emoji.name === "eastertaco" && user.id !== message.author.id;
         };
 
-        const collector = message.createReactionCollector(filter, { time: 5000 });
+        const collector = message.createReactionCollector(filter);
 
         collector.on("collect", (reaction, user) => {
           channel.send(`Yay ${user}! You collected easter tacos!`);
