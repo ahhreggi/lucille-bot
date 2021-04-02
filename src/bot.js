@@ -37,6 +37,12 @@ client.on("message", (message) => {
   // Ignore bot messages
   if (message.author.bot) return;
 
+  // If the guild is null, it's a DM
+  // TODO: double check if that's actually the case
+  if (message.guild === null) {
+    return message.channel.send("don't DM me bro");
+  }
+
   let response;
 
   do {
