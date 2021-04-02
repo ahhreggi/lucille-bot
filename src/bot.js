@@ -7,6 +7,7 @@ const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
+const { postCollectEggsMessagesAtInterval } = require("./easter");
 
 const client = new Client();
 
@@ -103,5 +104,27 @@ client.on("message", (message) => {
   } while (response);
 
 });
+
+
+
+
+
+// =======================================================================
+// WIP - Easter special feature
+// =======================================================================
+
+// TODO: get id of #lucilles-box in ahhreggi server from config
+const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
+const interval = 5000; // 5 seconds
+
+postCollectEggsMessagesAtInterval(client, channelId, interval);
+
+// =======================================================================
+// END OF WIP
+// =======================================================================
+
+
+
+
 
 client.login(process.env.DISCORD_BOT_TOKEN);
