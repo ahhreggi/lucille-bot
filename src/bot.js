@@ -115,7 +115,7 @@ client.on("message", (message) => {
 
 // TODO: get id of #lucilles-box in ahhreggi server from config
 const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
-const interval = 5000; // 5 seconds
+const interval = 10000; // 10 seconds
 
 postCollectEggsMessagesAtInterval(client, channelId, interval);
 
