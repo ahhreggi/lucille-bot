@@ -1,17 +1,38 @@
-// ==========================================================================
+// ================================================================================================
 // WIP - Easter special feature
 //
-// DISCLAIMER: we deliberately put everything in the same file so that
-//             it's easier to delete afterwards. Ideally, this file should
-//             be divided into multiple files.
-//             Also, the code here was written very quickly. Many shortcuts
-//             have been taken.
-// ==========================================================================
+// DISCLAIMERS:
+// - The whole "Easter module" is temporary. It's meant to be deleted after Easter 2021.
+// - The code was written very quickly. Many shortcuts have been taken.
+// - We deliberately put everything in the same file so that it's easier to delete afterwards.
+//   Ideally, this file should be divided into multiple files.
+// ================================================================================================
+
+
+
+// ================================================================================================
+// IMPORTS
+// ================================================================================================
 
 const { embed } = require("./embed");
 
+
+
+// ================================================================================================
+// GLOBAL VARIABLES
+// ================================================================================================
+
+// Embed delimiter
 const delim = "\\";
 
+const eggEmbedImgUrl = "https://imgur.com/hoOqhOr.png"; // https://imgur.com/a/n0L4sn8
+
+const easterTacoEmoji = {
+  id: "827620820473479208",
+  name: "eastertaco"
+};
+
+// Durations and values of the "collect eggs" embed
 const eggDurations = [
   {
     duration: 10000, // 10 seconds
@@ -40,74 +61,23 @@ const eggDurations = [
   {
     duration: 300000, // 5 minutes
     value: 5
-  },
-  {
-    duration: 600000, // 10 minutes
-    value: 1
   }
 ];
 
+
+
+// ================================================================================================
+// HELPER FUNCTIONS
+// ================================================================================================
 const pickRandomEggDuration = () => {
   return eggDurations[Math.floor(Math.random() * eggDurations.length)];
 };
 
-
-const postCollectEggsMessage = (client, channelId) => {
-  client.channels.fetch(channelId)
-    .then(channel => {
-      const eggDuration = pickRandomEggDuration();
-
-      let msg = "";
-
-      // Title
-      msg += `${delim}title: Easter tacos delivery! `;
-      // Color
-      msg += `${delim}color: yellow `;
-      // Description
-      msg += `${delim}desc: React to collect **${eggDuration.value}** easter tacos! Quick, you only have **${millesecondsToReadableString(eggDuration.duration)}**!`;
-      // Image (https://imgur.com/a/n0L4sn8)
-      msg += `${delim}img: https://imgur.com/hoOqhOr.png`;
-
-      const embedMsg = embed(msg);
-      channel.send(embedMsg).then(message => {
-        // TODO: change hard coded emoji (idea: put emoji codes in the config file)
-        message.react("<:eastertaco:827620820473479208>");
-        message.delete({ timeout: eggDuration.duration });
-
-
-        const filter = (reaction, user) => {
-          // or check reaction.emoji.id = "827620820473479208"
-          return reaction.emoji.name === "eastertaco" && user.id !== message.author.id;
-        };
-
-        const collector = message.createReactionCollector(filter);
-
-        collector.on("collect", (reaction, user) => {
-          channel.send(`Yay ${user}! You successfully collected ${eggDuration.value} easter tacos!`);
-        });
-
-        collector.on("end", collected => {
-          const embedEndMessage = embed(`${delim}title: TIME'S UP! ${delim}color: orange ${delim}desc: ${collected.size} people participated. Don't worry if you miss this delivery, there will be more!`);
-          channel.send(embedEndMessage);
-        });
-      });
-    })
-    .catch(console.error);
-};
-
-const postCollectEggsMessagesAtInterval = (client, channelId, interval) => {
-  postCollectEggsMessage(client, channelId);
-  // Below code is commented for now, easier for testing
-  /*
-  setInterval(() => {
-    postCollectEggsMessage(client, channelId);
-  }, interval);
-  */
-};
-
-// Simplified version which works with the simple values that are being used in this file.
-// Might not work with any value (because pretty dumb algorithm that does not treat all
-// possible cases deliberately)
+/**
+ * Simplified version which works with the simple values that are being used in this file. Might
+ * not work with any value (because pretty dumb algorithm that does not treat all possible cases
+ * deliberately).
+ */
 const millesecondsToReadableString = (time) => {
   const timeInSeconds = time / 1000;
 
@@ -117,7 +87,7 @@ const millesecondsToReadableString = (time) => {
 
   } else if (timeInSeconds === 60) {
 
-    return "1 minutes";
+    return "1 minute";
 
   } else {
 
@@ -127,8 +97,93 @@ const millesecondsToReadableString = (time) => {
   }
 };
 
-module.exports = { postCollectEggsMessagesAtInterval };
 
-// =======================================================================
-// END OF WIP
-// =======================================================================
+
+// ================================================================================================
+// MAIN FUNCTIONS
+// ================================================================================================
+
+const postCollectEggsMessage = (client, channelId) => {
+  client.channels.fetch(channelId)
+    .then(channel => {
+      // Picking random duration and value in array
+      // --------------------------------------------------------------
+      const eggDuration = pickRandomEggDuration();
+
+
+      // Building embed message
+      // --------------------------------------------------------------
+      let msg = "";
+
+      // Title
+      msg += `${delim}title: Easter tacos delivery! `;
+      // Color
+      msg += `${delim}color: yellow `;
+      // Description
+      msg += `${delim}desc: React to collect **${eggDuration.value}** easter tacos! Quick, you only have **${millesecondsToReadableString(eggDuration.duration)}**!`;
+      // Image
+      msg += `${delim}img: ${eggEmbedImgUrl}`;
+
+      const embedMsg = embed(msg);
+
+
+      // Sending embed message and handling reactions when it's sent
+      // --------------------------------------------------------------
+      channel.send(embedMsg).then(message => {
+
+        // Setting a delete timeout
+        // --------------------------------------------------------------
+        message.delete({ timeout: eggDuration.duration });
+
+        // Reacting to own embed so that users will be able to react faster
+        // --------------------------------------------------------------
+        message.react(`<:${easterTacoEmoji.name}:${easterTacoEmoji.id}>`);
+
+        // Setting up reaction collector
+        // --------------------------------------------------------------
+        const filter = (reaction, user) => {
+          return reaction.emoji.name === easterTacoEmoji.name && user.id !== message.author.id;
+        };
+
+        const collector = message.createReactionCollector(filter);
+
+        collector.on("collect", (reaction, user) => {
+          channel.send(`Yay ${user}! You successfully collected ${eggDuration.value} easter tacos!`);
+        });
+
+        collector.on("end", collected => {
+          let endMessage = "";
+          endMessage += `${delim}title: TIME'S UP! `;
+          endMessage += `${delim}color: orange`;
+          endMessage += `${delim}desc: ${collected.size} people participated. Don't worry if you miss this delivery, there will be more!`;
+
+          channel.send(embed(endMessage));
+        });
+      });
+    })
+    .catch(console.error);
+};
+
+
+
+// ================================================================================================
+// EXPORTED FUNCTIONS
+// ================================================================================================
+
+const postCollectEggsMessagesAtInterval = (client, channelId, interval) => {
+  postCollectEggsMessage(client, channelId);
+  // Below code is commented for now, make it easier for testing
+  /*
+  setInterval(() => {
+    postCollectEggsMessage(client, channelId);
+  }, interval);
+  */
+};
+
+
+
+// ================================================================================================
+// EXPORTS
+// ================================================================================================
+
+module.exports = { postCollectEggsMessagesAtInterval };
