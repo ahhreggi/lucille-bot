@@ -40,7 +40,7 @@ const easterTacoEmoji = {
 };
 
 // Durations and values of the "collect eggs" embed
-const eggDurations = [
+const deliveryTypes = [
   {
     duration: 10000, // 10 seconds
     value: 500
@@ -71,6 +71,8 @@ const eggDurations = [
   }
 ];
 
+const usersCollectionName = "users";
+const deliveriesCollectionName = "deliveries";
 
 
 
@@ -107,13 +109,14 @@ class Easter {
   // ------------------------------------------------------------------------------------
 
   constructor(db, client, channelId, interval) {
-    this.db = db; // don't really need that anymore since we have the collections
+    this.db = db;
     this.client = client;
     this.channelId = channelId;
     this.interval = interval;
 
-    this.usersCollection = this.db.collection("users");
-    this.deliveriesCollection = this.db.collection("deliveries");
+    // Shortcuts
+    this.usersCollection = this.db.collection(usersCollectionName);
+    this.deliveriesCollection = this.db.collection(deliveriesCollectionName);
   }
 
 
@@ -132,7 +135,7 @@ class Easter {
       // No entry have been found, insert
       if (findRes === null) {
         const userToInsert = new User(user, amount, 1);
-        this.usersCollection.insertOne(userToInsert, {}, (insErr, insRes) => {
+        this.usersCollection.insertOne(userToInsert, {}, (insErr, insRes) => { // eslint-disable-line no-unused-vars
           if (insErr === null) {
             callback(userToInsert);
           } else {
@@ -146,7 +149,7 @@ class Easter {
 
         this.usersCollection.updateOne({ "_id": findRes._id },
           { $set: { "eggsCount": newAmount, "participationCount": newParticipantCount } },
-          (updErr, updRes) => {
+          (updErr, updRes) => { // eslint-disable-line no-unused-vars
             if (updErr === null) {
               callback(new User(findRes.user, newAmount, newParticipantCount));
             } else {
@@ -159,11 +162,25 @@ class Easter {
   }
 
   insertDelivery(delivery) {
-    // TODO
+    this.deliveriesCollection.insertOne(delivery);
   }
 
-  getUserEggsCount(userDiscordId) {
-    // TODO
+  getUserByDiscordId(userDiscordId, callback) {
+    this.usersCollection.findOne({"discordUser.id": userDiscordId}, {}, (err, res) => {
+      if (err !== null) {
+        console.log(err);
+      }
+
+      callback(res);
+    });
+  }
+
+  // Dangerous
+  cleanDatabase() {
+    this.db.dropCollection(usersCollectionName);
+    this.db.dropCollection(deliveriesCollectionName);
+
+    // TODO: catch errors (if collection doesn't exist for example) to prevent app from crashing
   }
 
 
@@ -172,8 +189,8 @@ class Easter {
   // Other helper function
   // ------------------------------------------------------------------------------------
 
-  pickRandomEggDuration() {
-    return eggDurations[Math.floor(Math.random() * eggDurations.length)];
+  pickRandomDeliveryType() {
+    return deliveryTypes[Math.floor(Math.random() * deliveryTypes.length)];
   }
 
   /**
@@ -211,7 +228,7 @@ class Easter {
       .then(channel => {
         // Picking random duration and value in array
         // --------------------------------------------------------------
-        const eggDuration = this.pickRandomEggDuration();
+        const deliveryType = this.pickRandomDeliveryType();
 
 
         // Building embed message
@@ -223,7 +240,7 @@ class Easter {
         // Color
         msg += `${delim}color: yellow `;
         // Description
-        msg += `${delim}desc: React to collect **${eggDuration.value}** easter tacos! Quick, you only have **${this.millesecondsToReadableString(eggDuration.duration)}**!`;
+        msg += `${delim}desc: React to collect **${deliveryType.value}** easter tacos! Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
         // Image
         msg += `${delim}img: ${eggEmbedImgUrl}`;
 
@@ -233,10 +250,12 @@ class Easter {
         // Sending embed message and handling reactions when it's sent
         // --------------------------------------------------------------
         channel.send(embedMsg).then(message => {
+          // Adding delivery to database for future stats
+          this.insertDelivery(new Delivery(deliveryType.duration, deliveryType.value));
 
           // Setting a delete timeout
           // --------------------------------------------------------------
-          message.delete({ timeout: eggDuration.duration });
+          message.delete({ timeout: deliveryType.duration });
 
           // Reacting to own embed so that users will be able to react faster
           // --------------------------------------------------------------
@@ -251,8 +270,8 @@ class Easter {
           const collector = message.createReactionCollector(filter);
 
           collector.on("collect", (reaction, user) => {
-            this.insertOrUpdateUser(user, eggDuration.value, (savedUser) => {
-              channel.send(`Yay ${user}! You successfully collected ${eggDuration.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
+            this.insertOrUpdateUser(user, deliveryType.value, (savedUser) => {
+              channel.send(`Yay ${user}! You successfully collected ${deliveryType.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
             });
           });
 
@@ -277,6 +296,15 @@ class Easter {
       this.postCollectEggsMessage();
     }, this.interval);
     */
+  }
+
+  // SUPER DUPER DANGEROUS
+  // TODO: secure by using existing function for commands
+  runCommand(message) {
+    if (message.content === "!cleanDb") {
+      console.log("clean db");
+      this.cleanDatabase();
+    }
   }
 }
 

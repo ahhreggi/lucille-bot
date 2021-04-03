@@ -8,6 +8,7 @@ const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
+const Easter = require("./easter");
 
 const client = new Client();
 
@@ -19,6 +20,8 @@ let delim = "\\";
 const cmdVars = {
   askReady: true
 };
+
+let easter;
 
 client.once("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
@@ -50,9 +53,7 @@ client.once("ready", () => {
   MongoClient.connect(dbUri, { useUnifiedTopology: true }, (err, cli) => {
     db = cli.db(dbName);
 
-    const Easter = require("./easter");
-
-    const easter = new Easter(db, client, channelId, interval);
+    easter = new Easter(db, client, channelId, interval);
     easter.run();
   });
 
@@ -73,6 +74,11 @@ client.on("message", (message) => {
   if (message.guild === null) {
     return message.channel.send("don't DM me bro");
   }
+
+  // TODO: move that right next to "runCommand" to that we can use parse and perms check logic
+  // SUPER DUPER DANGEROUS
+  // TODO: secure by using existing function for commands
+  easter.runCommand(message);
 
   let response;
 
