@@ -81,6 +81,9 @@ const deliveryTypes = [
 const usersCollectionName = "users";
 const deliveriesCollectionName = "deliveries";
 
+let isUsersCollectionCreated = false;
+let isDeliveriesCollectionCreated = false;
+
 
 
 
@@ -144,6 +147,9 @@ class Easter {
         const userToInsert = new User(user, amount, 1);
         this.usersCollection.insertOne(userToInsert, {}, (insErr, insRes) => { // eslint-disable-line no-unused-vars
           if (insErr === null) {
+            if (isUsersCollectionCreated === false) {
+              isUsersCollectionCreated = true;
+            }
             callback(userToInsert);
           } else {
             console.log("INSERT ERR");
@@ -170,7 +176,15 @@ class Easter {
 
 
   insertDelivery(delivery) {
-    this.deliveriesCollection.insertOne(delivery);
+    this.deliveriesCollection.insertOne(delivery, {}, (err, res) => { // eslint-disable-line no-unused-vars
+      if (err === null) {
+        if (isDeliveriesCollectionCreated === false) {
+          isDeliveriesCollectionCreated = true;
+        }
+      } else {
+        console.log(err);
+      }
+    });
   }
 
 
@@ -190,6 +204,8 @@ class Easter {
       for (const collection of result.cursor.firstBatch) {
         this.db.dropCollection(collection.name);
       }
+      isUsersCollectionCreated = false;
+      isDeliveriesCollectionCreated = false;
       callback();
     });
   }
@@ -207,6 +223,21 @@ class Easter {
       cursor.toArray(function(err, results) {
         callback(results);
       });
+    });
+  }
+
+
+  checkIfCollectionsCreated() {
+    this.db.command({ listCollections: 1, nameOnly: true }, (err, result) => {
+      for (const collection of result.cursor.firstBatch) {
+        if (collection.name === usersCollectionName) {
+          console.log(`Collection ${usersCollectionName} exists`);
+          isUsersCollectionCreated = true;
+        } else if (collection.name === deliveriesCollectionName) {
+          console.log(`Collection ${deliveriesCollectionName} exists`);
+          isDeliveriesCollectionCreated = true;
+        }
+      }
     });
   }
 
@@ -327,7 +358,8 @@ class Easter {
 
 
   run() {
-    // this.postCollectEggsMessage();
+    this.checkIfCollectionsCreated();
+    this.postCollectEggsMessage();
     // Below code is commented for now, make it easier for testing
     /*
     setInterval(() => {
@@ -363,7 +395,7 @@ class Easter {
 
     // User channel (#lucilles-box)
     // --------------------------------------------------------------
-    if (message.channel.id === channelId) {
+    if (message.channel.id === channelId && isUsersCollectionCreated) {
       // !eastertop
       if (cmdName === "eastertop") {
 
@@ -390,7 +422,6 @@ class Easter {
 
       // !eastertacos
       } else if (cmdName === "eastertacos") {
-        console.log(message.author);
         this.getUserByDiscordId(message.author.id, (result) => {
           message.reply(`you have ${result.eggsCount} easter tacos (${this.formatParticipation(result.participationCount)})`);
         });
