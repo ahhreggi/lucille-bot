@@ -42,6 +42,5 @@
     "space-before-function-paren": [ "warn", { "anonymous": "never", "named": "never", "asyncArrow": "never" } ],
     "func-names": ["error", "never"],
     "quotes": ["error", "double"]
-  },
-  "parser": "babel-eslint"
+  }
 }

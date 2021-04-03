@@ -26,6 +26,57 @@ const { embed } = require("./embed");
 
 
 // ================================================================================================
+// GLOBAL VARIABLES
+// ================================================================================================
+
+// Embed delimiter
+const delim = "\\";
+
+const eggEmbedImgUrl = "https://imgur.com/hoOqhOr.png"; // https://imgur.com/a/n0L4sn8
+
+const easterTacoEmoji = {
+  id: "827620820473479208",
+  name: "eastertaco"
+};
+
+// Durations and values of the "collect eggs" embed
+const eggDurations = [
+  {
+    duration: 10000, // 10 seconds
+    value: 500
+  },
+  {
+    duration: 15000, // 15 seconds
+    value: 200
+  },
+  {
+    duration: 30000, // 30 seconds
+    value: 100
+  },
+  {
+    duration: 60000, // 1 minute
+    value: 50
+  },
+  {
+    duration: 120000, // 2 minutes
+    value: 25
+  },
+  {
+    duration: 180000, // 3 minutes
+    value: 10
+  },
+  {
+    duration: 300000, // 5 minutes
+    value: 5
+  }
+];
+
+
+
+
+
+
+// ================================================================================================
 // MODEL CLASSES
 // ================================================================================================
 class User {
@@ -51,6 +102,10 @@ class Delivery {
 // MAIN CLASS
 // ================================================================================================
 class Easter {
+  // ------------------------------------------------------------------------------------
+  // Constructor
+  // ------------------------------------------------------------------------------------
+
   constructor(db, client, channelId, interval) {
     this.db = db; // don't really need that anymore since we have the collections
     this.client = client;
@@ -61,63 +116,18 @@ class Easter {
     this.deliveriesCollection = this.db.collection("deliveries");
   }
 
-  // ------------------------------------------------------------------------------------
-  // STATIC FIELDS
-  // ------------------------------------------------------------------------------------
-
-  // Embed delimiter
-  delim = "\\";
-
-  eggEmbedImgUrl = "https://imgur.com/hoOqhOr.png"; // https://imgur.com/a/n0L4sn8
-
-  easterTacoEmoji = {
-    id: "827620820473479208",
-    name: "eastertaco"
-  };
-
-  // Durations and values of the "collect eggs" embed
-  eggDurations = [
-    {
-      duration: 10000, // 10 seconds
-      value: 500
-    },
-    {
-      duration: 15000, // 15 seconds
-      value: 200
-    },
-    {
-      duration: 30000, // 30 seconds
-      value: 100
-    },
-    {
-      duration: 60000, // 1 minute
-      value: 50
-    },
-    {
-      duration: 120000, // 2 minutes
-      value: 25
-    },
-    {
-      duration: 180000, // 3 minutes
-      value: 10
-    },
-    {
-      duration: 300000, // 5 minutes
-      value: 5
-    }
-  ];
-
 
 
   // ------------------------------------------------------------------------------------
-  // DATABASE HELPER FUNCTIONS
+  // Database helper function
   // ------------------------------------------------------------------------------------
 
-  insertOrUpdateUser = (user, amount, callback) => {
+  insertOrUpdateUser(user, amount, callback) {
     // Check if user already exist
     this.usersCollection.findOne({"discordUser.id": user.id}, {}, (findErr, findRes) => {
-      console.log("FIND ERR");
-      console.log(findErr);
+      if (findErr !== null) {
+        console.log(findErr);
+      }
 
       // No entry have been found, insert
       if (findRes === null) {
@@ -146,32 +156,32 @@ class Easter {
           });
       }
     });
-  };
+  }
 
-  insertDelivery = (delivery) => {
+  insertDelivery(delivery) {
     // TODO
-  };
+  }
 
-  getUserEggsCount = (userDiscordId) => {
+  getUserEggsCount(userDiscordId) {
     // TODO
-  };
+  }
 
 
 
   // ------------------------------------------------------------------------------------
-  // OTHER HELPER FUNCTIONS
+  // Other helper function
   // ------------------------------------------------------------------------------------
 
-  pickRandomEggDuration = () => {
-    return this.eggDurations[Math.floor(Math.random() * this.eggDurations.length)];
-  };
+  pickRandomEggDuration() {
+    return eggDurations[Math.floor(Math.random() * eggDurations.length)];
+  }
 
   /**
    * Simplified version which works with the simple values that are being used in this file. Might
    * not work with any value (because pretty dumb algorithm that does not treat all possible cases
    * deliberately).
    */
-  millesecondsToReadableString = (time) => {
+  millesecondsToReadableString(time) {
     const timeInSeconds = time / 1000;
 
     if (timeInSeconds < 60) {
@@ -188,15 +198,15 @@ class Easter {
       return `${timeInMinutes} minutes`;
 
     }
-  };
+  }
 
 
 
   // ------------------------------------------------------------------------------------
-  // MAIN FUNCTIONS
+  // Main functions
   // ------------------------------------------------------------------------------------
 
-  postCollectEggsMessage = () => {
+  postCollectEggsMessage() {
     this.client.channels.fetch(this.channelId)
       .then(channel => {
         // Picking random duration and value in array
@@ -209,13 +219,13 @@ class Easter {
         let msg = "";
 
         // Title
-        msg += `${this.delim}title: Easter tacos delivery! `;
+        msg += `${delim}title: Easter tacos delivery! `;
         // Color
-        msg += `${this.delim}color: yellow `;
+        msg += `${delim}color: yellow `;
         // Description
-        msg += `${this.delim}desc: React to collect **${eggDuration.value}** easter tacos! Quick, you only have **${this.millesecondsToReadableString(eggDuration.duration)}**!`;
+        msg += `${delim}desc: React to collect **${eggDuration.value}** easter tacos! Quick, you only have **${this.millesecondsToReadableString(eggDuration.duration)}**!`;
         // Image
-        msg += `${this.delim}img: ${this.eggEmbedImgUrl}`;
+        msg += `${delim}img: ${eggEmbedImgUrl}`;
 
         const embedMsg = embed(msg);
 
@@ -230,12 +240,12 @@ class Easter {
 
           // Reacting to own embed so that users will be able to react faster
           // --------------------------------------------------------------
-          message.react(`<:${this.easterTacoEmoji.name}:${this.easterTacoEmoji.id}>`);
+          message.react(`<:${easterTacoEmoji.name}:${easterTacoEmoji.id}>`);
 
           // Setting up reaction collector
           // --------------------------------------------------------------
           const filter = (reaction, user) => {
-            return reaction.emoji.name === this.easterTacoEmoji.name && user.id !== message.author.id;
+            return reaction.emoji.name === easterTacoEmoji.name && user.id !== message.author.id;
           };
 
           const collector = message.createReactionCollector(filter);
@@ -248,18 +258,18 @@ class Easter {
 
           collector.on("end", collected => {
             let endMessage = "";
-            endMessage += `${this.delim}title: TIME'S UP! `;
-            endMessage += `${this.delim}color: orange`;
-            endMessage += `${this.delim}desc: ${collected.size} people participated. Don't worry if you miss this delivery, there will be more!`;
+            endMessage += `${delim}title: TIME'S UP! `;
+            endMessage += `${delim}color: orange`;
+            endMessage += `${delim}desc: ${collected.size} people participated. Don't worry if you miss this delivery, there will be more!`;
 
             channel.send(embed(endMessage));
           });
         });
       })
       .catch(console.error);
-  };
+  }
 
-  run = () => {
+  run() {
     this.postCollectEggsMessage();
     // Below code is commented for now, make it easier for testing
     /*
@@ -267,7 +277,7 @@ class Easter {
       this.postCollectEggsMessage();
     }, this.interval);
     */
-  };
+  }
 }
 
 
