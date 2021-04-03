@@ -59,7 +59,7 @@ const deliveryTypes = [
   {
     duration: 30000, // 30 seconds
     value: 100
-  },
+  },/*
   {
     duration: 60000, // 1 minute
     value: 50
@@ -75,7 +75,7 @@ const deliveryTypes = [
   {
     duration: 300000, // 5 minutes
     value: 5
-  }
+  }*/
 ];
 
 const usersCollectionName = "users";
@@ -309,7 +309,8 @@ class Easter {
         // Color
         msg += `${delim}color: yellow `;
         // Description
-        msg += `${delim}desc: React to collect **${deliveryType.value}** easter tacos! Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
+        msg += `${delim}desc: React to collect **${deliveryType.value} easter tacos**!\n\n`;
+        msg += `Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
         // Image
         msg += `${delim}img: ${eggEmbedImgUrl}`;
 
@@ -345,10 +346,24 @@ class Easter {
           });
 
           collector.on("end", collected => {
+            let reactionsCount = 0;
+            if (collected.get(easterTacoEmoji.id)) {
+              reactionsCount = collected.get(easterTacoEmoji.id).count - 1; // not counting bot's reaction
+            }
+
             let endMessage = "";
             endMessage += `${delim}title: TIME'S UP! `;
             endMessage += `${delim}color: orange`;
-            endMessage += `${delim}desc: ${collected.size} people participated. Don't worry if you miss this delivery, there will be more!`;
+
+            let peopleStr = `${reactionsCount} users participated.`;
+            if (reactionsCount === 0) {
+              peopleStr = "Sadly, nobody claimed their Easter tacos this time :(";
+            } else if (reactionsCount === 1) {
+              peopleStr = "Only 1 user participated.";
+            }
+
+            endMessage += `${delim}desc: ${peopleStr}\n\n`;
+            endMessage += "Don't worry if you miss this delivery, they are happening all day in this channel!";
 
             channel.send(embed(endMessage));
           });
@@ -471,11 +486,13 @@ class Easter {
       // !eastertop
       if (cmdName === "eastertop" && isUsersCollectionCreated) {
 
-        this.getTopUsers(10, (topUsers) => {
+        const topN = 10;
+
+        this.getTopUsers(topN, (topUsers) => {
           let msg = "";
 
           // Title
-          msg += `${delim}title: Top 10 Easter tacos `;
+          msg += `${delim}title: Top ${topN} users `;
           // Color
           msg += `${delim}color: yellow `;
           // Description
