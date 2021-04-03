@@ -31,6 +31,23 @@ client.once("ready", () => {
       channel.send(embedMsg);
     })
     .catch(console.error);
+
+
+  // =======================================================================
+  // WIP - Easter special feature
+  // =======================================================================
+
+  // TODO: get id of #lucilles-box in ahhreggi server from config
+  const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
+  const interval = 10000; // 10 seconds
+
+  postCollectEggsMessagesAtInterval(client, channelId, interval);
+
+  // =======================================================================
+  // END OF WIP
+  // =======================================================================
+
+
 });
 
 client.on("message", (message) => {
@@ -104,27 +121,6 @@ client.on("message", (message) => {
   } while (response);
 
 });
-
-
-
-
-
-// =======================================================================
-// WIP - Easter special feature
-// =======================================================================
-
-// TODO: get id of #lucilles-box in ahhreggi server from config
-const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
-const interval = 10000; // 10 seconds
-
-postCollectEggsMessagesAtInterval(client, channelId, interval);
-
-// =======================================================================
-// END OF WIP
-// =======================================================================
-
-
-
 
 
 client.login(process.env.DISCORD_BOT_TOKEN);
