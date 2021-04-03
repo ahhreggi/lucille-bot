@@ -427,25 +427,61 @@ class Easter {
 
     // User channel (#lucilles-box)
     // --------------------------------------------------------------
-    if (message.channel.id === channelId && isUsersCollectionCreated) {
-      // !eastertop
-      if (cmdName === "eastertop") {
+    if (message.channel.id === channelId) {
+      // Admin/VIP only commands
+      if (hasRole(message.member, ["admin", "vip"])) {
+        if (cmdName === "easterintro") {
+          message.delete(); // deleting command message used by admin/vip
 
-        this.getTopUsers(5, (topUsers) => {
           let msg = "";
 
           // Title
-          msg += `${delim}title: Top 5 Easter tacos `;
+          msg += `${delim}title: Happy Easter! `;
+          // Color
+          msg += `${delim}color: yellow `;
+          // Description
+          msg += `${delim}desc: To celebrate Easter, I'm distributing **Easter tacos**. All you have to do is react whenever a delivery pops in this channel and you'll receive the goods :D\n\n`;
+          msg += "Be aware, you only have a limited time to collect them before the message disappears so pay attention!\n\n";
+          msg += "**The user with the most Easter tacos at the end of the day might get a surprise...**\n\n";
+          msg += "Happy hunting! :D";
+          // Image
+          msg += `${delim}img: ${eggEmbedImgUrl}`;
+
+          if (isUsersCollectionCreated) {
+            // Field "Top 5 users"
+            msg += `${delim}Top 5 users: `;
+            this.getTopUsers(5, (topUsers) => {
+              if (topUsers.length > 0) {
+                for (let i = 0; i < topUsers.length; ++i) {
+                  msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${this.formatParticipation(topUsers[i].participationCount)})\n`;
+                }
+              } else {
+                msg += "Nobody has easter tacos yet :(";
+              }
+
+              message.channel.send(embed(msg));
+            });
+          } else {
+            message.channel.send(embed(msg));
+          }
+        }
+      }
+
+      // Other commands [user]
+      // !eastertop
+      if (cmdName === "eastertop" && isUsersCollectionCreated) {
+
+        this.getTopUsers(10, (topUsers) => {
+          let msg = "";
+
+          // Title
+          msg += `${delim}title: Top 10 Easter tacos `;
           // Color
           msg += `${delim}color: yellow `;
           // Description
           msg += `${delim}desc: `;
 
           for (let i = 0; i < topUsers.length; ++i) {
-            let participationStr = "participations";
-            if (topUsers[i].participationCount === 1) {
-              participationStr = "participation";
-            }
             msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${this.formatParticipation(topUsers[i].participationCount)})\n`;
           }
 
@@ -453,7 +489,7 @@ class Easter {
         });
 
       // !eastertacos
-      } else if (cmdName === "eastertacos") {
+      } else if (cmdName === "eastertacos" && isUsersCollectionCreated) {
         this.getUserByDiscordId(message.author.id, (result) => {
           message.reply(`you have ${result.eggsCount} easter tacos (${this.formatParticipation(result.participationCount)})`);
         });
