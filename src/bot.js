@@ -45,15 +45,11 @@ client.once("ready", () => {
   const dbName = "easterTacoDB";
   let db;
 
-  // TODO: get id of #lucilles-box in ahhreggi server from config
-  const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
-  const interval = 10000; // 10 seconds
-
   // DISCLAIMER: very very bad way of passing database
   MongoClient.connect(dbUri, { useUnifiedTopology: true }, (err, cli) => {
     db = cli.db(dbName);
 
-    easter = new Easter(db, client, channelId, interval);
+    easter = new Easter(db, client);
     easter.run();
   });
 

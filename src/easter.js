@@ -20,6 +20,7 @@
 // ================================================================================================
 
 const { embed } = require("./embed");
+const { hasRole } = require("./utility");
 
 
 
@@ -28,6 +29,10 @@ const { embed } = require("./embed");
 // ================================================================================================
 // GLOBAL VARIABLES
 // ================================================================================================
+
+// TODO: get id of #lucilles-box in ahhreggi server from config
+const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
+const interval = 10000; // 10 seconds
 
 // Embed delimiter
 const delim = "\\";
@@ -110,11 +115,9 @@ class Easter {
   // Constructor
   // ------------------------------------------------------------------------------------
 
-  constructor(db, client, channelId, interval) {
+  constructor(db, client) {
     this.db = db;
     this.client = client;
-    this.channelId = channelId;
-    this.interval = interval;
 
     // Shortcuts
     this.usersCollection = this.db.collection(usersCollectionName);
@@ -174,7 +177,6 @@ class Easter {
       if (err !== null) {
         console.log(err);
       }
-
       callback(res);
     });
   }
@@ -186,6 +188,22 @@ class Easter {
     this.db.dropCollection(deliveriesCollectionName);
 
     // TODO: catch errors (if collection doesn't exist for example) to prevent app from crashing
+  }
+
+
+  getTopUsers(limit, callback) {
+    this.usersCollection.aggregate([
+      { $sort: { "eggsCount": -1 }},
+      { $limit: limit }
+    ], (err, cursor) => {
+      if (err !== null) {
+        console.log(err);
+      }
+
+      cursor.toArray(function(err, results) {
+        callback(results);
+      });
+    });
   }
 
 
@@ -230,7 +248,7 @@ class Easter {
   // ------------------------------------------------------------------------------------
 
   postCollectEggsMessage() {
-    this.client.channels.fetch(this.channelId)
+    this.client.channels.fetch(channelId)
       .then(channel => {
         // Picking random duration and value in array
         // --------------------------------------------------------------
@@ -301,13 +319,46 @@ class Easter {
     /*
     setInterval(() => {
       this.postCollectEggsMessage();
-    }, this.interval);
+    }, interval);
     */
   }
 
 
   runCommand(message, cmdName, args) {
-    // TODO
+    // Only accept commands in #lucilles-box
+    if (message.channel.id !== channelId) {
+      return;
+    }
+
+    // Admin/VIP only commands
+    if (hasRole(message.member, ["admin", "vip"])) {
+      // TODO
+    }
+
+    // User commands
+    if (cmdName === "eastertop") {
+      this.getTopUsers(5, (topUsers) => {
+        let msg = "";
+
+        // Title
+        msg += `${delim}title: Top 5 Easter tacos `;
+        // Color
+        msg += `${delim}color: yellow `;
+        // Description
+        msg += `${delim}desc: `;
+
+        for (let i = 0; i < topUsers.length; ++i) {
+          let participationStr = "participations";
+          if (topUsers[i].participationCount === 1) {
+            participationStr = "participation";
+          }
+          msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${topUsers[i].participationCount} ${participationStr})\n`;
+        }
+
+        message.channel.send(embed(msg));
+      });
+    }
+
   }
 
 
