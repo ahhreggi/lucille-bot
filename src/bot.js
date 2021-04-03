@@ -1,13 +1,13 @@
 require("dotenv").config();
 
 const { Client } = require("discord.js");
+const MongoClient = require("mongodb").MongoClient;
 
 const config = require("./config.json");
 const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
-const { postCollectEggsMessagesAtInterval } = require("./easter");
 
 const client = new Client();
 
@@ -37,11 +37,24 @@ client.once("ready", () => {
   // WIP - Easter special feature
   // =======================================================================
 
+  // Database
+  const dbUri = "mongodb://localhost:27017";
+  const dbName = "easterTacoDB";
+  let db;
+
   // TODO: get id of #lucilles-box in ahhreggi server from config
   const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
   const interval = 10000; // 10 seconds
 
-  postCollectEggsMessagesAtInterval(client, channelId, interval);
+  // DISCLAIMER: very very bad way of passing database
+  MongoClient.connect(dbUri, { useUnifiedTopology: true }, (err, cli) => {
+    db = cli.db(dbName);
+
+    const Easter = require("./easter");
+
+    const easter = new Easter(db, client, channelId, interval);
+    easter.run();
+  });
 
   // =======================================================================
   // END OF WIP
