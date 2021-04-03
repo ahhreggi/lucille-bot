@@ -52,7 +52,7 @@ class Delivery {
 // ================================================================================================
 class Easter {
   constructor(db, client, channelId, interval) {
-    this.db = db;
+    this.db = db; // don't really need that anymore since we have the collections
     this.client = client;
     this.channelId = channelId;
     this.interval = interval;
@@ -113,25 +113,39 @@ class Easter {
   // DATABASE HELPER FUNCTIONS
   // ------------------------------------------------------------------------------------
 
-  insertOrUpdateUser = (user, newAmount) => {
-    // TODO (ignore commented code below)
-
-    /*
-    console.log("======================");
+  insertOrUpdateUser = (user, amount, callback) => {
     // Check if user already exist
-    this.usersCollection.findOne({"user.id": user.id}, {}, (param1, param2) => {
-      console.log("param1 " + param1);
-      console.log("param2 " + param2);
-    })
-    .then(result => console.log("then insertOrUpdateUser " + result))
-    .catch(err => console.log(err));
+    this.usersCollection.findOne({"discordUser.id": user.id}, {}, (findErr, findRes) => {
+      console.log("FIND ERR");
+      console.log(findErr);
 
-    // If so, update
+      // No entry have been found, insert
+      if (findRes === null) {
+        const userToInsert = new User(user, amount, 1);
+        this.usersCollection.insertOne(userToInsert, {}, (insErr, insRes) => {
+          if (insErr === null) {
+            callback(userToInsert);
+          } else {
+            console.log("INSERT ERR");
+            console.log(insErr);
+          }
+        });
+      } else { // update
+        const newAmount = findRes.eggsCount + amount;
+        const newParticipantCount = ++findRes.participationCount;
 
-    // Else, insert
-    // TODOdb.collection("userEggs").insertOne(userEgg);
-    */
-    return new User(user, newAmount, 1);
+        this.usersCollection.updateOne({ "_id": findRes._id },
+          { $set: { "eggsCount": newAmount, "participationCount": newParticipantCount } },
+          (updErr, updRes) => {
+            if (updErr === null) {
+              callback(new User(findRes.user, newAmount, newParticipantCount));
+            } else {
+              console.log("UPDATE ERR");
+              console.log(updErr);
+            }
+          });
+      }
+    });
   };
 
   insertDelivery = (delivery) => {
@@ -227,9 +241,9 @@ class Easter {
           const collector = message.createReactionCollector(filter);
 
           collector.on("collect", (reaction, user) => {
-            const savedUser = this.insertOrUpdateUser(user, eggDuration.value);
-
-            channel.send(`Yay ${user}! You successfully collected ${eggDuration.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
+            this.insertOrUpdateUser(user, eggDuration.value, (savedUser) => {
+              channel.send(`Yay ${user}! You successfully collected ${eggDuration.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
+            });
           });
 
           collector.on("end", collected => {
