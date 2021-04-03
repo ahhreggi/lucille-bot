@@ -20,7 +20,7 @@
 // ================================================================================================
 
 const { embed } = require("./embed");
-const { hasRole } = require("./utility");
+const { hasRole, getMentionedUser } = require("./utility");
 
 
 
@@ -389,6 +389,37 @@ class Easter {
               message.reply("database has been cleaned successfully");
             });
           }
+
+        // !easterinfo <user>
+        } else if (cmdName === "easterinfo") {
+
+          const user = getMentionedUser(message);
+
+          if (user) {
+            this.getUserByDiscordId(user.id, (result) => {
+              if (result) {
+                let msg = "";
+
+                // Title
+                msg += `${delim}title: User info `;
+                // Color
+                msg += `${delim}color: yellow `;
+                // Field "Discord info"
+                msg += `${delim}Discord info: ${result.discordUser.username}#${result.discordUser.discriminator} (${result.discordUser.id})`;
+                // Field "Easter tacos"
+                msg += `${delim}Easter tacos: ${result.eggsCount}`;
+                // Field "Participations"
+                msg += `${delim}Participations: ${result.participationCount}`;
+
+                message.channel.send(embed(msg));
+              } else {
+                message.reply("no info found for that user");
+              }
+            });
+          } else {
+            message.reply("user not found");
+          }
+
         }
       }
     }
