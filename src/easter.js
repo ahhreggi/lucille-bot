@@ -30,9 +30,11 @@ const { hasRole } = require("./utility");
 // GLOBAL VARIABLES
 // ================================================================================================
 
-// TODO: get id of #lucilles-box in ahhreggi server from config
+// TODO: get ids from config
+const adminChannelId = "821556647910309889"; // #testing-2 for now
 const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
 const interval = 10000; // 10 seconds
+
 
 // Embed delimiter
 const delim = "\\";
@@ -183,11 +185,13 @@ class Easter {
 
 
   // Dangerous
-  cleanDatabase() {
-    this.db.dropCollection(usersCollectionName);
-    this.db.dropCollection(deliveriesCollectionName);
-
-    // TODO: catch errors (if collection doesn't exist for example) to prevent app from crashing
+  cleanDatabase(callback) {
+    this.db.command({ listCollections: 1, nameOnly: true }, (err, result) => {
+      for (const collection of result.cursor.firstBatch) {
+        this.db.dropCollection(collection.name);
+      }
+      callback();
+    });
   }
 
 
@@ -337,52 +341,60 @@ class Easter {
    * All Easter commands are implemented in this function (that's why it's way too long)
    */
   runCommand(message, cmdName, args) {
-    // Only accept commands in #lucilles-box
-    if (message.channel.id !== channelId) {
-      return;
-    }
-
-    // Admin/VIP only commands
+    // Admin/VIP channel (#why-me)
     // --------------------------------------------------------------
+    if (message.channel.id === adminChannelId) {
+      if (hasRole(message.member, ["admin", "vip"])) {
+        // !easterdb <action> [<args>]
+        if (cmdName === "easterdb") {
 
-    if (hasRole(message.member, ["admin", "vip"])) {
-      // TODO
-    }
+          const action = args[0];
 
-
-    // All other commands [user]
-    // --------------------------------------------------------------
-
-    // !eastertop
-    if (cmdName === "eastertop") {
-
-      this.getTopUsers(5, (topUsers) => {
-        let msg = "";
-
-        // Title
-        msg += `${delim}title: Top 5 Easter tacos `;
-        // Color
-        msg += `${delim}color: yellow `;
-        // Description
-        msg += `${delim}desc: `;
-
-        for (let i = 0; i < topUsers.length; ++i) {
-          let participationStr = "participations";
-          if (topUsers[i].participationCount === 1) {
-            participationStr = "participation";
+          // !easterdb clean
+          if (action === "clean") {
+            this.cleanDatabase(() => {
+              message.reply("database has been cleaned successfully");
+            });
           }
-          msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${this.formatParticipation(topUsers[i].participationCount)})\n`;
         }
+      }
+    }
 
-        message.channel.send(embed(msg));
-      });
 
-    // !eastertacos
-    } else if (cmdName === "eastertacos") {
-      console.log(message.author);
-      this.getUserByDiscordId(message.author.id, (result) => {
-        message.reply(`you have ${result.eggsCount} easter tacos (${this.formatParticipation(result.participationCount)})`);
-      });
+    // User channel (#lucilles-box)
+    // --------------------------------------------------------------
+    if (message.channel.id === channelId) {
+      // !eastertop
+      if (cmdName === "eastertop") {
+
+        this.getTopUsers(5, (topUsers) => {
+          let msg = "";
+
+          // Title
+          msg += `${delim}title: Top 5 Easter tacos `;
+          // Color
+          msg += `${delim}color: yellow `;
+          // Description
+          msg += `${delim}desc: `;
+
+          for (let i = 0; i < topUsers.length; ++i) {
+            let participationStr = "participations";
+            if (topUsers[i].participationCount === 1) {
+              participationStr = "participation";
+            }
+            msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${this.formatParticipation(topUsers[i].participationCount)})\n`;
+          }
+
+          message.channel.send(embed(msg));
+        });
+
+      // !eastertacos
+      } else if (cmdName === "eastertacos") {
+        console.log(message.author);
+        this.getUserByDiscordId(message.author.id, (result) => {
+          message.reply(`you have ${result.eggsCount} easter tacos (${this.formatParticipation(result.participationCount)})`);
+        });
+      }
     }
 
   }
