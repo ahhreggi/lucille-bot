@@ -127,7 +127,7 @@ class Easter {
 
 
   // ------------------------------------------------------------------------------------
-  // Database helper function
+  // Database helper functions
   // ------------------------------------------------------------------------------------
 
   insertOrUpdateUser(user, amount, callback) {
@@ -209,7 +209,7 @@ class Easter {
 
 
   // ------------------------------------------------------------------------------------
-  // Other helper function
+  // Other helper functions
   // ------------------------------------------------------------------------------------
 
   pickRandomDeliveryType() {
@@ -238,6 +238,15 @@ class Easter {
       const timeInMinutes = timeInSeconds / 60;
       return `${timeInMinutes} minutes`;
 
+    }
+  }
+
+
+  formatParticipation(participationCount) {
+    if (participationCount === 1) {
+      return "1 participation";
+    } else {
+      return `${participationCount} participations`;
     }
   }
 
@@ -314,7 +323,7 @@ class Easter {
 
 
   run() {
-    this.postCollectEggsMessage();
+    // this.postCollectEggsMessage();
     // Below code is commented for now, make it easier for testing
     /*
     setInterval(() => {
@@ -324,6 +333,9 @@ class Easter {
   }
 
 
+  /**
+   * All Easter commands are implemented in this function (that's why it's way too long)
+   */
   runCommand(message, cmdName, args) {
     // Only accept commands in #lucilles-box
     if (message.channel.id !== channelId) {
@@ -331,12 +343,19 @@ class Easter {
     }
 
     // Admin/VIP only commands
+    // --------------------------------------------------------------
+
     if (hasRole(message.member, ["admin", "vip"])) {
       // TODO
     }
 
-    // User commands
+
+    // All other commands [user]
+    // --------------------------------------------------------------
+
+    // !eastertop
     if (cmdName === "eastertop") {
+
       this.getTopUsers(5, (topUsers) => {
         let msg = "";
 
@@ -352,10 +371,17 @@ class Easter {
           if (topUsers[i].participationCount === 1) {
             participationStr = "participation";
           }
-          msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${topUsers[i].participationCount} ${participationStr})\n`;
+          msg += `${i + 1}. **${topUsers[i].discordUser.username}** - ${topUsers[i].eggsCount} easter tacos (${this.formatParticipation(topUsers[i].participationCount)})\n`;
         }
 
         message.channel.send(embed(msg));
+      });
+
+    // !eastertacos
+    } else if (cmdName === "eastertacos") {
+      console.log(message.author);
+      this.getUserByDiscordId(message.author.id, (result) => {
+        message.reply(`you have ${result.eggsCount} easter tacos (${this.formatParticipation(result.participationCount)})`);
       });
     }
 
