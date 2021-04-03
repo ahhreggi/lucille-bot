@@ -103,6 +103,7 @@ class Delivery {
   constructor(duration, count) {
     this.duration = duration;
     this.count = count;
+    this.createdAt = new Date(Date.now()).toISOString();
   }
 }
 
