@@ -104,6 +104,8 @@ class Delivery {
 // MAIN CLASS
 // ================================================================================================
 class Easter {
+
+
   // ------------------------------------------------------------------------------------
   // Constructor
   // ------------------------------------------------------------------------------------
@@ -161,9 +163,11 @@ class Easter {
     });
   }
 
+
   insertDelivery(delivery) {
     this.deliveriesCollection.insertOne(delivery);
   }
+
 
   getUserByDiscordId(userDiscordId, callback) {
     this.usersCollection.findOne({"discordUser.id": userDiscordId}, {}, (err, res) => {
@@ -174,6 +178,7 @@ class Easter {
       callback(res);
     });
   }
+
 
   // Dangerous
   cleanDatabase() {
@@ -192,6 +197,7 @@ class Easter {
   pickRandomDeliveryType() {
     return deliveryTypes[Math.floor(Math.random() * deliveryTypes.length)];
   }
+
 
   /**
    * Simplified version which works with the simple values that are being used in this file. Might
@@ -288,6 +294,7 @@ class Easter {
       .catch(console.error);
   }
 
+
   run() {
     this.postCollectEggsMessage();
     // Below code is commented for now, make it easier for testing
@@ -298,15 +305,13 @@ class Easter {
     */
   }
 
-  // SUPER DUPER DANGEROUS
-  // TODO: secure by using existing function for commands
-  runCommand(message) {
-    if (message.content === "!cleanDb") {
-      console.log("clean db");
-      this.cleanDatabase();
-    }
+
+  runCommand(message, cmdName, args) {
+    // TODO
   }
-}
+
+
+} // end of class Easter
 
 
 

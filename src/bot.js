@@ -75,11 +75,6 @@ client.on("message", (message) => {
     return message.channel.send("don't DM me bro");
   }
 
-  // TODO: move that right next to "runCommand" to that we can use parse and perms check logic
-  // SUPER DUPER DANGEROUS
-  // TODO: secure by using existing function for commands
-  easter.runCommand(message);
-
   let response;
 
   do {
@@ -91,8 +86,20 @@ client.on("message", (message) => {
       if (!response) {
         // Parse the command and run
         let [cmdName, ...args] = parseCommand(message, prefix);
-        const data = { help, cmdVars, trigger: null };
-        response = runCommand(message, allCommands, cmdName, args, data);
+
+        // Redirecting Easter special commands to Easter module
+        if (cmdName.startsWith("easter")) {
+
+          easter.runCommand(message, cmdName, args);
+
+        // Handling other commands the usual way
+        } else {
+
+          const data = { help, cmdVars, trigger: null };
+          response = runCommand(message, allCommands, cmdName, args, data);
+
+        }
+
       }
 
       // If there's still no Response object from the command, exit
