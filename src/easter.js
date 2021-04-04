@@ -35,8 +35,8 @@ const adminChannelId = "821556647910309889"; // #testing-2 for now
 const generalChannelId = "821557121446969366"; // #testing-3 for now
 const botChannelId = "821557099758747651"; // #testing-1 in lucille's box server for now
 
-const minWaitingTime = 300000; // 5 minutes
-const maxWaitingTime = 1800000; // 30 minutes
+const minWaitingTime = 30000; // 30sec dev only //////////// 300000; // 5 minutes
+const maxWaitingTime = 120000; // 2min dev only ///////////// 1800000; // 30 minutes
 
 let daemonStarted = false;
 
@@ -323,7 +323,7 @@ class Easter {
         // Color
         msg += `${delim}color: yellow `;
         // Description
-        msg += `${delim}desc: React to collect **${deliveryType.value} easter tacos**!\n`;
+        msg += `${delim}desc: React once to collect **${deliveryType.value} easter tacos**!\n`;
         msg += `Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
         // Image
         msg += `${delim}img: ${deliveryImgUrl}`;
@@ -347,6 +347,8 @@ class Easter {
 
           // Setting up reaction collector
           // --------------------------------------------------------------
+          const usersAlreadyCollected = [];
+
           const filter = (reaction, user) => {
             return reaction.emoji.name === easterTacoEmoji.name && user.id !== message.author.id;
           };
@@ -354,9 +356,14 @@ class Easter {
           const collector = message.createReactionCollector(filter);
 
           collector.on("collect", (reaction, user) => {
-            this.insertOrUpdateUser(user, deliveryType.value, (savedUser) => {
-              channel.send(`Yay ${user}! You successfully collected ${deliveryType.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
-            });
+            if (!usersAlreadyCollected.some(u => u.id === user.id)) {
+              usersAlreadyCollected.push(user);
+              this.insertOrUpdateUser(user, deliveryType.value, (savedUser) => {
+                channel.send(`Yay ${user}! You successfully collected ${deliveryType.value} easter tacos! You now have **${savedUser.eggsCount} easter tacos**.`);
+              });
+            } else {
+              channel.send(`${user}, you already collected your ${deliveryType.value} easter tacos. Stop trying to cheat or else!`); // TODO: add ahhKNIFE emote
+            }
           });
 
           collector.on("end", collected => {
