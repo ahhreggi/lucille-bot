@@ -30,10 +30,20 @@ const { hasRole, getMentionedUser } = require("./utility");
 // GLOBAL VARIABLES
 // ================================================================================================
 
-// TODO: get ids from config
-const adminChannelId = "821556647910309889"; // #testing-2 for now
-const generalChannelId = "821557121446969366"; // #testing-3 for now
-const botChannelId = "821557099758747651"; // #testing-1 in lucille's box server for now
+// DEV ONLY - EDIT FOR PROD
+// ----------------------------------------
+// TODO: comment in prod
+// const adminChannelId = "821556647910309889"; // #testing-2
+// const generalChannelId = "821557121446969366"; // #testing-3
+// const botChannelId = "821557099758747651"; // #testing-1
+// ----------------------------------------
+// END DEV ONLY
+
+// Prod channels
+const adminChannelId = "822732793808683018"; // #why-me
+const generalChannelId = "822732793808683018"; // #why-me
+const botChannelId = "822732793808683018"; // #why-me
+
 
 const minWaitingTime = 30000; // 30sec dev only //////////// 300000; // 5 minutes
 const maxWaitingTime = 40000; // 40sec dev only ///////////// 1800000; // 30 minutes
@@ -47,8 +57,18 @@ const delim = "\\";
 const introImgUrl = "https://cdn.discordapp.com/attachments/820415196539125821/828077756956934185/happy-easter.png";
 const deliveryImgUrl = "https://media.discordapp.net/attachments/821557099758747651/828073357961330708/taco-rain-003.png";
 
+// DEV ONLY - EDIT FOR PROD
+// ----------------------------------------
+// const easterTacoEmoji = {
+//   id: "828075876755177492",
+//   name: "eastertaco"
+// };
+// ----------------------------------------
+// END DEV ONLY
+
+// Prod
 const easterTacoEmoji = {
-  id: "828075876755177492",
+  id: "828099494251462696",
   name: "eastertaco"
 };
 
