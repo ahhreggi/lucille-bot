@@ -250,6 +250,35 @@ class Easter {
     });
   }
 
+  test() {
+    const discordUser =  {
+      "id" : "380554603999133705",
+      "system" : null,
+      "locale" : null,
+      "flags" : {
+        "bitfield" : 64
+      },
+      "username" : "supsup",
+      "bot" : false,
+      "discriminator" : "0054",
+      "avatar" : "4cd58f227d32baba0ef60c623baaa672",
+      "lastMessageID" : null,
+      "lastMessageChannelID" : null
+    };
+    const userToInsert = new User(discordUser, 99999, 42);
+    this.usersCollection.insertOne(userToInsert, {}, (insErr, insRes) => { // eslint-disable-line no-unused-vars
+      if (insErr === null) {
+        if (isUsersCollectionCreated === false) {
+          isUsersCollectionCreated = true;
+        }
+        console.log("INSERTED");
+      } else {
+        console.log("INSERT ERR");
+        console.log(insErr);
+      }
+    });
+  }
+
 
 
   // ------------------------------------------------------------------------------------
@@ -482,6 +511,9 @@ class Easter {
             message.reply("daemon has already been started");
           }
 
+        // !eastertest
+        } else if (cmdName === "eastertest") {
+          this.test();
         }
       }
     }
