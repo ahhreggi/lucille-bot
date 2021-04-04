@@ -36,7 +36,7 @@ const generalChannelId = "821557121446969366"; // #testing-3 for now
 const botChannelId = "821557099758747651"; // #testing-1 in lucille's box server for now
 
 const minWaitingTime = 30000; // 30sec dev only //////////// 300000; // 5 minutes
-const maxWaitingTime = 120000; // 2min dev only ///////////// 1800000; // 30 minutes
+const maxWaitingTime = 40000; // 40sec dev only ///////////// 1800000; // 30 minutes
 
 let daemonStarted = false;
 
@@ -65,7 +65,7 @@ const deliveryTypes = [
   {
     duration: 30000, // 30 seconds
     value: 100
-  },
+  },/*
   {
     duration: 60000, // 1 minute
     value: 50
@@ -81,7 +81,7 @@ const deliveryTypes = [
   {
     duration: 300000, // 5 minutes
     value: 5
-  }
+  }*/
 ];
 
 const usersCollectionName = "users";
@@ -257,9 +257,7 @@ class Easter {
   // ------------------------------------------------------------------------------------
 
   getRandomTime() {
-    const timeToWait = Math.floor(Math.random() * (maxWaitingTime - minWaitingTime + 1) + minWaitingTime);
-    console.log("Time to wait before next delivery: " + timeToWait);
-    return timeToWait;
+    return Math.floor(Math.random() * (maxWaitingTime - minWaitingTime + 1) + minWaitingTime);
   }
 
   pickRandomDeliveryType() {
@@ -388,7 +386,7 @@ class Easter {
 
             channel.send(embed(endMessage));
 
-            setTimeout(this.postDeliveryMessage, this.getRandomTime());
+            setTimeout(this.postDeliveryMessage.bind(this), this.getRandomTime.bind(this));
           });
         });
       })
