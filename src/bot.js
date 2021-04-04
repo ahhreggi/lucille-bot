@@ -1,12 +1,14 @@
 require("dotenv").config();
 
 const { Client } = require("discord.js");
+const MongoClient = require("mongodb").MongoClient;
 
 const config = require("./config.json");
 const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
+const Easter = require("./easter");
 
 const client = new Client();
 
@@ -19,6 +21,8 @@ const cmdVars = {
   askReady: true
 };
 
+let easter;
+
 client.once("ready", () => {
   console.log(`${client.user.username} is ALIVE!`);
 
@@ -30,6 +34,29 @@ client.once("ready", () => {
       channel.send(embedMsg);
     })
     .catch(console.error);
+
+
+  // =======================================================================
+  // WIP - Easter special feature
+  // =======================================================================
+
+  // Database
+  const dbUri = "mongodb://localhost:27017";
+  const dbName = "easterTacoDB";
+  let db;
+
+  // DISCLAIMER: very very bad way of creating database
+  MongoClient.connect(dbUri, { useUnifiedTopology: true }, (err, cli) => {
+    db = cli.db(dbName);
+
+    easter = new Easter(db, client);
+  });
+
+  // =======================================================================
+  // END OF WIP
+  // =======================================================================
+
+
 });
 
 client.on("message", (message) => {
@@ -54,8 +81,20 @@ client.on("message", (message) => {
       if (!response) {
         // Parse the command and run
         let [cmdName, ...args] = parseCommand(message, prefix);
-        const data = { help, cmdVars, trigger: null };
-        response = runCommand(message, allCommands, cmdName, args, data);
+
+        // Redirecting Easter special commands to Easter module
+        if (cmdName.startsWith("easter")) {
+
+          easter.runCommand(message, cmdName, args);
+
+        // Handling other commands the usual way
+        } else {
+
+          const data = { help, cmdVars, trigger: null };
+          response = runCommand(message, allCommands, cmdName, args, data);
+
+        }
+
       }
 
       // If there's still no Response object from the command, exit
@@ -103,5 +142,6 @@ client.on("message", (message) => {
   } while (response);
 
 });
+
 
 client.login(process.env.DISCORD_BOT_TOKEN);
