@@ -45,12 +45,11 @@ client.once("ready", () => {
   const dbName = "easterTacoDB";
   let db;
 
-  // DISCLAIMER: very very bad way of passing database
+  // DISCLAIMER: very very bad way of creating database
   MongoClient.connect(dbUri, { useUnifiedTopology: true }, (err, cli) => {
     db = cli.db(dbName);
 
     easter = new Easter(db, client);
-    easter.run();
   });
 
   // =======================================================================

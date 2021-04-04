@@ -32,8 +32,13 @@ const { hasRole, getMentionedUser } = require("./utility");
 
 // TODO: get ids from config
 const adminChannelId = "821556647910309889"; // #testing-2 for now
-const channelId = "821557099758747651"; // #testing-1 in lucille's box server for now
-const interval = 10000; // 10 seconds
+const generalChannelId = "821557121446969366"; // #testing-3 for now
+const botChannelId = "821557099758747651"; // #testing-1 in lucille's box server for now
+
+const minWaitingTime = 300000; // 5 minutes
+const maxWaitingTime = 1800000; // 30 minutes
+
+let daemonStarted = false;
 
 
 // Embed delimiter
@@ -60,7 +65,7 @@ const deliveryTypes = [
   {
     duration: 30000, // 30 seconds
     value: 100
-  },/*
+  },
   {
     duration: 60000, // 1 minute
     value: 50
@@ -76,7 +81,7 @@ const deliveryTypes = [
   {
     duration: 300000, // 5 minutes
     value: 5
-  }*/
+  }
 ];
 
 const usersCollectionName = "users";
@@ -126,9 +131,11 @@ class Easter {
     this.db = db;
     this.client = client;
 
-    // Shortcuts
     this.usersCollection = this.db.collection(usersCollectionName);
     this.deliveriesCollection = this.db.collection(deliveriesCollectionName);
+
+    // Actions
+    this.checkIfCollectionsCreated();
   }
 
 
@@ -249,6 +256,12 @@ class Easter {
   // Other helper functions
   // ------------------------------------------------------------------------------------
 
+  getRandomTime() {
+    const timeToWait = Math.floor(Math.random() * (maxWaitingTime - minWaitingTime + 1) + minWaitingTime);
+    console.log("Time to wait before next delivery: " + timeToWait);
+    return timeToWait;
+  }
+
   pickRandomDeliveryType() {
     return deliveryTypes[Math.floor(Math.random() * deliveryTypes.length)];
   }
@@ -293,8 +306,8 @@ class Easter {
   // Main functions
   // ------------------------------------------------------------------------------------
 
-  postCollectEggsMessage() {
-    this.client.channels.fetch(channelId)
+  postDeliveryMessage() {
+    this.client.channels.fetch(botChannelId)
       .then(channel => {
         // Picking random duration and value in array
         // --------------------------------------------------------------
@@ -310,7 +323,7 @@ class Easter {
         // Color
         msg += `${delim}color: yellow `;
         // Description
-        msg += `${delim}desc: React to collect **${deliveryType.value} easter tacos**!\n\n`;
+        msg += `${delim}desc: React to collect **${deliveryType.value} easter tacos**!\n`;
         msg += `Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
         // Image
         msg += `${delim}img: ${deliveryImgUrl}`;
@@ -367,22 +380,12 @@ class Easter {
             endMessage += "Don't worry if you miss this delivery, they are happening all day in this channel!";
 
             channel.send(embed(endMessage));
+
+            setTimeout(this.postDeliveryMessage, this.getRandomTime());
           });
         });
       })
       .catch(console.error);
-  }
-
-
-  run() {
-    this.checkIfCollectionsCreated();
-    this.postCollectEggsMessage();
-    // Below code is commented for now, make it easier for testing
-    /*
-    setInterval(() => {
-      this.postCollectEggsMessage();
-    }, interval);
-    */
   }
 
 
@@ -436,6 +439,44 @@ class Easter {
             message.reply("user not found");
           }
 
+        // !easterstart notifygeneral
+        // -> START THE EMBED MESSAGE POSTING DAEMON + post a message in #general if args[0]="notifygeneral"
+        } else if (cmdName === "easterstart") {
+
+          if (!daemonStarted) {
+            const mustNotifyGeneral = args[0] === "notifygeneral";
+
+            // Sending message in #general if asked
+            if (mustNotifyGeneral) {
+              this.client.channels.fetch(generalChannelId)
+                .then(channel => {
+                  // TODO: refactor with !easterinfo (almost the same, copy/paste)
+                  let msg = "";
+
+                  // Title
+                  msg += `${delim}title: Happy Easter! `;
+                  // Color
+                  msg += `${delim}color: yellow `;
+                  // Description
+                  msg += `${delim}desc: To celebrate Easter, I'm distributing **Easter tacos**. All you have to do is react whenever a delivery pops in #lucilles-box and you'll receive the goods :D\n\n`;
+                  msg += "Be aware, you only have a limited time to collect them before the message disappears so pay attention!\n\n";
+                  msg += "**The user with the most Easter tacos at the end of the day might get a surprise...**\n\n";
+                  msg += "Happy hunting! :D";
+                  // Image
+                  msg += `${delim}img: ${introImgUrl}`;
+
+                  channel.send(embed(msg));
+                })
+                .catch(console.error);
+            }
+
+            // Starting the delivery daemon
+            this.postDeliveryMessage();
+            daemonStarted = true;
+          } else {
+            message.reply("daemon has already been started");
+          }
+
         }
       }
     }
@@ -443,7 +484,7 @@ class Easter {
 
     // User channel (#lucilles-box)
     // --------------------------------------------------------------
-    if (message.channel.id === channelId) {
+    if (message.channel.id === botChannelId) {
       // Admin/VIP only commands
       if (hasRole(message.member, ["admin", "vip"])) {
         if (cmdName === "easterintro") {
