@@ -39,10 +39,11 @@ const interval = 10000; // 10 seconds
 // Embed delimiter
 const delim = "\\";
 
-const eggEmbedImgUrl = "https://imgur.com/hoOqhOr.png"; // https://imgur.com/a/n0L4sn8
+const introImgUrl = "https://cdn.discordapp.com/attachments/820415196539125821/828077756956934185/happy-easter.png";
+const deliveryImgUrl = "https://media.discordapp.net/attachments/821557099758747651/828073357961330708/taco-rain-003.png";
 
 const easterTacoEmoji = {
-  id: "827620820473479208",
+  id: "828075876755177492",
   name: "eastertaco"
 };
 
@@ -312,7 +313,7 @@ class Easter {
         msg += `${delim}desc: React to collect **${deliveryType.value} easter tacos**!\n\n`;
         msg += `Quick, you only have **${this.millesecondsToReadableString(deliveryType.duration)}**!`;
         // Image
-        msg += `${delim}img: ${eggEmbedImgUrl}`;
+        msg += `${delim}img: ${deliveryImgUrl}`;
 
         const embedMsg = embed(msg);
 
@@ -460,7 +461,7 @@ class Easter {
           msg += "**The user with the most Easter tacos at the end of the day might get a surprise...**\n\n";
           msg += "Happy hunting! :D";
           // Image
-          msg += `${delim}img: ${eggEmbedImgUrl}`;
+          msg += `${delim}img: ${introImgUrl}`;
 
           if (isUsersCollectionCreated) {
             // Field "Top 5 users"
