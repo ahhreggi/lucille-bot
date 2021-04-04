@@ -41,12 +41,12 @@ const { hasRole, getMentionedUser } = require("./utility");
 
 // Prod channels
 const adminChannelId = "822732793808683018"; // #why-me
-const generalChannelId = "822732793808683018"; // #why-me
-const botChannelId = "822732793808683018"; // #why-me
+const generalChannelId = "399853827236429828"; // #general
+const botChannelId = "820879508721631242"; // #lucilles-box
 
 
-const minWaitingTime = 30000; // 30sec dev only //////////// 300000; // 5 minutes
-const maxWaitingTime = 40000; // 40sec dev only ///////////// 1800000; // 30 minutes
+const minWaitingTime = 900000; // 15 minutes
+const maxWaitingTime = 1800000; // 30 minutes
 
 let daemonStarted = false;
 
@@ -68,7 +68,7 @@ const deliveryImgUrl = "https://media.discordapp.net/attachments/821557099758747
 
 // Prod
 const easterTacoEmoji = {
-  id: "828099494251462696",
+  id: "828109096367685632",
   name: "eastertaco"
 };
 
@@ -85,7 +85,7 @@ const deliveryTypes = [
   {
     duration: 30000, // 30 seconds
     value: 100
-  },/*
+  },
   {
     duration: 60000, // 1 minute
     value: 50
@@ -101,7 +101,7 @@ const deliveryTypes = [
   {
     duration: 300000, // 5 minutes
     value: 5
-  }*/
+  }
 ];
 
 const usersCollectionName = "users";
