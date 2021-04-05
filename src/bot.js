@@ -20,6 +20,7 @@ const cmdVars = {
 };
 
 client.once("ready", () => {
+
   console.log(`${client.user.username} is ALIVE!`);
 
   // Send a message on connection to channel
@@ -30,7 +31,9 @@ client.once("ready", () => {
       channel.send(embedMsg);
     })
     .catch(console.error);
+
 });
+
 
 client.on("message", (message) => {
 
