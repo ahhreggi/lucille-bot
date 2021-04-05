@@ -305,9 +305,12 @@ class Easter {
   // Other helper functions
   // ------------------------------------------------------------------------------------
 
+  /*
+  // Not used anymore
   getRandomTime() {
     return Math.floor(Math.random() * (maxWaitingTime - minWaitingTime + 1) + minWaitingTime);
   }
+  */
 
   pickRandomDeliveryType() {
     return deliveryTypes[Math.floor(Math.random() * deliveryTypes.length)];
@@ -435,7 +438,7 @@ class Easter {
 
             channel.send(embed(endMessage));
 
-            setTimeout(this.postDeliveryMessage.bind(this), this.getRandomTime.bind(this));
+            setTimeout(this.postDeliveryMessage.bind(this), 300000); // every 5 minutes
           });
         });
       })
