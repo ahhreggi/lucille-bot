@@ -72,8 +72,8 @@ const cmdFunction = (message, args) => {
   } else if (["-help", "-h"].includes(arg)) {
     return message.channel.send(error);
   } else if (["-colors", "-c"].includes(arg)) {
-    let colorMsg = `Setting a color via shorthand command option will always result in a simple, *non-formatted* message. See **!embed -help** for formatted embeds.`;
-    colorMsg += `\n\n**Usage:** !embed <color name> <message>`;
+    let colorMsg = "Setting a color via shorthand command option will always result in a simple, *non-formatted* message. See **!embed -help** for formatted embeds.";
+    colorMsg += "\n\n**Usage:** !embed <color name> <message>";
     colorMsg += `\n\n**Available color names:**\n${colors.join(", ")}`;
     const colorHelp = embed(colorMsg).setTitle("Embed Color Command Options").setColor("YELLOW");
     return message.channel.send(colorHelp);
