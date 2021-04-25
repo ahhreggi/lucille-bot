@@ -1,7 +1,7 @@
 const Command = require("../models/command");
 const { codeBlock } = require("../utility");
 const fetchDadJoke = require("./helpers/fetchDadJoke");
-const { embed } = require("./embed");
+const { embed } = require("../embed");
 
 ///////////////////////////////////////////////////////////////////
 
@@ -10,9 +10,10 @@ const desc = "get a random dad joke";
 const roles = ["user"];
 const alias = ["joke"];
 
-const delim = "\\";
 
 const cmdFunction = (message) => {
+
+  const delim = "\\";
 
   fetchDadJoke()
     .then(body => {
