@@ -7,6 +7,7 @@ const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
+const { listenForTiktokLink } = require("./tiktok-preview");
 
 const client = new Client();
 
@@ -81,12 +82,15 @@ client.on("message", (message) => {
 
     } else {
 
+      // TikTok video link check
+      listenForTiktokLink(message);
+
       // If the message is not a command, check for a prompt trigger
       const promptResponse = getPrompt(message.content, messagePrompts);
 
       if (promptResponse) {
 
-        // Response triggers a command (cannot pass args) then pottentially loops back to response key handler
+        // Response triggers a command (cannot pass args) then potentially loops back to response key handler
         if (promptResponse.startsWith(prefix)) {
           const [promptCmd, trigger] = promptResponse.slice(1).split(":");
           const data = { help, cmdVars, trigger };
