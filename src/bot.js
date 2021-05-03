@@ -82,8 +82,8 @@ client.on("message", (message) => {
 
     } else {
 
-      // TikTok video link check
-      listenForTiktokLink(message);
+      // TikTok video link check (DISABLED FOR NOW because an issue has been found [check Asana for more details])
+      // listenForTiktokLink(message);
 
       // If the message is not a command, check for a prompt trigger
       const promptResponse = getPrompt(message.content, messagePrompts);
