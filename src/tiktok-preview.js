@@ -111,8 +111,9 @@ const printTiktokLinkInfo = (channel, linkToRequest, linkToDisplay, authorUserna
       // Download preview image
       fetch(response.data.thumbnail_url)
         .then(res => {
-          // TODO: use an unique name (UUID or hash of the title?)
-          const tmpImgName = `tiktok-thumbnail-preview${IMG_EXT}`;
+          // Date.now() is used here for uniqueness of the name (needed to handle multiple requests at once since it's asynchronous)
+          // Other ideas to guarantee uniqueness: UUID, hash on the title
+          const tmpImgName = `tiktok-thumbnail-preview-${Date.now()}${IMG_EXT}`;
           const tmpImgPath = `${TMP_IMG_DIR}${tmpImgName}`;
 
           const dest = fs.createWriteStream(tmpImgPath);
@@ -120,7 +121,7 @@ const printTiktokLinkInfo = (channel, linkToRequest, linkToDisplay, authorUserna
 
           stream.on("close", () => {
             // Embed
-            // TODO: use embed function defined in embed.js (when features will be added)
+            // TODO: use embed function defined in embed.js (when missing features will be added: link on author, attachments)
             const embed = new Discord.MessageEmbed()
               .setTitle(response.data.title)
               .setURL(linkToDisplay)
