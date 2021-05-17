@@ -108,27 +108,38 @@ const printTiktokLinkInfo = (channel, linkToRequest, linkToDisplay, authorUserna
         return;
       }
 
-      // Downloading image
+      // Download preview image
       fetch(response.data.thumbnail_url)
         .then(res => {
           // TODO: use an unique name (UUID or hash of the title?)
-          const tmpImgPath = `${TMP_IMG_DIR}tiktok-thumbnail-preview${IMG_EXT}`;
+          const tmpImgName = `tiktok-thumbnail-preview${IMG_EXT}`;
+          const tmpImgPath = `${TMP_IMG_DIR}${tmpImgName}`;
 
           const dest = fs.createWriteStream(tmpImgPath);
           const stream = res.body.pipe(dest);
 
-          stream.on("finish", () => {
+          stream.on("close", () => {
             // Embed
-            // TODO: use embed function defined in embed.js
+            // TODO: use embed function defined in embed.js (when features will be added)
             const embed = new Discord.MessageEmbed()
               .setTitle(response.data.title)
               .setURL(linkToDisplay)
               .setAuthor(response.data.author_name, "", response.data.author_url)
               .attachFiles([tmpImgPath])
-              .setImage("attachment://tiktok-thumbnail-preview.png")
+              .setImage(`attachment://${tmpImgName}`)
               .setFooter(`shared by ${authorUsername}`);
 
-            channel.send(embed);
+            channel.send(embed)
+              .then(() => {
+                // Delete preview image
+                fs.unlink(tmpImgPath, (err) => {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                });
+              })
+              .catch(console.error);
           });
 
         });
