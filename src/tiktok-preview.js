@@ -8,6 +8,8 @@
 
 const Discord = require("discord.js");
 const { default: axios } = require("axios");
+const fs = require("fs");
+const fetch = require("node-fetch");
 
 
 
@@ -28,6 +30,9 @@ const MOBILE_LINK_PREFIX = "https://";
 
 const TIKTOK_WEB_LINK_PATTERN = "tiktok.com/@";
 const TIKTOK_MOBILE_LINK_PATTERN = "vm.tiktok.com/";
+
+const TMP_IMG_DIR = "./tmp/";
+const IMG_EXT = ".png";
 
 
 // ---------------------------------------------------------------------
@@ -103,16 +108,32 @@ const printTiktokLinkInfo = (channel, linkToRequest, linkToDisplay, authorUserna
         return;
       }
 
-      // Embed
-      // TODO: use embed function defined in embed.js
-      const embed = new Discord.MessageEmbed()
-        .setTitle(response.data.title)
-        .setURL(linkToDisplay)
-        .setAuthor(response.data.author_name, "", response.data.author_url)
-        .setImage(response.data.thumbnail_url)
-        .setFooter(`shared by ${authorUsername}`);
+      // Downloading image
+      fetch(response.data.thumbnail_url)
+        .then(res => {
+          // TODO: use an unique name (UUID or hash of the title?)
+          const tmpImgPath = `${TMP_IMG_DIR}tiktok-thumbnail-preview${IMG_EXT}`;
 
-      channel.send(embed);
+          const dest = fs.createWriteStream(tmpImgPath);
+          const stream = res.body.pipe(dest);
+
+          stream.on("finish", () => {
+            // Embed
+            // TODO: use embed function defined in embed.js
+            const embed = new Discord.MessageEmbed()
+              .setTitle(response.data.title)
+              .setURL(linkToDisplay)
+              .setAuthor(response.data.author_name, "", response.data.author_url)
+              .attachFiles([tmpImgPath])
+              .setImage("attachment://tiktok-thumbnail-preview.png")
+              .setFooter(`shared by ${authorUsername}`);
+
+            channel.send(embed);
+          });
+
+        });
+
+
     })
     .catch((error) => {
       console.error(error);
