@@ -67,7 +67,7 @@ module.exports = {
   },
   wakeup: {
     caseSensitive: false,
-    rule: "includes",
+    rule: "exact",
     triggers: [
       "wake up",
       "wake up lucille"
