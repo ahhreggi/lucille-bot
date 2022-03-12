@@ -7,7 +7,6 @@ const { runCommand, parseCommand, getPrompt } = require("./utility");
 const { embed } = require("./embed");
 const { allCommands, help } = require("./setup");
 const messagePrompts = require("./data/prompts");
-const { listenForTiktokLink } = require("./tiktok-preview");
 
 const client = new Client();
 
@@ -81,9 +80,6 @@ client.on("message", (message) => {
       //////////////////////////////////////////////////////////////////////
 
     } else {
-
-      // TikTok video link check
-      listenForTiktokLink(message);
 
       // If the message is not a command, check for a prompt trigger
       const promptResponse = getPrompt(message.content, messagePrompts);
